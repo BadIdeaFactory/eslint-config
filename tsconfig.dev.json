@@ -1,0 +1,17 @@
+{
+	"extends": "@tsconfig/node24/tsconfig.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"resolveJsonModule": true,
+		"noUncheckedIndexedAccess": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"erasableSyntaxOnly": true,
+		"allowJs": true,
+		"checkJs": true,
+		"types": ["node"]
+	},
+	"include": ["src", "eslint.config.mjs"]
+}
