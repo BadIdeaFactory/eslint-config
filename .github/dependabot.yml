@@ -12,10 +12,11 @@ updates:
       # @types/node tracks the Node version in .node-version, not the latest release.
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
-      # typescript-eslint pins its typescript peer to <6.1.0, so TypeScript 7
-      # has to wait.
+      # typescript-eslint pins its typescript peer to <6.1.0, so the ceiling is
+      # 6.1, not 7. Minors have to be held back alongside majors.
       - dependency-name: 'typescript'
-        update-types: ['version-update:semver-major']
+        update-types:
+          ['version-update:semver-major', 'version-update:semver-minor']
     groups:
       npm:
         patterns:

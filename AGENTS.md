@@ -169,9 +169,11 @@ After changing the version, run `npm install --package-lock-only` so
 `.github/dependabot.yml` ignores major updates for two dependencies, and the
 reasons are worth preserving:
 
-- **TypeScript stays on 6.x.** `typescript-eslint` declares a peer range of
-  `typescript: ">=4.8.4 <6.1.0"`. TypeScript 7 exists but the linter cannot
-  consume it yet.
+- **TypeScript stays on 6.0.x.** `typescript-eslint` declares a peer range of
+  `typescript: ">=4.8.4 <6.1.0"`, so the ceiling is 6.1, not 7. The
+  devDependency is therefore `~6.0.3` rather than `^6.0.3`, and Dependabot holds
+  back minors as well as majors. Widen both together, and only once the
+  `typescript-eslint` peer range actually moves.
 - **`@types/node` tracks `.node-version`.** It follows the Node version this
   repository develops against, not the newest Node release. Bump it when
   `.node-version` moves, not before.
