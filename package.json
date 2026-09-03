@@ -28,7 +28,8 @@
 		"lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:tsc",
 		"lint:eslint": "eslint . --max-warnings=0",
 		"lint:prettier": "prettier . --check",
-		"lint:tsc": "tsc --noEmit -p tsconfig.dev.json"
+		"lint:tsc": "tsc --noEmit -p tsconfig.dev.json",
+		"test": "node --test \"src/**/*.test.ts\""
 	},
 	"repository": {
 		"type": "git",

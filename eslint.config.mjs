@@ -74,7 +74,7 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.test.ts'],
+		files: ['**/*.test.ts', 'src/test/**/*.ts'],
 		rules: {
 			// Forcing return type definitions in our ad-hoc test functions is not
 			// worth the added effort / verbosity.
@@ -82,6 +82,11 @@ export default defineConfig([
 
 			// Tests use hard coded numbers in lots of places, and that's OK.
 			'@typescript-eslint/no-magic-numbers': 'off',
+
+			// `node:test` returns a promise from `describe` and `it` that the
+			// runner itself owns; there is nothing useful to await at the call
+			// site, and awaiting would serialise the suite.
+			'@typescript-eslint/no-floating-promises': 'off',
 		},
 	},
 	{

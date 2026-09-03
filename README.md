@@ -15,6 +15,9 @@ does not set it. [`src/index.ts`](src/index.ts) just composes them in order.
 Rules are listed with their options spelled out even where those match the rule's own
 defaults. Where we deviate from a default, the reason is written next to the rule.
 
+Every rule ships with a pair of code samples pinning the behaviour we expect from it;
+see [`src/test/`](src/test).
+
 ## Versioning
 
 This package deliberately does **not** follow semantic versioning since just about

@@ -49,6 +49,9 @@ npm ci
 # Lint everything (eslint, prettier, tsc)
 npm run lint
 
+# Run the config tests
+npm test
+
 # Auto-fix formatting and fixable lint errors
 npm run format
 
@@ -71,7 +74,7 @@ npm run lint
 
 `npm run format` fixes Prettier formatting and ESLint auto-fixable rules
 (including import ordering). `npm run lint` additionally runs `tsc --noEmit`
-against `tsconfig.dev.json`.
+against `tsconfig.dev.json`. Run `npm test` too whenever you touch `src/`.
 
 ## Project Structure
 
@@ -80,8 +83,16 @@ src/
 ├── configs/            # The rules, split by concern
 │   ├── core.ts         # Core ESLint rules; universal, no `files`
 │   └── typescript.ts   # Language setup that makes `.ts` lintable at all
-└── index.ts            # Composes the modules; exports `configs`
+├── index.ts            # Composes the modules; exports `configs`
+└── test/               # See src/test/README.md
+    ├── config.test.ts  # One generic harness; derives everything it runs
+    └── fixtures/       # Per-rule sample pairs, split on the same seams
 ```
+
+`src/configs/` and `src/test/fixtures/` are split along the same seams
+deliberately, so contributors working on unrelated areas rarely touch the same
+file. Adding a rule means editing one module and one fixture file — never
+writing a new test.
 
 The structure will grow as the config does. Update this section when it does.
 
@@ -238,9 +249,35 @@ one job apiece for:
 - `actionlint` — workflow file validity
 - `npm-install` — verifies `package-lock.json` is in sync with `package.json`
 - `eslint`, `prettier`, `tsc` — the three parts of `npm run lint`
+- `test` — `npm test`
 - `build` — verifies `npm run build` succeeds
 
-Test jobs will be added when there are tests.
+### What the tests are for
+
+`src/test/config.test.ts` tests the **configuration**, never the rules. The
+contributor-facing detail — how to add a rule, how to choose its two samples —
+lives in `src/test/README.md`; read that before adding a rule.
+
+The one policy worth restating here: fixtures carry no copy of a rule's
+severity or options. A `valid`/`invalid` sample pair pins the chosen option
+more tightly than a restatement would, and unlike a restatement it cannot be
+brought back into agreement by copying a value across. Resist any suggestion to
+add an expected-rules table; it would be a second copy of the config.
+
+The suite resolves `configs` on its own. Layering a third-party config into it
+(`eslint-config-prettier` was the tempting one) tests that dependency rather
+than us: it would turn the suite red when _they_ changed their disable list,
+point the reader at our config, and nothing of ours would have moved. What a
+consumer stacks around us is outside our control and not ours to assert on.
+
+The suite also asserts that no rule ships below `error` severity. That is
+policy — a strict shared config that emits warnings is one whose rules get
+ignored — and it is load-bearing, because it is the only assertion that catches
+a severity we downgrade ourselves.
+
+Note the gap this leaves: the tests and the self-lint both exercise `src/`, the
+source. Nothing yet exercises `dist/`, the `exports` map, or a CommonJS
+`require()` of the published package.
 
 ## Maintaining This Document
 
