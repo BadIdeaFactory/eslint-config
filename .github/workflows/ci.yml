@@ -23,6 +23,27 @@ jobs:
       - name: Lint GitHub Action workflows
         uses: raven-actions/actionlint@v2.2.0
 
+  commitlint:
+    # Dependabot writes its own subjects; only the prefix is ours, and that is
+    # configured in dependabot.yml rather than enforced here.
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Lint commit messages
+        run: >-
+          npx commitlint
+          --from ${{ github.event.pull_request.base.sha }}
+          --to ${{ github.event.pull_request.head.sha }}
+          --verbose
+
   npm-install:
     runs-on: ubuntu-latest
     steps:
