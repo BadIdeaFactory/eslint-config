@@ -49,6 +49,9 @@ npm ci
 # Lint everything (eslint, prettier, tsc)
 npm run lint
 
+# Lint this branch's commit messages against origin/main
+npm run lint:commit
+
 # Run the config tests
 npm test
 
@@ -75,6 +78,10 @@ npm run lint
 `npm run format` fixes Prettier formatting and ESLint auto-fixable rules
 (including import ordering). `npm run lint` additionally runs `tsc --noEmit`
 against `tsconfig.dev.json`. Run `npm test` too whenever you touch `src/`.
+
+`npm run lint:commit` is deliberately not part of `npm run lint`. It reads git
+history rather than the working tree and needs `origin/main` fetched, so it
+cannot run in the same contexts as the rest.
 
 ## Project Structure
 
@@ -195,6 +202,70 @@ The `peerDependencies` range on `eslint` should always agree with the major —
 After changing the version, run `npm install --package-lock-only` so
 `package-lock.json` stays in sync; CI's `npm-install` job fails on the drift.
 
+## Commit Conventions
+
+Commit subjects carry a [Conventional Commits](https://www.conventionalcommits.org)
+type. Release tooling reads those types to decide the next version, which makes
+the type a version number rather than a label — and npm versions are immutable,
+so a wrong type publishes a number that misdescribes the change and cannot be
+taken back.
+
+These map onto the positions in the versioning policy above, not onto their
+conventional meanings:
+
+| Marker                             | Position | Use for                                                       |
+| ---------------------------------- | -------- | ------------------------------------------------------------- |
+| `feat`                             | Minor    | A consumer who changed nothing could newly see a lint error   |
+| `fix`                              | Patch    | Everything else that should reach consumers                   |
+| `!` or a `BREAKING CHANGE:` footer | Major    | This package moved to a new ESLint major. Nothing else, ever. |
+
+`build`, `chore`, `ci`, `docs`, `refactor`, `style` and `test` are available and
+release nothing.
+
+The test for `feat` is the one the versioning policy already poses, so a rule
+added, tightened or removed is a `feat` while a new export nobody's lint run can
+trip over is a `fix`. That is a deliberate departure from the conventional
+reading, where any addition is a feature.
+
+A breaking change is marked with a `!` after the type (`feat!: Move to ESLint
+11`) or with a `BREAKING CHANGE:` footer, never as a type of its own — the type
+enum rejects that, so a contributor who reaches for it gets a red build rather
+than a wrong version.
+
+The marker is also reserved. A rule change is disruptive to consumers and is
+still not a major here: the major position means the supported ESLint version
+and nothing else, so a stray marker would publish a false claim of support for
+an ESLint release this package has never seen.
+
+### The type is not part of the subject
+
+The [seven rules of a great commit message](https://cbea.ms/git-commit/) this
+project inherits — capitalized, imperative, fifty characters, no trailing
+period — apply to the **description**, meaning the text after the type. The
+type is machine metadata and spends none of that budget:
+
+```
+feat: Add the yoda rule and consume it here
+      ^ the description starts here, and the fifty characters start with it
+```
+
+That is why `.commitlintrc.json` turns `header-max-length` off and puts the
+limit on `subject-max-length` instead, and why `subject-case` is inverted rather
+than disabled: the preset rejects a capitalized description, this project
+requires one, so the rule is kept and pointed the other way. It rejects a
+wholly lower-case description, which is as close to "capitalized" as the
+available checks get.
+
+The body rules are unchanged — wrapped at seventy-two, explaining the why, with
+the issue reference closing the prose and any trailers last.
+
+### What is not linted
+
+Merge commits are skipped by commitlint's own defaults, so a merge-commit
+workflow needs no exemption. Dependabot is exempted in CI instead: it writes its
+own subjects in its own style, and the only part that is ours is the prefix,
+which `.github/dependabot.yml` configures directly.
+
 ## Dependencies
 
 `typescript-eslint` is a **runtime `dependency`, not a devDependency.**
@@ -247,6 +318,7 @@ first rather than assuming they have moved.
 one job apiece for:
 
 - `actionlint` — workflow file validity
+- `commitlint` — commit subjects follow the convention (pull requests only)
 - `npm-install` — verifies `package-lock.json` is in sync with `package.json`
 - `eslint`, `prettier`, `tsc` — the three parts of `npm run lint`
 - `test` — `npm test`

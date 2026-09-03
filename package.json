@@ -26,6 +26,7 @@
 		"format:eslint": "eslint . --fix || true",
 		"format:prettier": "prettier . --write",
 		"lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:tsc",
+		"lint:commit": "commitlint --from origin/main --to HEAD --verbose",
 		"lint:eslint": "eslint . --max-warnings=0",
 		"lint:prettier": "prettier . --check",
 		"lint:tsc": "tsc --noEmit -p tsconfig.dev.json",
@@ -59,6 +60,8 @@
 		"typescript-eslint": "^8.68.0"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^21.2.2",
+		"@commitlint/config-conventional": "^21.2.2",
 		"@eslint/js": "^10.0.1",
 		"@tsconfig/node24": "^24.0.5",
 		"@types/node": "^24.13.3",
