@@ -77,9 +77,10 @@ against `tsconfig.dev.json`.
 
 ```
 src/
-├── configs/        # The rules, split by concern
-│   └── core.ts     # Core ESLint rules; universal, no `files`
-└── index.ts        # Composes the modules; exports `configs`
+├── configs/            # The rules, split by concern
+│   ├── core.ts         # Core ESLint rules; universal, no `files`
+│   └── typescript.ts   # Language setup that makes `.ts` lintable at all
+└── index.ts            # Composes the modules; exports `configs`
 ```
 
 The structure will grow as the config does. Update this section when it does.
@@ -182,6 +183,20 @@ The `peerDependencies` range on `eslint` should always agree with the major —
 
 After changing the version, run `npm install --package-lock-only` so
 `package-lock.json` stays in sync; CI's `npm-install` job fails on the drift.
+
+## Dependencies
+
+`typescript-eslint` is a **runtime `dependency`, not a devDependency.**
+`src/configs/typescript.ts` ships its parser, and without a parser the config
+cannot claim `**/*.ts` at all — ESLint's default parser cannot read a type
+annotation, so a config that names `.ts` files without supplying one produces
+parse errors rather than lint results. Anything else this package reaches for
+at config-resolution time (a plugin, a parser, a resolver) belongs in
+`dependencies` for the same reason.
+
+`typescript-eslint` declares its own `typescript` peer range, so this package
+does not restate one. That is the same reasoning as the absent `engines` field
+below: a second copy would add no enforcement and would rot.
 
 ## Version Constraints
 

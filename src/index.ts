@@ -1,6 +1,7 @@
 import { core } from './configs/core.ts';
+import { typescript } from './configs/typescript.ts';
 import type { Linter } from 'eslint';
 
-const configs: Linter.Config[] = [core];
+const configs: Linter.Config[] = [typescript, core];
 
 export { configs };
