@@ -6,6 +6,15 @@ Expertly implemented ESLint configurations for overengineered projects.
 
 A shareable [ESLint](https://eslint.org) configuration that pressures everybody on your team to care a little bit too much about code quality.
 
+## Rules
+
+Every rule this config sets lives in [`src/configs/`](src/configs), split by concern,
+and those files are the whole source of truth — if a rule is not in there, this package
+does not set it. [`src/index.ts`](src/index.ts) just composes them in order.
+
+Rules are listed with their options spelled out even where those match the rule's own
+defaults. Where we deviate from a default, the reason is written next to the rule.
+
 ## Versioning
 
 This package deliberately does **not** follow semantic versioning since just about

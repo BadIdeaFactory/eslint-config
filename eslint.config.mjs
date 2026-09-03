@@ -4,10 +4,10 @@ import prettier from 'eslint-config-prettier';
 import { flatConfigs as importX } from 'eslint-plugin-import-x';
 import globals from 'globals';
 import { configs as tsConfigs } from 'typescript-eslint';
+import { configs as biffudConfigs } from './src/index.ts';
 
-// This is the configuration this repository lints *itself* with. Once the
-// package exports a real config, this file should consume `./src` instead of
-// restating the rules inline.
+// How this repository lints itself. Rules this package publishes come from
+// `./src`; anything still inline below has yet to move there.
 export default defineConfig([
 	globalIgnores(['dist/']),
 	js.configs.recommended,
@@ -15,6 +15,7 @@ export default defineConfig([
 	tsConfigs.stylisticTypeChecked,
 	importX.recommended,
 	importX.typescript,
+	...biffudConfigs,
 	{
 		languageOptions: {
 			globals: {

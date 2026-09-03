@@ -17,22 +17,28 @@ intended to be strict, type-aware, and opinionated.
 
 For specific dependency versions, consult `package.json`.
 
-**Status:** the repository is scaffolding at this point. Tooling, CI, and
-dependency automation exist; `src/index.ts` exports an empty `configs` array.
+**Status:** early. Tooling, CI, and dependency automation exist, and
+`src/index.ts` exports a real — if very short — `configs` array that this
+repository already lints itself with.
 
 ## The Two Configs
 
 There are two distinct things in this repo and it is easy to confuse them:
 
-| File                | Role                                                    |
-| ------------------- | ------------------------------------------------------- |
-| `eslint.config.mjs` | How this repository lints **itself**, today             |
-| `src/index.ts`      | What this repository will **publish** for others, later |
+| File                | Role                                          |
+| ------------------- | --------------------------------------------- |
+| `eslint.config.mjs` | How this repository lints **itself**          |
+| `src/index.ts`      | What this repository **publishes** for others |
 
-The rules currently written inline in `eslint.config.mjs` are the seed for the
-published config. The intended end state is that `src/` owns the rules and
-`eslint.config.mjs` consumes them — the repo eats its own dog food. When you
-move a rule, move it; do not duplicate it in both places.
+`eslint.config.mjs` imports `configs` from `./src/index.ts` and spreads it in,
+so the repo already eats its own dog food; Node's native type stripping is what
+lets a `.mjs` config import the TypeScript source directly. The rules still
+written inline in `eslint.config.mjs` are the ones that have yet to move to
+`src/`. When you move a rule, move it; do not duplicate it in both places.
+
+A rule belongs inline only while it is genuinely repo-specific (the
+`eslint.config.mjs` default-export exemption, say). Anything this package would
+want to impose on a consumer belongs in `src/`.
 
 ## Quick Reference Commands
 
@@ -71,7 +77,9 @@ against `tsconfig.dev.json`.
 
 ```
 src/
-└── index.ts        # Package entry point; exports `configs`
+├── configs/        # The rules, split by concern
+│   └── core.ts     # Core ESLint rules; universal, no `files`
+└── index.ts        # Composes the modules; exports `configs`
 ```
 
 The structure will grow as the config does. Update this section when it does.
@@ -116,6 +124,17 @@ directly via native type stripping. That imposes two rules:
 - **`erasableSyntaxOnly` is on** — no `enum`, no parameter properties, no
   namespaces with runtime output. Use `const` objects with `as const` and union
   types in place of enums.
+
+### Comments
+
+Do not write inline comments that restate what a rule's own documentation says.
+A reader who wants to know what `yoda` does will go read the `yoda` docs, and a
+comment that paraphrases them is one more thing to keep in sync.
+
+The comment that _is_ wanted is the one explaining a decision the reader cannot
+recover from the code: why we deviate from a rule's default options, why a rule
+is switched off for a subset of files, why a preset is ordered where it is.
+Rules that simply state a default need no commentary.
 
 ### Formatting
 
