@@ -68,6 +68,40 @@ To build the package to `dist/`:
 npm run build
 ```
 
+### Commit messages
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org), and
+the type decides the next version, so it is worth getting right:
+
+| Marker                             | Release | Use for                                                       |
+| ---------------------------------- | ------- | ------------------------------------------------------------- |
+| `feat`                             | Minor   | A consumer who changed nothing could newly see a lint error   |
+| `fix`                              | Patch   | Everything else that should reach consumers                   |
+| `!` or a `BREAKING CHANGE:` footer | Major   | This package moved to a new ESLint major. Nothing else, ever. |
+
+`build`, `chore`, `ci`, `docs`, `refactor`, `style` and `test` release nothing.
+A breaking change is marked with a `!` after the type or a `BREAKING CHANGE:`
+footer; it is never a type of its own.
+
+The type is metadata and is not part of the description, which gets the fifty
+characters to itself:
+
+```
+feat: Add the yoda rule and consume it here
+```
+
+CI checks what it can — those fifty characters, the absent full stop, a body
+wrapped at seventy-two, and a description that is not wholly lower-case. The
+rest is convention rather than enforcement: the capitalization, the imperative
+mood, and a body that explains the why. All of it comes from the
+[seven rules of a great commit message](https://cbea.ms/git-commit/).
+
+To check this branch's commits before opening a pull request:
+
+```bash
+npm run lint:commit
+```
+
 ## License
 
 [AGPL-3.0](LICENSE)
