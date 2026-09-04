@@ -1,6 +1,12 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'constructor-super': {
+		valid:
+			'class Base {} class Thing extends Base { constructor() { super(); } }',
+		invalid:
+			'class Base {} class Thing extends Base { constructor() { null; } }',
+	},
 	'default-case-last': {
 		valid: 'const value = 1; switch (value) { case 1: break; default: break; }',
 		invalid:
@@ -15,9 +21,24 @@ const core: RuleFixtures = {
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
 		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
 	},
+	'no-alert': {
+		valid: "process.stdout.write('hello');",
+		invalid: "alert('hello');",
+	},
 	'no-async-promise-executor': {
-		valid: 'new Promise((resolve) => { resolve(1); });',
-		invalid: 'new Promise(async (resolve) => { resolve(1); });',
+		valid: 'const task = new Promise((resolve) => { resolve(1); }); task;',
+		invalid:
+			'const task = new Promise(async (resolve) => { resolve(1); }); task;',
+	},
+	'no-await-in-loop': {
+		valid:
+			'const run = async () => { await Promise.all([1].map(async (v) => v)); }; run;',
+		invalid:
+			'const run = async () => { for (const v of [1]) { await v; } }; run;',
+	},
+	'no-caller': {
+		valid: 'function outer() { return outer; } outer;',
+		invalid: 'function outer() { return arguments.callee; } outer;',
 	},
 	'no-case-declarations': {
 		valid:
@@ -45,8 +66,12 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value = 2;',
 		invalid: 'const value = 1; value = 2;',
 	},
+	'no-constant-binary-expression': {
+		valid: 'const value = 1; if (value === 1) { value; }',
+		invalid: 'const values = [1]; if (values === []) { values; }',
+	},
 	'no-constructor-return': {
-		valid: 'class Thing { constructor() { return; } }',
+		valid: 'class Thing { constructor() { this.ready = true; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
 	},
 	'no-control-regex': {
@@ -131,29 +156,189 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; if (value === 1) { value; } else { if (value === 2) { value; } }',
 	},
+	'no-loop-func': {
+		valid: 'const made = [1].map((value) => () => value); made;',
+		invalid:
+			'let outer = 1; const made = []; for (const value of [1]) { made.push(() => outer); value; } outer = 2; made;',
+	},
 	'no-loss-of-precision': {
 		valid: 'const value = 12345; value;',
 		invalid: 'const value = 9007199254740993; value;',
+	},
+	'no-negated-condition': {
+		valid: 'const value = 1; if (value === 1) { value; } else { null; }',
+		invalid: 'const value = 1; if (value !== 1) { value; } else { null; }',
+	},
+	'no-new': {
+		valid: 'class Thing {} const made = new Thing(); made;',
+		invalid: 'class Thing {} new Thing();',
 	},
 	'no-new-func': {
 		valid: 'const make = () => 1; make;',
 		invalid: "const make = new Function('return 1'); make;",
 	},
+	'no-new-native-nonconstructor': {
+		valid: "const marker = Symbol('marker'); marker;",
+		invalid: "const marker = new Symbol('marker'); marker;",
+	},
 	'no-new-wrappers': {
 		valid: 'const value = String(1); value;',
 		invalid: "const value = new String('1'); value;",
+	},
+	'no-obj-calls': {
+		valid: 'const value = Math.max(1, 2); value;',
+		invalid: 'const value = Math(1); value;',
 	},
 	'no-object-constructor': {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
 	},
+	'no-plusplus': {
+		valid: 'let count = 0; count += 1; count;',
+		invalid: 'let count = 0; count++; count;',
+	},
+	'no-proto': {
+		valid: 'const holder = {}; Object.getPrototypeOf(holder);',
+		invalid: 'const holder = {}; holder.__proto__;',
+	},
+	'no-prototype-builtins': {
+		valid: "const holder = {}; Object.hasOwn(holder, 'first');",
+		invalid: "const holder = {}; holder.hasOwnProperty('first');",
+	},
+	'no-regex-spaces': {
+		valid: 'const pattern = /a {2}b/; pattern;',
+		invalid: 'const pattern = /a  b/; pattern;',
+	},
+	'no-script-url': {
+		valid: "const target = 'https://example.com'; target;",
+		invalid: "const target = 'javascript:void(0)'; target;",
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
 	},
+	'no-sequences': {
+		valid:
+			'let first = 1; let second = 2; first = 3; second = 4; first; second;',
+		invalid:
+			'let first = 1; let second = 2; first = 3, second = 4; first; second;',
+	},
+	'no-shadow-restricted-names': {
+		valid: 'const value = 1; value;',
+		invalid: 'const undefined = 1; undefined;',
+	},
 	'no-sparse-arrays': {
 		valid: 'const values = [1, 2]; values;',
 		invalid: 'const values = [1, , 2]; values;',
+	},
+	'no-template-curly-in-string': {
+		valid: 'const name = 1; const text = `${name}`; text;',
+		invalid: "const name = 1; const text = '${name}'; text; name;",
+	},
+	'no-this-before-super': {
+		valid:
+			'class Base {} class Thing extends Base { constructor() { super(); this.ready = true; } }',
+		invalid:
+			'class Base {} class Thing extends Base { constructor() { this.ready = true; super(); } }',
+	},
+	'no-unmodified-loop-condition': {
+		valid: 'let index = 0; while (index < 2) { index += 1; } index;',
+		invalid: 'let index = 0; while (index < 2) { null; } index;',
+	},
+	'no-unreachable': {
+		valid: 'const run = () => { return 1; }; run;',
+		invalid: 'const run = () => { return 1; null; }; run;',
+	},
+	'no-unreachable-loop': {
+		valid: 'for (const value of [1, 2]) { value; }',
+		invalid: 'for (const value of [1, 2]) { value; break; }',
+	},
+	'no-unsafe-finally': {
+		valid: 'const run = () => { try { return 1; } finally { null; } }; run;',
+		invalid:
+			'const run = () => { try { return 1; } finally { return 2; } }; run;',
+	},
+	'no-unsafe-negation': {
+		valid: "const holder = {}; if (!('first' in holder)) { holder; }",
+		invalid: "const holder = {}; if (!'first' in holder) { holder; }",
+	},
+	'no-useless-backreference': {
+		valid: 'const pattern = /(?<letter>a)\\k<letter>/; pattern;',
+		invalid: 'const pattern = /(?<letter>a)|\\k<letter>/; pattern;',
+	},
+	'no-useless-call': {
+		valid: 'const show = (value) => value; show(1);',
+		invalid: 'const show = (value) => value; show.call(null, 1);',
+	},
+	'no-useless-catch': {
+		valid: 'try { null; } catch (failure) { failure; }',
+		invalid: 'try { null; } catch (failure) { throw failure; }',
+	},
+	'no-useless-computed-key': {
+		valid: 'const shape = { first: 1 }; shape;',
+		invalid: "const shape = { ['first']: 1 }; shape;",
+	},
+	'no-useless-concat': {
+		valid: "const text = 'ab'; text;",
+		invalid: "const text = 'a' + 'b'; text;",
+	},
+	'no-useless-escape': {
+		valid: "const text = 'a'; text;",
+		invalid: "const text = '\\a'; text;",
+	},
+	'no-useless-rename': {
+		valid: 'const { first } = { first: 1 }; first;',
+		invalid: 'const { first: first } = { first: 1 }; first;',
+	},
+	'no-useless-return': {
+		valid: 'const run = () => { null; }; run;',
+		invalid: 'const run = () => { null; return; }; run;',
+	},
+	'no-var': {
+		valid: 'let value = 1; value;',
+		invalid: 'var value = 1; value;',
+	},
+	'prefer-exponentiation-operator': {
+		valid: 'const value = 2 ** 3; value;',
+		invalid: 'const value = Math.pow(2, 3); value;',
+	},
+	'prefer-named-capture-group': {
+		valid: 'const pattern = /(?<letter>a)/; pattern;',
+		invalid: 'const pattern = /(a)/; pattern;',
+	},
+	'prefer-numeric-literals': {
+		valid: 'const value = 0b111; value;',
+		invalid: "const value = parseInt('111', 2); value;",
+	},
+	'prefer-object-has-own': {
+		valid: "const holder = {}; Object.hasOwn(holder, 'first');",
+		invalid:
+			"const holder = {}; Object.prototype.hasOwnProperty.call(holder, 'first');",
+	},
+	'prefer-object-spread': {
+		valid: 'const merged = { ...{ first: 1 } }; merged;',
+		invalid: 'const merged = Object.assign({}, { first: 1 }); merged;',
+	},
+	'prefer-rest-params': {
+		valid: 'const collect = (...values) => values; collect;',
+		invalid: 'function collect() { return arguments; } collect;',
+	},
+	'prefer-spread': {
+		valid: 'const show = (value) => value; const args = [1]; show(...args);',
+		invalid:
+			'const show = (value) => value; const args = [1]; show.apply(null, args);',
+	},
+	'prefer-template': {
+		valid: 'const name = 1; const text = `a${name}`; text;',
+		invalid: "const name = 1; const text = 'a' + name; text;",
+	},
+	'require-yield': {
+		valid: 'function* items() { yield 1; } items;',
+		invalid: 'function* items() { return 1; } items;',
+	},
+	'symbol-description': {
+		valid: "const marker = Symbol('marker'); marker;",
+		invalid: 'const marker = Symbol(); marker;',
 	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
