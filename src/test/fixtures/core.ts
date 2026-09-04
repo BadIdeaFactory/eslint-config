@@ -113,6 +113,10 @@ const core: RuleFixtures = {
 		valid: 'function thing() {} const alias = thing; alias;',
 		invalid: 'function thing() {} thing = null;',
 	},
+	'no-invalid-regexp': {
+		valid: "const pattern = new RegExp('[a]'); pattern;",
+		invalid: "const pattern = new RegExp('['); pattern;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

@@ -29,6 +29,7 @@ const core: Linter.Config = {
 		'no-extra-boolean-cast': 'error',
 		'no-fallthrough': 'error',
 		'no-func-assign': 'error',
+		'no-invalid-regexp': 'error',
 		yoda: ['error', 'never'],
 	},
 };
