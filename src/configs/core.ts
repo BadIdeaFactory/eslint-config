@@ -65,6 +65,7 @@ const core: Linter.Config = {
 		'no-useless-escape': 'error',
 		'no-useless-rename': 'error',
 		'no-useless-return': 'error',
+		'no-var': 'error',
 		yoda: ['error', 'never'],
 	},
 };

@@ -269,6 +269,10 @@ const core: RuleFixtures = {
 		valid: 'const run = () => { null; }; run;',
 		invalid: 'const run = () => { null; return; }; run;',
 	},
+	'no-var': {
+		valid: 'let value = 1; value;',
+		invalid: 'var value = 1; value;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
