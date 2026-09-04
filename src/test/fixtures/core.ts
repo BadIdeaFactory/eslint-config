@@ -148,6 +148,11 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; if (value === 1) { value; } else { if (value === 2) { value; } }',
 	},
+	'no-loop-func': {
+		valid: 'const made = [1].map((value) => () => value); made;',
+		invalid:
+			'let outer = 1; const made = []; for (const value of [1]) { made.push(() => outer); value; } outer = 2; made;',
+	},
 	'no-loss-of-precision': {
 		valid: 'const value = 12345; value;',
 		invalid: 'const value = 9007199254740993; value;',
