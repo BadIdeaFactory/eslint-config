@@ -277,6 +277,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 2 ** 3; value;',
 		invalid: 'const value = Math.pow(2, 3); value;',
 	},
+	'prefer-numeric-literals': {
+		valid: 'const value = 0b111; value;',
+		invalid: "const value = parseInt('111', 2); value;",
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
