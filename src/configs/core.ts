@@ -21,6 +21,7 @@ const core: Linter.Config = {
 		'no-duplicate-case': 'error',
 		'no-empty-character-class': 'error',
 		'no-empty-pattern': 'error',
+		'no-empty-static-block': 'error',
 		'no-eval': 'error',
 		'no-ex-assign': 'error',
 		yoda: ['error', 'never'],

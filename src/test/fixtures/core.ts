@@ -80,6 +80,10 @@ const core: RuleFixtures = {
 		valid: 'const { first } = { first: 1 }; first;',
 		invalid: 'const {} = { first: 1 };',
 	},
+	'no-empty-static-block': {
+		valid: 'class Thing { static { Thing.name; } }',
+		invalid: 'class Thing { static {} }',
+	},
 	'no-eval': {
 		valid: "const source = '{}'; JSON.parse(source);",
 		invalid: "const source = '{}'; eval(source);",
