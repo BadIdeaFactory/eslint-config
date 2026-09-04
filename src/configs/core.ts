@@ -4,6 +4,7 @@ const core: Linter.Config = {
 	name: '@biffud/eslint-config/core',
 	rules: {
 		'default-case-last': 'error',
+		'for-direction': 'error',
 		'no-console': 'error',
 		yoda: ['error', 'never'],
 	},
