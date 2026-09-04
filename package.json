@@ -1,6 +1,6 @@
 {
 	"name": "@biffud/eslint-config",
-	"version": "0.0.0",
+	"version": "10.0.0",
 	"description": "Expertly implemented eslint configurations for overengineered projects",
 	"type": "module",
 	"main": "dist/index.js",
@@ -22,6 +22,7 @@
 		"build": "npm run cleanup && npm run build:node",
 		"build:node": "tsc -p tsconfig.json",
 		"cleanup": "rimraf dist",
+		"prepack": "npm run build",
 		"format": "npm run format:eslint && npm run format:prettier",
 		"format:eslint": "eslint . --fix || true",
 		"format:prettier": "prettier . --write",
@@ -66,6 +67,7 @@
 		"@eslint/js": "^10.0.1",
 		"@tsconfig/node24": "^24.0.5",
 		"@types/node": "^24.13.3",
+		"conventional-changelog-conventionalcommits": "^10.4.0",
 		"eslint": "^10.9.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-import-resolver-typescript": "^4.4.5",
@@ -73,6 +75,7 @@
 		"globals": "^17.11.0",
 		"prettier": "3.9.6",
 		"rimraf": "^6.1.3",
+		"semantic-release": "^25.0.9",
 		"typescript": "~6.0.3"
 	},
 	"allowScripts": {
