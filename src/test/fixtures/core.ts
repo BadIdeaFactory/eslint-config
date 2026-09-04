@@ -229,6 +229,10 @@ const core: RuleFixtures = {
 		invalid:
 			'class Base {} class Thing extends Base { constructor() { this.ready = true; super(); } }',
 	},
+	'no-unmodified-loop-condition': {
+		valid: 'let index = 0; while (index < 2) { index += 1; } index;',
+		invalid: 'let index = 0; while (index < 2) { null; } index;',
+	},
 	'no-unreachable': {
 		valid: 'const run = () => { return 1; }; run;',
 		invalid: 'const run = () => { return 1; null; }; run;',
