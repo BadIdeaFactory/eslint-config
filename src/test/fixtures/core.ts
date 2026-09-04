@@ -215,6 +215,10 @@ const core: RuleFixtures = {
 		invalid:
 			'let first = 1; let second = 2; first = 3, second = 4; first; second;',
 	},
+	'no-shadow-restricted-names': {
+		valid: 'const value = 1; value;',
+		invalid: 'const undefined = 1; undefined;',
+	},
 	'no-sparse-arrays': {
 		valid: 'const values = [1, 2]; values;',
 		invalid: 'const values = [1, , 2]; values;',

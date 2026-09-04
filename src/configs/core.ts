@@ -52,6 +52,7 @@ const core: Linter.Config = {
 		'no-script-url': 'error',
 		'no-self-compare': 'error',
 		'no-sequences': 'error',
+		'no-shadow-restricted-names': 'error',
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',
 		'no-this-before-super': 'error',
