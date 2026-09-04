@@ -4,7 +4,7 @@ import prettier from 'eslint-config-prettier';
 import { flatConfigs as importX } from 'eslint-plugin-import-x';
 import globals from 'globals';
 import { configs as tsConfigs } from 'typescript-eslint';
-import { configs as biffudConfigs } from './src/index.ts';
+import biffudConfigs from './src/index.ts';
 
 // How this repository lints itself. Rules this package publishes come from
 // `./src`; anything still inline below has yet to move there.
@@ -90,13 +90,18 @@ export default defineConfig([
 		},
 	},
 	{
-		// This file is the one place a default export is the required shape, and
-		// it is not covered by the type-aware program.
-		files: ['eslint.config.mjs'],
-		extends: [tsConfigs.disableTypeChecked],
+		// The two files whose shape is dictated from outside rather than by our
+		// own taste: ESLint requires a default export here, and consumers reach
+		// for a shareable config the same way.
+		files: ['eslint.config.mjs', 'src/index.ts'],
 		rules: {
 			'import-x/no-default-export': 'off',
 		},
+	},
+	{
+		// eslint.config.mjs alone is not covered by the type-aware program.
+		files: ['eslint.config.mjs'],
+		extends: [tsConfigs.disableTypeChecked],
 	},
 	prettier,
 ]);

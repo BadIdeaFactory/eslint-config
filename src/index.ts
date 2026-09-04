@@ -4,4 +4,4 @@ import type { Linter } from 'eslint';
 
 const configs: Linter.Config[] = [typescript, core];
 
-export { configs };
+export default configs;

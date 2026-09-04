@@ -30,11 +30,11 @@ There are two distinct things in this repo and it is easy to confuse them:
 | `eslint.config.mjs` | How this repository lints **itself**          |
 | `src/index.ts`      | What this repository **publishes** for others |
 
-`eslint.config.mjs` imports `configs` from `./src/index.ts` and spreads it in,
-so the repo already eats its own dog food; Node's native type stripping is what
-lets a `.mjs` config import the TypeScript source directly. The rules still
-written inline in `eslint.config.mjs` are the ones that have yet to move to
-`src/`. When you move a rule, move it; do not duplicate it in both places.
+`eslint.config.mjs` imports the default export of `./src/index.ts` and spreads
+it in, so the repo already eats its own dog food; Node's native type stripping
+is what lets a `.mjs` config import the TypeScript source directly. The rules
+still written inline in `eslint.config.mjs` are the ones that have yet to move
+to `src/`. When you move a rule, move it; do not duplicate it in both places.
 
 A rule belongs inline only while it is genuinely repo-specific (the
 `eslint.config.mjs` default-export exemption, say). Anything this package would
@@ -124,8 +124,11 @@ The structure will grow as the config does. Update this section when it does.
    export default configs;
    ```
 
-   `eslint.config.mjs` is the sole exception; ESLint requires a default export
-   there, and the config turns the rule off for that file specifically.
+   Two files are exceptions, both because their shape is dictated from
+   outside rather than by our taste: `eslint.config.mjs`, where ESLint
+   requires a default export, and `src/index.ts`, the published surface,
+   which consumers expect to name themselves rather than alias. The config
+   turns the rule off for those two files specifically.
 
 2. **No magic numbers** — pull them out into named constants
 

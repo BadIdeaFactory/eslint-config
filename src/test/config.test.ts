@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { ESLint } from 'eslint';
-import { configs } from '../index.ts';
+import configs from '../index.ts';
 import { fixtures } from './fixtures/index.ts';
 import type { Linter } from 'eslint';
 
