@@ -33,6 +33,11 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; if (value === 1) { value; } else if (value === 1) { value; }',
 	},
+	'no-duplicate-case': {
+		valid: 'const value = 1; switch (value) { case 1: break; case 2: break; }',
+		invalid:
+			'const value = 1; switch (value) { case 1: break; case 1: break; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
