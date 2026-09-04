@@ -92,6 +92,10 @@ const core: RuleFixtures = {
 		valid: 'try { null; } catch (failure) { failure; }',
 		invalid: 'try { null; } catch (failure) { failure = null; }',
 	},
+	'no-extend-native': {
+		valid: 'const helper = { custom: null }; helper;',
+		invalid: 'Object.prototype.custom = null;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

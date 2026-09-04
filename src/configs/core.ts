@@ -24,6 +24,7 @@ const core: Linter.Config = {
 		'no-empty-static-block': 'error',
 		'no-eval': 'error',
 		'no-ex-assign': 'error',
+		'no-extend-native': 'error',
 		yoda: ['error', 'never'],
 	},
 };
