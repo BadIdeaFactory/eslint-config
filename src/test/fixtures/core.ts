@@ -184,6 +184,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; Object.getPrototypeOf(holder);',
 		invalid: 'const holder = {}; holder.__proto__;',
 	},
+	'no-prototype-builtins': {
+		valid: "const holder = {}; Object.hasOwn(holder, 'first');",
+		invalid: "const holder = {}; holder.hasOwnProperty('first');",
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
