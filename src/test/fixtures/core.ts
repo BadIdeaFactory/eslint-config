@@ -49,6 +49,10 @@ const core: RuleFixtures = {
 		valid: 'class Thing { constructor() { return; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
 	},
+	'no-control-regex': {
+		valid: 'const pattern = /\\x20/; pattern;',
+		invalid: 'const pattern = /\\x1f/; pattern;',
+	},
 	'no-debugger': {
 		valid: 'const value = 1; value;',
 		invalid: 'const value = 1; debugger; value;',
