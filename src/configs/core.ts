@@ -5,6 +5,7 @@ const core: Linter.Config = {
 	rules: {
 		'default-case-last': 'error',
 		'for-direction': 'error',
+		'guard-for-in': 'error',
 		'no-console': 'error',
 		yoda: ['error', 'never'],
 	},

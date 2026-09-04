@@ -10,6 +10,11 @@ const core: RuleFixtures = {
 		valid: 'for (let index = 0; index < 2; index += 1) { index; }',
 		invalid: 'for (let index = 0; index < 2; index -= 1) { index; }',
 	},
+	'guard-for-in': {
+		valid:
+			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
+		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
+	},
 	'no-console': {
 		valid: "process.stdout.write('hello');",
 		invalid: "console.log('hello');",
