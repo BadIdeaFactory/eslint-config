@@ -131,6 +131,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; if (value === 1) { value; } else { if (value === 2) { value; } }',
 	},
+	'no-loss-of-precision': {
+		valid: 'const value = 12345; value;',
+		invalid: 'const value = 9007199254740993; value;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
