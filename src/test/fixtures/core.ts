@@ -139,6 +139,10 @@ const core: RuleFixtures = {
 		valid: 'const make = () => 1; make;',
 		invalid: "const make = new Function('return 1'); make;",
 	},
+	'no-new-wrappers': {
+		valid: 'const value = String(1); value;',
+		invalid: "const value = new String('1'); value;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
