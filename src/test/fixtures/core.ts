@@ -294,6 +294,11 @@ const core: RuleFixtures = {
 		valid: 'const collect = (...values) => values; collect;',
 		invalid: 'function collect() { return arguments; } collect;',
 	},
+	'prefer-spread': {
+		valid: 'const show = (value) => value; const args = [1]; show(...args);',
+		invalid:
+			'const show = (value) => value; const args = [1]; show.apply(null, args);',
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',

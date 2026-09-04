@@ -71,6 +71,7 @@ const core: Linter.Config = {
 		'prefer-object-has-own': 'error',
 		'prefer-object-spread': 'error',
 		'prefer-rest-params': 'error',
+		'prefer-spread': 'error',
 		'require-yield': 'error',
 		'symbol-description': 'error',
 		yoda: ['error', 'never'],
