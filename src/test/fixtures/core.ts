@@ -33,6 +33,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 0; if (Object.is(value, -0)) { value; }',
 		invalid: 'const value = 0; if (value === -0) { value; }',
 	},
+	'no-cond-assign': {
+		valid: 'let value = 1; if (value === 2) { value; }',
+		invalid: 'let value = 1; if (value = 2) { value; }',
+	},
 	'no-console': {
 		valid: "process.stdout.write('hello');",
 		invalid: "console.log('hello');",
