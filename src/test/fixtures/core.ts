@@ -151,6 +151,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
 	},
+	'no-sparse-arrays': {
+		valid: 'const values = [1, 2]; values;',
+		invalid: 'const values = [1, , 2]; values;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
