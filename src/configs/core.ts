@@ -45,6 +45,7 @@ const core: Linter.Config = {
 		'no-new-func': 'error',
 		'no-new-native-nonconstructor': 'error',
 		'no-new-wrappers': 'error',
+		'no-obj-calls': 'error',
 		'no-object-constructor': 'error',
 		'no-plusplus': 'error',
 		'no-proto': 'error',

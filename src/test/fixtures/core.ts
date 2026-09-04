@@ -185,6 +185,10 @@ const core: RuleFixtures = {
 		valid: 'const value = String(1); value;',
 		invalid: "const value = new String('1'); value;",
 	},
+	'no-obj-calls': {
+		valid: 'const value = Math.max(1, 2); value;',
+		invalid: 'const value = Math(1); value;',
+	},
 	'no-object-constructor': {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
