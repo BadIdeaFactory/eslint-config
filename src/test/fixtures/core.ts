@@ -299,6 +299,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const show = (value) => value; const args = [1]; show.apply(null, args);',
 	},
+	'prefer-template': {
+		valid: 'const name = 1; const text = `a${name}`; text;',
+		invalid: "const name = 1; const text = 'a' + name; text;",
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
