@@ -135,6 +135,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 12345; value;',
 		invalid: 'const value = 9007199254740993; value;',
 	},
+	'no-new-func': {
+		valid: 'const make = () => 1; make;',
+		invalid: "const make = new Function('return 1'); make;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
