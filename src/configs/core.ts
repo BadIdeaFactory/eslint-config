@@ -68,6 +68,7 @@ const core: Linter.Config = {
 		'no-var': 'error',
 		'prefer-exponentiation-operator': 'error',
 		'prefer-numeric-literals': 'error',
+		'prefer-object-has-own': 'error',
 		'require-yield': 'error',
 		'symbol-description': 'error',
 		yoda: ['error', 'never'],
