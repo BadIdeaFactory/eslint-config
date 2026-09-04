@@ -233,6 +233,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const run = () => { try { return 1; } finally { return 2; } }; run;',
 	},
+	'no-unsafe-negation': {
+		valid: "const holder = {}; if (!('first' in holder)) { holder; }",
+		invalid: "const holder = {}; if (!'first' in holder) { holder; }",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
