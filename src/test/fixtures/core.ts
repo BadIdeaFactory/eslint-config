@@ -36,6 +36,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const run = async () => { for (const v of [1]) { await v; } }; run;',
 	},
+	'no-caller': {
+		valid: 'function outer() { return outer; } outer;',
+		invalid: 'function outer() { return arguments.callee; } outer;',
+	},
 	'no-case-declarations': {
 		valid:
 			'const value = 1; switch (value) { case 1: { const inner = 1; inner; break; } }',
