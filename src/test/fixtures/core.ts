@@ -180,6 +180,10 @@ const core: RuleFixtures = {
 		valid: 'let count = 0; count += 1; count;',
 		invalid: 'let count = 0; count++; count;',
 	},
+	'no-proto': {
+		valid: 'const holder = {}; Object.getPrototypeOf(holder);',
+		invalid: 'const holder = {}; holder.__proto__;',
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',

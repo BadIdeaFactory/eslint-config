@@ -44,6 +44,7 @@ const core: Linter.Config = {
 		'no-new-wrappers': 'error',
 		'no-object-constructor': 'error',
 		'no-plusplus': 'error',
+		'no-proto': 'error',
 		'no-self-compare': 'error',
 		'no-sparse-arrays': 'error',
 		yoda: ['error', 'never'],
