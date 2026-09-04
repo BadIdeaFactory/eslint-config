@@ -261,6 +261,10 @@ const core: RuleFixtures = {
 		valid: "const text = 'a'; text;",
 		invalid: "const text = '\\a'; text;",
 	},
+	'no-useless-rename': {
+		valid: 'const { first } = { first: 1 }; first;',
+		invalid: 'const { first: first } = { first: 1 }; first;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
