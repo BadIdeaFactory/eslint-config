@@ -13,5 +13,5 @@
 		"checkJs": true,
 		"types": ["node"]
 	},
-	"include": ["src", "eslint.config.mjs"]
+	"include": ["src", "scripts", "eslint.config.mjs"]
 }
