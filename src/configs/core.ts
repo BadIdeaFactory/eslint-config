@@ -49,6 +49,7 @@ const core: Linter.Config = {
 		'no-regex-spaces': 'error',
 		'no-script-url': 'error',
 		'no-self-compare': 'error',
+		'no-sequences': 'error',
 		'no-sparse-arrays': 'error',
 		yoda: ['error', 'never'],
 	},
