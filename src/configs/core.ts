@@ -32,6 +32,7 @@ const core: Linter.Config = {
 		'no-invalid-regexp': 'error',
 		'no-iterator': 'error',
 		'no-lone-blocks': 'error',
+		'no-lonely-if': 'error',
 		yoda: ['error', 'never'],
 	},
 };

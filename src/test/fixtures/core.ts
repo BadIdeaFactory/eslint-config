@@ -125,6 +125,12 @@ const core: RuleFixtures = {
 		valid: '{ const scoped = 1; scoped; }',
 		invalid: 'const value = 1; { value; }',
 	},
+	'no-lonely-if': {
+		valid:
+			'const value = 1; if (value === 1) { value; } else if (value === 2) { value; }',
+		invalid:
+			'const value = 1; if (value === 1) { value; } else { if (value === 2) { value; } }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
