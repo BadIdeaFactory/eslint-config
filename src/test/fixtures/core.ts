@@ -27,6 +27,12 @@ const core: RuleFixtures = {
 		valid: 'const value = 1; value;',
 		invalid: 'const value = 1; debugger; value;',
 	},
+	'no-dupe-else-if': {
+		valid:
+			'const value = 1; if (value === 1) { value; } else if (value === 2) { value; }',
+		invalid:
+			'const value = 1; if (value === 1) { value; } else if (value === 1) { value; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

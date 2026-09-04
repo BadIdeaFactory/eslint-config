@@ -9,6 +9,7 @@ const core: Linter.Config = {
 		'no-compare-neg-zero': 'error',
 		'no-console': 'error',
 		'no-debugger': 'error',
+		'no-dupe-else-if': 'error',
 		yoda: ['error', 'never'],
 	},
 };
