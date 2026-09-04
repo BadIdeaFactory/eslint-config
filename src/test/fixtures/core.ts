@@ -273,6 +273,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value;',
 		invalid: 'var value = 1; value;',
 	},
+	'require-yield': {
+		valid: 'function* items() { yield 1; } items;',
+		invalid: 'function* items() { return 1; } items;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
