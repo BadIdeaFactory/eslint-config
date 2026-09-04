@@ -13,6 +13,7 @@ const core: Linter.Config = {
 		'no-cond-assign': 'error',
 		'no-console': 'error',
 		'no-const-assign': 'error',
+		'no-constructor-return': 'error',
 		'no-debugger': 'error',
 		'no-dupe-else-if': 'error',
 		'no-duplicate-case': 'error',

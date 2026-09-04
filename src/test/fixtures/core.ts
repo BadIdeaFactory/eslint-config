@@ -45,6 +45,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value = 2;',
 		invalid: 'const value = 1; value = 2;',
 	},
+	'no-constructor-return': {
+		valid: 'class Thing { constructor() { return; } }',
+		invalid: 'class Thing { constructor() { return 1; } }',
+	},
 	'no-debugger': {
 		valid: 'const value = 1; value;',
 		invalid: 'const value = 1; debugger; value;',
