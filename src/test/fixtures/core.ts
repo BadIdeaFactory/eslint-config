@@ -62,6 +62,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value = 2;',
 		invalid: 'const value = 1; value = 2;',
 	},
+	'no-constant-binary-expression': {
+		valid: 'const value = 1; if (value === 1) { value; }',
+		invalid: 'const values = [1]; if (values === []) { values; }',
+	},
 	'no-constructor-return': {
 		valid: 'class Thing { constructor() { this.ready = true; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
