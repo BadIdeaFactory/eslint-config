@@ -192,6 +192,10 @@ const core: RuleFixtures = {
 		valid: 'const pattern = /a {2}b/; pattern;',
 		invalid: 'const pattern = /a  b/; pattern;',
 	},
+	'no-script-url': {
+		valid: "const target = 'https://example.com'; target;",
+		invalid: "const target = 'javascript:void(0)'; target;",
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
