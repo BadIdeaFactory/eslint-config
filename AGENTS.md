@@ -339,7 +339,7 @@ below: a second copy would add no enforcement and would rot.
 
 ## Version Constraints
 
-`.github/dependabot.yml` ignores major updates for two dependencies, and the
+`.github/dependabot.yml` ignores major updates for three dependencies, and the
 reasons are worth preserving:
 
 - **TypeScript stays on 6.0.x.** `typescript-eslint` declares a peer range of
@@ -350,6 +350,10 @@ reasons are worth preserving:
 - **`@types/node` tracks `.node-version`.** It follows the Node version this
   repository develops against, not the newest Node release. Bump it when
   `.node-version` moves, not before.
+- **`conventional-changelog-conventionalcommits` stays on 9.x.** From 10 the
+  preset renders through a writer that
+  `@semantic-release/release-notes-generator` does not yet depend on, and
+  generating release notes throws. Lift it only once that plugin moves.
 
 **`package.json` declares no `engines` field, deliberately.** Do not add one.
 The only real Node constraint comes from ESLint, which is a peer dependency and
