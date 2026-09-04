@@ -147,6 +147,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
 	},
+	'no-self-compare': {
+		valid: 'const value = 1; if (value === 2) { value; }',
+		invalid: 'const value = 1; if (value === value) { value; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

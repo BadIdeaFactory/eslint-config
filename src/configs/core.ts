@@ -37,6 +37,7 @@ const core: Linter.Config = {
 		'no-new-func': 'error',
 		'no-new-wrappers': 'error',
 		'no-object-constructor': 'error',
+		'no-self-compare': 'error',
 		yoda: ['error', 'never'],
 	},
 };
