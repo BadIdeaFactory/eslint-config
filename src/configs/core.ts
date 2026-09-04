@@ -51,6 +51,7 @@ const core: Linter.Config = {
 		'no-self-compare': 'error',
 		'no-sequences': 'error',
 		'no-sparse-arrays': 'error',
+		'no-template-curly-in-string': 'error',
 		yoda: ['error', 'never'],
 	},
 };

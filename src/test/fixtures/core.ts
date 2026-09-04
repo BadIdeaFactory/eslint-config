@@ -210,6 +210,10 @@ const core: RuleFixtures = {
 		valid: 'const values = [1, 2]; values;',
 		invalid: 'const values = [1, , 2]; values;',
 	},
+	'no-template-curly-in-string': {
+		valid: 'const name = 1; const text = `${name}`; text;',
+		invalid: "const name = 1; const text = '${name}'; text; name;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
