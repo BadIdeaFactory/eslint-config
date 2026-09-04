@@ -1,6 +1,10 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'no-console': {
+		valid: "process.stdout.write('hello');",
+		invalid: "console.log('hello');",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
