@@ -53,6 +53,7 @@ const core: Linter.Config = {
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',
 		'no-this-before-super': 'error',
+		'no-unreachable': 'error',
 		yoda: ['error', 'never'],
 	},
 };

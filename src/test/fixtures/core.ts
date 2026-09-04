@@ -220,6 +220,10 @@ const core: RuleFixtures = {
 		invalid:
 			'class Base {} class Thing extends Base { constructor() { this.ready = true; super(); } }',
 	},
+	'no-unreachable': {
+		valid: 'const run = () => { return 1; }; run;',
+		invalid: 'const run = () => { return 1; null; }; run;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
