@@ -290,6 +290,10 @@ const core: RuleFixtures = {
 		valid: 'const merged = { ...{ first: 1 } }; merged;',
 		invalid: 'const merged = Object.assign({}, { first: 1 }); merged;',
 	},
+	'prefer-rest-params': {
+		valid: 'const collect = (...values) => values; collect;',
+		invalid: 'function collect() { return arguments; } collect;',
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
