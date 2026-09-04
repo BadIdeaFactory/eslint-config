@@ -62,6 +62,7 @@ const core: Linter.Config = {
 		'no-useless-catch': 'error',
 		'no-useless-computed-key': 'error',
 		'no-useless-concat': 'error',
+		'no-useless-escape': 'error',
 		yoda: ['error', 'never'],
 	},
 };

@@ -257,6 +257,10 @@ const core: RuleFixtures = {
 		valid: "const text = 'ab'; text;",
 		invalid: "const text = 'a' + 'b'; text;",
 	},
+	'no-useless-escape': {
+		valid: "const text = 'a'; text;",
+		invalid: "const text = '\\a'; text;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
