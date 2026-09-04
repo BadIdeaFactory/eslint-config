@@ -26,8 +26,9 @@ const core: RuleFixtures = {
 		invalid: "alert('hello');",
 	},
 	'no-async-promise-executor': {
-		valid: 'new Promise((resolve) => { resolve(1); });',
-		invalid: 'new Promise(async (resolve) => { resolve(1); });',
+		valid: 'const task = new Promise((resolve) => { resolve(1); }); task;',
+		invalid:
+			'const task = new Promise(async (resolve) => { resolve(1); }); task;',
 	},
 	'no-await-in-loop': {
 		valid:
@@ -154,6 +155,10 @@ const core: RuleFixtures = {
 	'no-negated-condition': {
 		valid: 'const value = 1; if (value === 1) { value; } else { null; }',
 		invalid: 'const value = 1; if (value !== 1) { value; } else { null; }',
+	},
+	'no-new': {
+		valid: 'class Thing {} const made = new Thing(); made;',
+		invalid: 'class Thing {} new Thing();',
 	},
 	'no-new-func': {
 		valid: 'const make = () => 1; make;',

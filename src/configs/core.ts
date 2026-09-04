@@ -38,6 +38,7 @@ const core: Linter.Config = {
 		'no-lonely-if': 'error',
 		'no-loss-of-precision': 'error',
 		'no-negated-condition': 'error',
+		'no-new': 'error',
 		'no-new-func': 'error',
 		'no-new-wrappers': 'error',
 		'no-object-constructor': 'error',
