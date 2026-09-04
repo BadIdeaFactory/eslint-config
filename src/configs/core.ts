@@ -30,6 +30,7 @@ const core: Linter.Config = {
 		'no-fallthrough': 'error',
 		'no-func-assign': 'error',
 		'no-invalid-regexp': 'error',
+		'no-iterator': 'error',
 		yoda: ['error', 'never'],
 	},
 };

@@ -117,6 +117,10 @@ const core: RuleFixtures = {
 		valid: "const pattern = new RegExp('[a]'); pattern;",
 		invalid: "const pattern = new RegExp('['); pattern;",
 	},
+	'no-iterator': {
+		valid: 'const holder = {}; holder[Symbol.iterator] = null;',
+		invalid: 'const holder = {}; holder.__iterator__ = null;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
