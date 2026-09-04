@@ -249,6 +249,10 @@ const core: RuleFixtures = {
 		valid: 'try { null; } catch (failure) { failure; }',
 		invalid: 'try { null; } catch (failure) { throw failure; }',
 	},
+	'no-useless-computed-key': {
+		valid: 'const shape = { first: 1 }; shape;',
+		invalid: "const shape = { ['first']: 1 }; shape;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
