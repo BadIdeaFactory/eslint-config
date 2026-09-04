@@ -3,6 +3,7 @@ import type { Linter } from 'eslint';
 const core: Linter.Config = {
 	name: '@biffud/eslint-config/core',
 	rules: {
+		'constructor-super': 'error',
 		'default-case-last': 'error',
 		'for-direction': 'error',
 		'guard-for-in': 'error',

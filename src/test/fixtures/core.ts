@@ -1,6 +1,12 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'constructor-super': {
+		valid:
+			'class Base {} class Thing extends Base { constructor() { super(); } }',
+		invalid:
+			'class Base {} class Thing extends Base { constructor() { null; } }',
+	},
 	'default-case-last': {
 		valid: 'const value = 1; switch (value) { case 1: break; default: break; }',
 		invalid:
