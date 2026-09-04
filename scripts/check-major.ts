@@ -62,31 +62,29 @@ const peerMoved = before !== after;
 const change = `${before ?? '?'} -> ${after ?? '?'}`;
 
 if (breaking !== undefined && !peerMoved) {
-	console.error(
+	process.stderr.write(
 		`${breaking.sha} marks a breaking change, but the eslint peer major ` +
 			`is still ${before ?? '?'}.\n\n` +
 			'The major position means the supported ESLint major and nothing ' +
 			'else. Either move `peerDependencies.eslint` to the major this ' +
 			'branch actually supports, or drop the breaking marker: a rule ' +
-			'change is a `feat`, however disruptive it is to consumers.',
+			'change is a `feat`, however disruptive it is to consumers.\n',
 	);
-	process.exit(EXIT_FAILURE);
-}
-
-if (peerMoved && breaking === undefined) {
-	console.error(
+	process.exitCode = EXIT_FAILURE;
+} else if (peerMoved && breaking === undefined) {
+	process.stderr.write(
 		`The eslint peer major changed ${change}, but no commit on this ` +
 			'branch marks a breaking change.\n\n' +
 			'Supporting a new ESLint major is the one thing that bumps our ' +
 			'major, so it needs a `!` after the type or a `BREAKING CHANGE:` ' +
 			'footer. Without one this ships as a minor and goes on claiming ' +
-			'support this package no longer has.',
+			'support this package no longer has.\n',
 	);
-	process.exit(EXIT_FAILURE);
+	process.exitCode = EXIT_FAILURE;
+} else {
+	process.stdout.write(
+		peerMoved
+			? `A breaking change is marked and the eslint peer major changed ${change}. They agree.\n`
+			: `No breaking change is marked and the eslint peer major is unchanged (${before ?? '?'}).\n`,
+	);
 }
-
-console.log(
-	peerMoved
-		? `A breaking change is marked and the eslint peer major changed ${change}. They agree.`
-		: `No breaking change is marked and the eslint peer major is unchanged (${before ?? '?'}). They agree.`,
-);
