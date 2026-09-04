@@ -29,6 +29,12 @@ const core: RuleFixtures = {
 		valid: 'new Promise((resolve) => { resolve(1); });',
 		invalid: 'new Promise(async (resolve) => { resolve(1); });',
 	},
+	'no-await-in-loop': {
+		valid:
+			'const run = async () => { await Promise.all([1].map(async (v) => v)); }; run;',
+		invalid:
+			'const run = async () => { for (const v of [1]) { await v; } }; run;',
+	},
 	'no-case-declarations': {
 		valid:
 			'const value = 1; switch (value) { case 1: { const inner = 1; inner; break; } }',

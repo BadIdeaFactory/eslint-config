@@ -9,6 +9,7 @@ const core: Linter.Config = {
 		'guard-for-in': 'error',
 		'no-alert': 'error',
 		'no-async-promise-executor': 'error',
+		'no-await-in-loop': 'error',
 		'no-case-declarations': 'error',
 		'no-class-assign': 'error',
 		'no-compare-neg-zero': 'error',
