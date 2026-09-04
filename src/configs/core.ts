@@ -37,6 +37,7 @@ const core: Linter.Config = {
 		'no-lone-blocks': 'error',
 		'no-lonely-if': 'error',
 		'no-loss-of-precision': 'error',
+		'no-negated-condition': 'error',
 		'no-new-func': 'error',
 		'no-new-wrappers': 'error',
 		'no-object-constructor': 'error',
