@@ -213,8 +213,13 @@ request that marks a breaking change without changing the peer major, and one
 that changes the peer major without marking a breaking change. The two are the
 same event described twice, so either alone is a mistake.
 
-After changing the version, run `npm install --package-lock-only` so
-`package-lock.json` stays in sync; CI's `npm-install` job fails on the drift.
+Nobody sets the version by hand. semantic-release derives it from the commits
+and the git tags, so the `version` in `package.json` is not the source of truth
+and is not committed back after a release. See Releasing below.
+
+Changing the peer range is still a manual edit, and `package-lock.json` records
+the root `peerDependencies`, so run `npm install --package-lock-only` after
+touching it or CI's `npm-install` job fails on the drift.
 
 ## Commit Conventions
 
@@ -280,6 +285,44 @@ workflow needs no exemption. Dependabot is exempted in CI instead: it writes its
 own subjects in its own style, and the only part that is ours is the prefix,
 which `.github/dependabot.yml` configures directly.
 
+## Releasing
+
+Every merge to `main` publishes. semantic-release reads the commits since the
+last git tag, decides the version from their types, publishes to npm, tags the
+commit and writes the GitHub release. There is no release branch, no manual
+version bump and no changelog file — the GitHub releases page is the record,
+and `@semantic-release/changelog` is deliberately absent because committing a
+changelog back to `main` would fight the branch ruleset for no gain.
+
+**The git tags are the source of truth, not `package.json`.** semantic-release
+finds the last tag reachable from `main` and analyses what came after it. The
+`version` field is rewritten during publish and never committed back, so it
+stays at whatever it was seeded with.
+
+**A wrong version cannot be taken back.** npm versions are immutable and
+semantic-release deliberately offers no way to force one, so the guard against
+one has to sit before the merge rather than after it. That guard is
+`scripts/check-major.ts`, and it is enough only while four things hold: every
+commit reaches `main` through a pull request, `check-major` is a required
+check, there are no bypass actors, and semantic-release reads a breaking marker
+the same way `check-major` does. Weaken any of them and the release path loses
+its only guard, so treat all four as part of it.
+
+That last one is not free. The `conventionalcommits` preset in `.releaserc.json`
+is what makes `feat!:` a major; the default preset silently parses a `!` commit
+to no type at all, releasing nothing or, worse, letting an unrelated `fix:`
+carry the release out as a patch while the breaking change disappears. Do not
+drop the preset, and if you change it, check `feat!:` still yields a major.
+
+A second check at release time was written and then removed deliberately. It
+would have re-asserted the same invariant against the computed version, but
+with those four in place the two agree by construction, and that was not worth
+a script, a test and a plugin to carry.
+
+Publishing uses npm trusted publishing over OIDC, which is why the job asks for
+`id-token: write` and why no npm token is stored in this repository. Provenance
+is generated automatically as a result.
+
 ## Dependencies
 
 `typescript-eslint` is a **runtime `dependency`, not a devDependency.**
@@ -339,6 +382,12 @@ one job apiece for:
 - `eslint`, `prettier`, `tsc` — the three parts of `npm run lint`
 - `test` — `npm test`
 - `build` — verifies `npm run build` succeeds
+
+`.github/workflows/release.yml` is separate and runs only on pushes to `main`.
+It re-runs `npm run lint` and `npm test` before handing over to
+semantic-release. That duplicates the ruleset's required checks on purpose:
+publishing cannot be undone, and the required list is maintained by hand in
+repository settings, so it can quietly fall behind this workflow.
 
 ### What the tests are for
 

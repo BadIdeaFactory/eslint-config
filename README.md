@@ -115,6 +115,12 @@ To check this branch's commits before opening a pull request:
 npm run lint:commit
 ```
 
+### Releases
+
+Merging to `main` publishes. The version comes from the commit types rather
+than from `package.json`, so getting the type right is the whole job; see
+[`AGENTS.md`](AGENTS.md) for how a release is guarded.
+
 ## License
 
 [AGPL-3.0](LICENSE)
