@@ -109,6 +109,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: value; case 2: break; }',
 	},
+	'no-func-assign': {
+		valid: 'function thing() {} const alias = thing; alias;',
+		invalid: 'function thing() {} thing = null;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
