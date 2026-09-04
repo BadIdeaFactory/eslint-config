@@ -12,6 +12,7 @@ const core: Linter.Config = {
 		'no-compare-neg-zero': 'error',
 		'no-cond-assign': 'error',
 		'no-console': 'error',
+		'no-const-assign': 'error',
 		'no-debugger': 'error',
 		'no-dupe-else-if': 'error',
 		'no-duplicate-case': 'error',
