@@ -72,6 +72,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: break; case 1: break; }',
 	},
+	'no-empty-character-class': {
+		valid: 'const pattern = /a[b]/; pattern;',
+		invalid: 'const pattern = /a[]/; pattern;',
+	},
 	'no-empty-pattern': {
 		valid: 'const { first } = { first: 1 }; first;',
 		invalid: 'const {} = { first: 1 };',
