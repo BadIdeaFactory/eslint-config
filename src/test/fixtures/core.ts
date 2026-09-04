@@ -241,6 +241,10 @@ const core: RuleFixtures = {
 		valid: 'const pattern = /(a)\\1/; pattern;',
 		invalid: 'const pattern = /(a)|\\1/; pattern;',
 	},
+	'no-useless-call': {
+		valid: 'const show = (value) => value; show(1);',
+		invalid: 'const show = (value) => value; show.call(null, 1);',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

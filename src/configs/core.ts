@@ -58,6 +58,7 @@ const core: Linter.Config = {
 		'no-unsafe-finally': 'error',
 		'no-unsafe-negation': 'error',
 		'no-useless-backreference': 'error',
+		'no-useless-call': 'error',
 		yoda: ['error', 'never'],
 	},
 };
