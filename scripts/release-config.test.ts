@@ -100,5 +100,12 @@ describe('release configuration', () => {
 			assert.match(notes, /Add a rule/);
 		});
 
+		it('never claims to close an issue a commit merely references', async () => {
+			const notes = await notesFor([
+				'feat: Add a rule\n\nWhy.\n\nIssue #5 Create some initial rules',
+				'fix: Correct a thing\n\nSee https://example.com/pull/42#issuecomment-1',
+			]);
+			assert.doesNotMatch(notes, /closes/i);
+		});
 	});
 });
