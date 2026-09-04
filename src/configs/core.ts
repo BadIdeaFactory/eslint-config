@@ -31,6 +31,7 @@ const core: Linter.Config = {
 		'no-func-assign': 'error',
 		'no-invalid-regexp': 'error',
 		'no-iterator': 'error',
+		'no-lone-blocks': 'error',
 		yoda: ['error', 'never'],
 	},
 };

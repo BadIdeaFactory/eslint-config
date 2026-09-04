@@ -121,6 +121,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder[Symbol.iterator] = null;',
 		invalid: 'const holder = {}; holder.__iterator__ = null;',
 	},
+	'no-lone-blocks': {
+		valid: '{ const scoped = 1; scoped; }',
+		invalid: 'const value = 1; { value; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
