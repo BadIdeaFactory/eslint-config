@@ -253,6 +253,10 @@ const core: RuleFixtures = {
 		valid: 'const shape = { first: 1 }; shape;',
 		invalid: "const shape = { ['first']: 1 }; shape;",
 	},
+	'no-useless-concat': {
+		valid: "const text = 'ab'; text;",
+		invalid: "const text = 'a' + 'b'; text;",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
