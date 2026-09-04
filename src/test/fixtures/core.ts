@@ -15,6 +15,10 @@ const core: RuleFixtures = {
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
 		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
 	},
+	'no-async-promise-executor': {
+		valid: 'new Promise((resolve) => { resolve(1); });',
+		invalid: 'new Promise(async (resolve) => { resolve(1); });',
+	},
 	'no-compare-neg-zero': {
 		valid: 'const value = 0; if (Object.is(value, -0)) { value; }',
 		invalid: 'const value = 0; if (value === -0) { value; }',
