@@ -27,6 +27,7 @@ const core: Linter.Config = {
 		'no-extend-native': 'error',
 		'no-extra-bind': 'error',
 		'no-extra-boolean-cast': 'error',
+		'no-fallthrough': 'error',
 		yoda: ['error', 'never'],
 	},
 };

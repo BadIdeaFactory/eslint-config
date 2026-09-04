@@ -104,6 +104,11 @@ const core: RuleFixtures = {
 		valid: 'const value = 1; if (value) { value; }',
 		invalid: 'const value = 1; if (Boolean(value)) { value; }',
 	},
+	'no-fallthrough': {
+		valid: 'const value = 1; switch (value) { case 1: break; case 2: break; }',
+		invalid:
+			'const value = 1; switch (value) { case 1: value; case 2: break; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
