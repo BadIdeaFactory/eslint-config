@@ -6,6 +6,19 @@ Expertly implemented ESLint configurations for overengineered projects.
 
 A shareable [ESLint](https://eslint.org) configuration that pressures everybody on your team to care a little bit too much about code quality.
 
+## Usage
+
+```bash
+npm install --save-dev @biffud/eslint-config eslint
+```
+
+```js
+// eslint.config.mjs
+import biffud from '@biffud/eslint-config';
+
+export default [...biffud];
+```
+
 ## Rules
 
 Every rule this config sets lives in [`src/configs/`](src/configs), split by concern,
