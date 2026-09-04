@@ -228,6 +228,11 @@ const core: RuleFixtures = {
 		valid: 'for (const value of [1, 2]) { value; }',
 		invalid: 'for (const value of [1, 2]) { value; break; }',
 	},
+	'no-unsafe-finally': {
+		valid: 'const run = () => { try { return 1; } finally { null; } }; run;',
+		invalid:
+			'const run = () => { try { return 1; } finally { return 2; } }; run;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

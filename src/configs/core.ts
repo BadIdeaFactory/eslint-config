@@ -55,6 +55,7 @@ const core: Linter.Config = {
 		'no-this-before-super': 'error',
 		'no-unreachable': 'error',
 		'no-unreachable-loop': 'error',
+		'no-unsafe-finally': 'error',
 		yoda: ['error', 'never'],
 	},
 };
