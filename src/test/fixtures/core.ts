@@ -263,8 +263,8 @@ const core: RuleFixtures = {
 		invalid: "const holder = {}; if (!'first' in holder) { holder; }",
 	},
 	'no-useless-backreference': {
-		valid: 'const pattern = /(a)\\1/; pattern;',
-		invalid: 'const pattern = /(a)|\\1/; pattern;',
+		valid: 'const pattern = /(?<letter>a)\\k<letter>/; pattern;',
+		invalid: 'const pattern = /(?<letter>a)|\\k<letter>/; pattern;',
 	},
 	'no-useless-call': {
 		valid: 'const show = (value) => value; show(1);',
@@ -301,6 +301,10 @@ const core: RuleFixtures = {
 	'prefer-exponentiation-operator': {
 		valid: 'const value = 2 ** 3; value;',
 		invalid: 'const value = Math.pow(2, 3); value;',
+	},
+	'prefer-named-capture-group': {
+		valid: 'const pattern = /(?<letter>a)/; pattern;',
+		invalid: 'const pattern = /(a)/; pattern;',
 	},
 	'prefer-numeric-literals': {
 		valid: 'const value = 0b111; value;',
