@@ -63,7 +63,7 @@ const core: RuleFixtures = {
 		invalid: 'const value = 1; value = 2;',
 	},
 	'no-constructor-return': {
-		valid: 'class Thing { constructor() { return; } }',
+		valid: 'class Thing { constructor() { this.ready = true; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
 	},
 	'no-control-regex': {
@@ -264,6 +264,10 @@ const core: RuleFixtures = {
 	'no-useless-rename': {
 		valid: 'const { first } = { first: 1 }; first;',
 		invalid: 'const { first: first } = { first: 1 }; first;',
+	},
+	'no-useless-return': {
+		valid: 'const run = () => { null; }; run;',
+		invalid: 'const run = () => { null; return; }; run;',
 	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
