@@ -164,6 +164,10 @@ const core: RuleFixtures = {
 		valid: 'const make = () => 1; make;',
 		invalid: "const make = new Function('return 1'); make;",
 	},
+	'no-new-native-nonconstructor': {
+		valid: "const marker = Symbol('marker'); marker;",
+		invalid: "const marker = new Symbol('marker'); marker;",
+	},
 	'no-new-wrappers': {
 		valid: 'const value = String(1); value;',
 		invalid: "const value = new String('1'); value;",

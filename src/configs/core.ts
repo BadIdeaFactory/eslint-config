@@ -40,6 +40,7 @@ const core: Linter.Config = {
 		'no-negated-condition': 'error',
 		'no-new': 'error',
 		'no-new-func': 'error',
+		'no-new-native-nonconstructor': 'error',
 		'no-new-wrappers': 'error',
 		'no-object-constructor': 'error',
 		'no-self-compare': 'error',
