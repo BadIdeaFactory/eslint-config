@@ -36,6 +36,7 @@ const core: Linter.Config = {
 		'no-loss-of-precision': 'error',
 		'no-new-func': 'error',
 		'no-new-wrappers': 'error',
+		'no-object-constructor': 'error',
 		yoda: ['error', 'never'],
 	},
 };

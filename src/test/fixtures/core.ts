@@ -143,6 +143,10 @@ const core: RuleFixtures = {
 		valid: 'const value = String(1); value;',
 		invalid: "const value = new String('1'); value;",
 	},
+	'no-object-constructor': {
+		valid: 'const holder = {}; holder;',
+		invalid: 'const holder = new Object(); holder;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
