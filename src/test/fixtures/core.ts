@@ -42,6 +42,10 @@ const core: RuleFixtures = {
 		valid: 'const { first } = { first: 1 }; first;',
 		invalid: 'const {} = { first: 1 };',
 	},
+	'no-eval': {
+		valid: "const source = '{}'; JSON.parse(source);",
+		invalid: "const source = '{}'; eval(source);",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
