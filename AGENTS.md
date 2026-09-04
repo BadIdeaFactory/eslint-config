@@ -52,6 +52,9 @@ npm run lint
 # Lint this branch's commit messages against origin/main
 npm run lint:commit
 
+# Check this branch's breaking changes against the eslint peer major
+npm run lint:major
+
 # Run the config tests
 npm test
 
@@ -77,15 +80,19 @@ npm run lint
 
 `npm run format` fixes Prettier formatting and ESLint auto-fixable rules
 (including import ordering). `npm run lint` additionally runs `tsc --noEmit`
-against `tsconfig.dev.json`. Run `npm test` too whenever you touch `src/`.
+against `tsconfig.dev.json`. Run `npm test` too whenever you touch `src/` or
+`scripts/`.
 
-`npm run lint:commit` is deliberately not part of `npm run lint`. It reads git
-history rather than the working tree and needs `origin/main` fetched, so it
-cannot run in the same contexts as the rest.
+`npm run lint:commit` and `npm run lint:major` are deliberately not part
+of `npm run lint`. They read git history rather than the working tree and need
+`origin/main` fetched, so they cannot run in the same contexts as the rest.
 
 ## Project Structure
 
 ```
+scripts/
+├── check-major.ts       # Asserts the versioning policy's one invariant
+└── check-major.test.ts  # Its cases, run by `npm test`
 src/
 ├── configs/            # The rules, split by concern
 │   ├── core.ts         # Core ESLint rules; universal, no `files`
@@ -198,6 +205,10 @@ nothing could see a new lint error. If yes, minor.
 
 The `peerDependencies` range on `eslint` should always agree with the major —
 `10.x.x` pairs with `"eslint": "^10.0.0"`. If you change one, change the other.
+CI enforces this rather than trusting it: `scripts/check-major.ts` fails a pull
+request that marks a breaking change without changing the peer major, and one
+that changes the peer major without marking a breaking change. The two are the
+same event described twice, so either alone is a mistake.
 
 After changing the version, run `npm install --package-lock-only` so
 `package-lock.json` stays in sync; CI's `npm-install` job fails on the drift.
@@ -319,6 +330,8 @@ one job apiece for:
 
 - `actionlint` — workflow file validity
 - `commitlint` — commit subjects follow the convention (pull requests only)
+- `check-major` — breaking changes and the `eslint` peer major agree (pull
+  requests only)
 - `npm-install` — verifies `package-lock.json` is in sync with `package.json`
 - `eslint`, `prettier`, `tsc` — the three parts of `npm run lint`
 - `test` — `npm test`
