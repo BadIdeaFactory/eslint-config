@@ -23,6 +23,10 @@ const core: RuleFixtures = {
 		valid: "process.stdout.write('hello');",
 		invalid: "console.log('hello');",
 	},
+	'no-debugger': {
+		valid: 'const value = 1; value;',
+		invalid: 'const value = 1; debugger; value;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

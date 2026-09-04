@@ -8,6 +8,7 @@ const core: Linter.Config = {
 		'guard-for-in': 'error',
 		'no-compare-neg-zero': 'error',
 		'no-console': 'error',
+		'no-debugger': 'error',
 		yoda: ['error', 'never'],
 	},
 };
