@@ -66,6 +66,7 @@ const core: Linter.Config = {
 		'no-useless-rename': 'error',
 		'no-useless-return': 'error',
 		'no-var': 'error',
+		'prefer-exponentiation-operator': 'error',
 		'require-yield': 'error',
 		'symbol-description': 'error',
 		yoda: ['error', 'never'],
