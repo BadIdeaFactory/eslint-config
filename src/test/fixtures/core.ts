@@ -237,6 +237,10 @@ const core: RuleFixtures = {
 		valid: "const holder = {}; if (!('first' in holder)) { holder; }",
 		invalid: "const holder = {}; if (!'first' in holder) { holder; }",
 	},
+	'no-useless-backreference': {
+		valid: 'const pattern = /(a)\\1/; pattern;',
+		invalid: 'const pattern = /(a)|\\1/; pattern;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
