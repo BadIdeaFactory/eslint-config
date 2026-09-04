@@ -11,6 +11,7 @@ const core: Linter.Config = {
 		'no-debugger': 'error',
 		'no-dupe-else-if': 'error',
 		'no-duplicate-case': 'error',
+		'no-empty-pattern': 'error',
 		yoda: ['error', 'never'],
 	},
 };

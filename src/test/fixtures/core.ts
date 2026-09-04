@@ -38,6 +38,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: break; case 1: break; }',
 	},
+	'no-empty-pattern': {
+		valid: 'const { first } = { first: 1 }; first;',
+		invalid: 'const {} = { first: 1 };',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
