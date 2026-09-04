@@ -176,6 +176,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
 	},
+	'no-plusplus': {
+		valid: 'let count = 0; count += 1; count;',
+		invalid: 'let count = 0; count++; count;',
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
