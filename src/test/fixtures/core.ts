@@ -46,6 +46,10 @@ const core: RuleFixtures = {
 		valid: "const source = '{}'; JSON.parse(source);",
 		invalid: "const source = '{}'; eval(source);",
 	},
+	'no-ex-assign': {
+		valid: 'try { null; } catch (failure) { failure; }',
+		invalid: 'try { null; } catch (failure) { failure = null; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
