@@ -46,6 +46,7 @@ const core: Linter.Config = {
 		'no-plusplus': 'error',
 		'no-proto': 'error',
 		'no-prototype-builtins': 'error',
+		'no-regex-spaces': 'error',
 		'no-self-compare': 'error',
 		'no-sparse-arrays': 'error',
 		yoda: ['error', 'never'],

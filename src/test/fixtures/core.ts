@@ -188,6 +188,10 @@ const core: RuleFixtures = {
 		valid: "const holder = {}; Object.hasOwn(holder, 'first');",
 		invalid: "const holder = {}; holder.hasOwnProperty('first');",
 	},
+	'no-regex-spaces': {
+		valid: 'const pattern = /a {2}b/; pattern;',
+		invalid: 'const pattern = /a  b/; pattern;',
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',
