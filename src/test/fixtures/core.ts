@@ -214,6 +214,12 @@ const core: RuleFixtures = {
 		valid: 'const name = 1; const text = `${name}`; text;',
 		invalid: "const name = 1; const text = '${name}'; text; name;",
 	},
+	'no-this-before-super': {
+		valid:
+			'class Base {} class Thing extends Base { constructor() { super(); this.ready = true; } }',
+		invalid:
+			'class Base {} class Thing extends Base { constructor() { this.ready = true; super(); } }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
