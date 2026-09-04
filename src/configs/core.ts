@@ -7,6 +7,7 @@ const core: Linter.Config = {
 		'default-case-last': 'error',
 		'for-direction': 'error',
 		'guard-for-in': 'error',
+		'no-alert': 'error',
 		'no-async-promise-executor': 'error',
 		'no-case-declarations': 'error',
 		'no-class-assign': 'error',

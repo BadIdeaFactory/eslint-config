@@ -21,6 +21,10 @@ const core: RuleFixtures = {
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
 		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
 	},
+	'no-alert': {
+		valid: "process.stdout.write('hello');",
+		invalid: "alert('hello');",
+	},
 	'no-async-promise-executor': {
 		valid: 'new Promise((resolve) => { resolve(1); });',
 		invalid: 'new Promise(async (resolve) => { resolve(1); });',
