@@ -224,6 +224,10 @@ const core: RuleFixtures = {
 		valid: 'const run = () => { return 1; }; run;',
 		invalid: 'const run = () => { return 1; null; }; run;',
 	},
+	'no-unreachable-loop': {
+		valid: 'for (const value of [1, 2]) { value; }',
+		invalid: 'for (const value of [1, 2]) { value; break; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

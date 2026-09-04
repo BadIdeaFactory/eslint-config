@@ -54,6 +54,7 @@ const core: Linter.Config = {
 		'no-template-curly-in-string': 'error',
 		'no-this-before-super': 'error',
 		'no-unreachable': 'error',
+		'no-unreachable-loop': 'error',
 		yoda: ['error', 'never'],
 	},
 };
