@@ -63,6 +63,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; if (value === 1) { value; } else if (value === 1) { value; }',
 	},
+	'no-dupe-keys': {
+		valid: 'const shape = { first: 1, second: 2 }; shape;',
+		invalid: 'const shape = { first: 1, first: 2 }; shape;',
+	},
 	'no-duplicate-case': {
 		valid: 'const value = 1; switch (value) { case 1: break; case 2: break; }',
 		invalid:

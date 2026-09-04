@@ -17,6 +17,7 @@ const core: Linter.Config = {
 		'no-control-regex': 'error',
 		'no-debugger': 'error',
 		'no-dupe-else-if': 'error',
+		'no-dupe-keys': 'error',
 		'no-duplicate-case': 'error',
 		'no-empty-pattern': 'error',
 		'no-eval': 'error',
