@@ -25,6 +25,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: const inner = 1; inner; break; }',
 	},
+	'no-class-assign': {
+		valid: 'class Thing {} Thing;',
+		invalid: 'class Thing {} Thing = null;',
+	},
 	'no-compare-neg-zero': {
 		valid: 'const value = 0; if (Object.is(value, -0)) { value; }',
 		invalid: 'const value = 0; if (value === -0) { value; }',
