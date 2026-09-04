@@ -286,6 +286,10 @@ const core: RuleFixtures = {
 		invalid:
 			"const holder = {}; Object.prototype.hasOwnProperty.call(holder, 'first');",
 	},
+	'prefer-object-spread': {
+		valid: 'const merged = { ...{ first: 1 } }; merged;',
+		invalid: 'const merged = Object.assign({}, { first: 1 }); merged;',
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
