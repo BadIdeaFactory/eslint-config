@@ -100,6 +100,10 @@ const core: RuleFixtures = {
 		valid: 'const bound = function () { return this; }.bind(null); bound;',
 		invalid: 'const bound = function () { return 1; }.bind(null); bound;',
 	},
+	'no-extra-boolean-cast': {
+		valid: 'const value = 1; if (value) { value; }',
+		invalid: 'const value = 1; if (Boolean(value)) { value; }',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
