@@ -277,6 +277,10 @@ const core: RuleFixtures = {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
 	},
+	'symbol-description': {
+		valid: "const marker = Symbol('marker'); marker;",
+		invalid: 'const marker = Symbol(); marker;',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

@@ -67,6 +67,7 @@ const core: Linter.Config = {
 		'no-useless-return': 'error',
 		'no-var': 'error',
 		'require-yield': 'error',
+		'symbol-description': 'error',
 		yoda: ['error', 'never'],
 	},
 };
