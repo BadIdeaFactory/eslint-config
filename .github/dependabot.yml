@@ -25,6 +25,10 @@ updates:
       - dependency-name: 'typescript'
         update-types:
           ['version-update:semver-major', 'version-update:semver-minor']
+      # The 10.x preset needs a changelog writer that
+      # @semantic-release/release-notes-generator does not depend on yet.
+      - dependency-name: 'conventional-changelog-conventionalcommits'
+        update-types: ['version-update:semver-major']
     groups:
       production:
         dependency-type: 'production'
