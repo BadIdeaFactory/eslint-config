@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { RuleFixtures } from './types.ts';
 
@@ -18,9 +18,13 @@ const load = (): RuleFixtures => {
 	for (const ruleSet of directoriesIn(FIXTURE_ROOT)) {
 		const setPath = join(FIXTURE_ROOT, ruleSet);
 		for (const rule of directoriesIn(setPath)) {
+			const rulePath = join(setPath, rule);
+			const script = existsSync(join(rulePath, 'valid.cjs'));
+			const extension = script ? 'cjs' : 'ts';
 			loaded[rule] = {
-				valid: sample(join(setPath, rule, 'valid.ts')),
-				invalid: sample(join(setPath, rule, 'invalid.ts')),
+				valid: sample(join(rulePath, `valid.${extension}`)),
+				invalid: sample(join(rulePath, `invalid.${extension}`)),
+				script,
 			};
 		}
 	}

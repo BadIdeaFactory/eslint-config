@@ -10,6 +10,11 @@ expecting.
 `src/configs/` and `fixtures/`. Adding a rule generally should not require writing a
 new test, but it will usually involve adding a new fixture.
 
+A rule whose samples end in `.cjs` instead is parsed as a classic script rather than a
+module. Nothing else can demonstrate `with`, a legacy octal or a `delete` of a variable,
+which are syntax errors under the module semantics every other sample gets. Use `.ts`
+unless the rule is about syntax a module cannot contain.
+
 Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so a
 sample that needs more than one line — or a character that would otherwise have to be
 escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and `tsc`,
