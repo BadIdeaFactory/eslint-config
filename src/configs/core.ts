@@ -141,6 +141,7 @@ const core: Linter.Config = {
 		'preserve-caught-error': ['error', { requireCatchParameter: true }],
 		radix: ['error', 'always'],
 		'require-atomic-updates': ['error', { allowProperties: false }],
+		'require-unicode-regexp': ['error', { requireFlag: 'v' }],
 		'require-yield': 'error',
 		strict: 'error',
 		'symbol-description': 'error',

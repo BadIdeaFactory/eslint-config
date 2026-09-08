@@ -10,9 +10,9 @@ const DEFAULT_BASE = 'origin/main';
 const DEFAULT_HEAD = 'HEAD';
 const EXIT_FAILURE = 1;
 
-const BREAKING_SUBJECT = /^[a-z]+(?:\([^)]*\))?!:/;
-const BREAKING_FOOTER = /^BREAKING[ -]CHANGE:/mu;
-const FIRST_NUMBER = /\d+/;
+const BREAKING_SUBJECT = /^[a-z]+(?:\([^\)]*\))?!:/v;
+const BREAKING_FOOTER = /^BREAKING[ \-]CHANGE:/mv;
+const FIRST_NUMBER = /\d+/v;
 
 const FIELD = '';
 const RECORD = '';

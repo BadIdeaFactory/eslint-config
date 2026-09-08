@@ -96,8 +96,8 @@ describe('release configuration', () => {
 	describe('the notes it would write', () => {
 		it('renders them at all', async () => {
 			const notes = await notesFor(['feat: Add a rule']);
-			assert.match(notes, /### Features/);
-			assert.match(notes, /Add a rule/);
+			assert.match(notes, /### Features/v);
+			assert.match(notes, /Add a rule/v);
 		});
 
 		it('never claims to close an issue a commit merely references', async () => {
@@ -105,7 +105,7 @@ describe('release configuration', () => {
 				'feat: Add a rule\n\nWhy.\n\nIssue #5 Create some initial rules',
 				'fix: Correct a thing\n\nSee https://example.com/pull/42#issuecomment-1',
 			]);
-			assert.doesNotMatch(notes, /closes/i);
+			assert.doesNotMatch(notes, /closes/iv);
 		});
 	});
 });
