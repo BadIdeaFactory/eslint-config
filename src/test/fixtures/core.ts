@@ -221,6 +221,10 @@ const core: RuleFixtures = {
 		valid: 'const pattern = /a {2}b/; pattern;',
 		invalid: 'const pattern = /a  b/; pattern;',
 	},
+	'no-return-assign': {
+		valid: 'let value = 1; function run() { value = 2; return value; } run;',
+		invalid: 'let value = 1; function run() { return (value = 2); } run;',
+	},
 	'no-script-url': {
 		valid: "const target = 'https://example.com'; target;",
 		invalid: "const target = 'javascript:void(0)'; target;",
