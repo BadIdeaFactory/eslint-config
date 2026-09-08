@@ -50,6 +50,19 @@ const reportsInIsolation = async (
 	);
 };
 
+const rulesBelowError = () =>
+	[...firstDeclarationOfEachRule().entries()]
+		.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
+		.map(([ruleId]) => ruleId);
+
+const rulesCancelledIn = (resolved: Linter.Config | undefined) =>
+	[...firstDeclarationOfEachRule().entries()]
+		.filter(
+			([ruleId, entry]) =>
+				severityCode(resolved?.rules?.[ruleId]) !== severityCode(entry),
+		)
+		.map(([ruleId]) => ruleId);
+
 const published = new ESLint({
 	overrideConfigFile: true,
 	overrideConfig: [...configs],
@@ -57,10 +70,7 @@ const published = new ESLint({
 
 describe('the published config', () => {
 	it('ships every rule at error severity', () => {
-		const downgraded = [...firstDeclarationOfEachRule().entries()]
-			.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
-			.map(([ruleId]) => ruleId);
-		assert.deepEqual(downgraded, []);
+		assert.deepEqual(rulesBelowError(), []);
 	});
 
 	it('ships a fixture for every rule it declares', () => {
@@ -75,13 +85,7 @@ describe('the published config', () => {
 			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
 				const resolved = (await published.calculateConfigForFile(filePath)) as
 					Linter.Config | undefined;
-				const cancelled = [...firstDeclarationOfEachRule().entries()]
-					.filter(
-						([ruleId, entry]) =>
-							severityCode(resolved?.rules?.[ruleId]) !== severityCode(entry),
-					)
-					.map(([ruleId]) => ruleId);
-				assert.deepEqual(cancelled, []);
+				assert.deepEqual(rulesCancelledIn(resolved), []);
 			});
 		}
 	});

@@ -11,7 +11,7 @@ const directoriesIn = (path: string) =>
 		.sort();
 
 const sample = (path: string) =>
-	readFileSync(path, 'utf8').replace(/\r?\n$/, '');
+	readFileSync(path, 'utf8').replace(/\r?\n$/v, '');
 
 const load = (): RuleFixtures => {
 	const loaded: RuleFixtures = {};
