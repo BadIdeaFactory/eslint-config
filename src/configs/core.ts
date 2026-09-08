@@ -135,6 +135,7 @@ const core: Linter.Config = {
 		'require-atomic-updates': ['error', { allowProperties: false }],
 		'require-yield': 'error',
 		'symbol-description': 'error',
+		'unicode-bom': 'error',
 		'use-isnan': [
 			'error',
 			{ enforceForSwitchCase: true, enforceForIndexOf: true },
