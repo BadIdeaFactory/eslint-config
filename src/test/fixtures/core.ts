@@ -12,6 +12,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { default: break; case 1: break; }',
 	},
+	eqeqeq: {
+		valid: 'const value = null; if (value === null) { value; }',
+		invalid: 'const value = null; if (value == null) { value; }',
+	},
 	'for-direction': {
 		valid: 'for (let index = 0; index < 2; index += 1) { index; }',
 		invalid: 'for (let index = 0; index < 2; index -= 1) { index; }',

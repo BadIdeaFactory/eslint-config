@@ -5,6 +5,7 @@ const core: Linter.Config = {
 	rules: {
 		'constructor-super': 'error',
 		'default-case-last': 'error',
+		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
 		'guard-for-in': 'error',
 		'no-alert': 'error',
