@@ -25,8 +25,13 @@ Every rule this config sets lives in [`src/configs/`](src/configs), split by con
 and those files are the whole source of truth — if a rule is not in there, this package
 does not set it. [`src/index.ts`](src/index.ts) just composes them in order.
 
-Rules are listed with their options spelled out even where those match the rule's own
-defaults. Where we deviate from a default, the reason is written next to the rule.
+Rules carry options only where we override a rule's default. A rule that reads
+`'error'` alone takes ESLint's defaults deliberately, so anything spelled out is a
+deviation — reading [`src/configs/`](src/configs) tells you exactly where this config
+differs from ESLint's own judgement, and the reason is written next to it.
+
+Options are positional, so a default that precedes one we override stays: dropping it
+would move the option after it into the wrong slot.
 
 Every rule ships with a pair of code samples pinning the behaviour we expect from it;
 see [`src/test/`](src/test).
