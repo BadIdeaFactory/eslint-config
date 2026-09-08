@@ -118,6 +118,7 @@ const core: Linter.Config = {
 		'prefer-spread': 'error',
 		'prefer-template': 'error',
 		radix: ['error', 'always'],
+		'require-atomic-updates': ['error', { allowProperties: false }],
 		'require-yield': 'error',
 		'symbol-description': 'error',
 		'use-isnan': [

@@ -420,6 +420,12 @@ const core: RuleFixtures = {
 		valid: "const value = parseInt('1', 10); value;",
 		invalid: "const value = parseInt('1'); value;",
 	},
+	'require-atomic-updates': {
+		valid:
+			'const holder = { value: 0 }; const run = async () => { const next = await Promise.resolve(1); holder.value += next; }; run;',
+		invalid:
+			'const holder = { value: 0 }; const run = async () => { holder.value += await Promise.resolve(1); }; run;',
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
