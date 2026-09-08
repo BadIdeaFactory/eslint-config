@@ -254,6 +254,10 @@ const core: RuleFixtures = {
 		valid: 'let index = 0; while (index < 2) { index += 1; } index;',
 		invalid: 'let index = 0; while (index < 2) { null; } index;',
 	},
+	'no-unneeded-ternary': {
+		valid: 'const value = 1; const next = value ?? 2; next;',
+		invalid: 'const value = 1; const next = value ? value : 2; next;',
+	},
 	'no-unreachable': {
 		valid: 'const run = () => { return 1; }; run;',
 		invalid: 'const run = () => { return 1; null; }; run;',
