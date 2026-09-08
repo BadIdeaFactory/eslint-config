@@ -83,6 +83,10 @@ const core: Linter.Config = {
 		'prefer-template': 'error',
 		'require-yield': 'error',
 		'symbol-description': 'error',
+		'use-isnan': [
+			'error',
+			{ enforceForSwitchCase: true, enforceForIndexOf: true },
+		],
 		yoda: ['error', 'never'],
 	},
 };

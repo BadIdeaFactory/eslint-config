@@ -344,6 +344,11 @@ const core: RuleFixtures = {
 		valid: "const marker = Symbol('marker'); marker;",
 		invalid: 'const marker = Symbol(); marker;',
 	},
+	'use-isnan': {
+		valid:
+			'const values = [1]; values.findIndex((value) => Number.isNaN(value));',
+		invalid: 'const values = [1]; values.indexOf(NaN);',
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',
