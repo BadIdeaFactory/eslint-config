@@ -82,6 +82,10 @@ const core: Linter.Config = {
 		'object-shorthand': ['error', 'always'],
 		'one-var': ['error', { initialized: 'never' }],
 		'operator-assignment': ['error', 'always'],
+		'prefer-arrow-callback': [
+			'error',
+			{ allowNamedFunctions: false, allowUnboundThis: false },
+		],
 		'prefer-exponentiation-operator': 'error',
 		'prefer-named-capture-group': 'error',
 		'prefer-numeric-literals': 'error',

@@ -339,6 +339,11 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value += 1; value;',
 		invalid: 'let value = 1; value = value + 1; value;',
 	},
+	'prefer-arrow-callback': {
+		valid: 'const doubled = [1].map((value) => value); doubled;',
+		invalid:
+			'const doubled = [1].map(function double(value) { return value; }); doubled;',
+	},
 	'prefer-exponentiation-operator': {
 		valid: 'const value = 2 ** 3; value;',
 		invalid: 'const value = Math.pow(2, 3); value;',
