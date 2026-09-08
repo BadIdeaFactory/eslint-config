@@ -33,6 +33,7 @@ const core: Linter.Config = {
 			'always',
 			{ enforceForIfStatements: true },
 		],
+		'max-depth': ['error', { max: 5 }],
 		'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
 		'no-alert': 'error',
 		'no-async-promise-executor': 'error',
