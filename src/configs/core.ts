@@ -112,6 +112,7 @@ const core: Linter.Config = {
 		'no-useless-return': 'error',
 		'no-var': 'error',
 		'no-void': ['error', { allowAsStatement: true }],
+		'no-with': 'error',
 		'object-shorthand': 'error',
 		'one-var': ['error', { initialized: 'never' }],
 		'operator-assignment': 'error',
