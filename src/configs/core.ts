@@ -30,6 +30,7 @@ const core: Linter.Config = {
 		'no-dupe-else-if': 'error',
 		'no-dupe-keys': 'error',
 		'no-duplicate-case': 'error',
+		'no-empty': ['error', { allowEmptyCatch: false }],
 		'no-empty-character-class': 'error',
 		'no-empty-pattern': 'error',
 		'no-empty-static-block': 'error',

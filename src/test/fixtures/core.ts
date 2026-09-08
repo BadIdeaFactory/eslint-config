@@ -109,6 +109,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: break; case 1: break; }',
 	},
+	'no-empty': {
+		valid: 'try { null; } catch (failure) { failure; }',
+		invalid: 'try { null; } catch (failure) {}',
+	},
 	'no-empty-character-class': {
 		valid: 'const pattern = /a[b]/; pattern;',
 		invalid: 'const pattern = /a[]/; pattern;',
