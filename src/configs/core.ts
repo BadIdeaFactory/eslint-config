@@ -78,6 +78,7 @@ const core: Linter.Config = {
 		'no-useless-rename': 'error',
 		'no-useless-return': 'error',
 		'no-var': 'error',
+		'no-void': ['error', { allowAsStatement: true }],
 		'object-shorthand': ['error', 'always'],
 		'one-var': ['error', { initialized: 'never' }],
 		'operator-assignment': ['error', 'always'],

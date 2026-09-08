@@ -323,6 +323,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value;',
 		invalid: 'var value = 1; value;',
 	},
+	'no-void': {
+		valid: 'void 0;',
+		invalid: 'const value = void 0; value;',
+	},
 	'object-shorthand': {
 		valid: 'const shape = { run() { return 1; } }; shape;',
 		invalid: 'const shape = { run: function () { return 1; } }; shape;',
