@@ -415,6 +415,10 @@ const core: RuleFixtures = {
 		valid: 'const merged = { ...{ first: 1 } }; merged;',
 		invalid: 'const merged = Object.assign({}, { first: 1 }); merged;',
 	},
+	'prefer-regex-literals': {
+		valid: 'const pattern = /a/; pattern;',
+		invalid: 'const pattern = new RegExp(/a/); pattern;',
+	},
 	'prefer-rest-params': {
 		valid: 'const collect = (...values) => values; collect;',
 		invalid: 'function collect() { return arguments; } collect;',

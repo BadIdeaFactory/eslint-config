@@ -121,6 +121,7 @@ const core: Linter.Config = {
 		'prefer-numeric-literals': 'error',
 		'prefer-object-has-own': 'error',
 		'prefer-object-spread': 'error',
+		'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
 		'prefer-rest-params': 'error',
 		'prefer-spread': 'error',
 		'prefer-template': 'error',
