@@ -1,6 +1,10 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'array-callback-return': {
+		valid: '[1].forEach((value) => { value; });',
+		invalid: '[1].forEach((value) => value);',
+	},
 	'constructor-super': {
 		valid:
 			'class Base {} class Thing extends Base { constructor() { super(); } }',

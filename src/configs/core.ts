@@ -3,6 +3,10 @@ import type { Linter } from 'eslint';
 const core: Linter.Config = {
 	name: '@biffud/eslint-config/core',
 	rules: {
+		'array-callback-return': [
+			'error',
+			{ allowImplicit: false, allowVoid: false, checkForEach: true },
+		],
 		'constructor-super': 'error',
 		'default-case-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
