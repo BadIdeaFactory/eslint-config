@@ -1,25 +1,63 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'accessor-pairs': {
+		valid: 'class Thing { get value() { return 1; } }',
+		invalid: 'class Thing { set value(next) { next; } }',
+	},
+	'array-callback-return': {
+		valid: '[1].forEach((value) => { value; });',
+		invalid: '[1].forEach((value) => value);',
+	},
+	'arrow-body-style': {
+		valid: 'const make = () => ({}); make;',
+		invalid: 'const make = () => { return {}; }; make;',
+	},
+	'consistent-this': {
+		valid: 'const that = this; that;',
+		invalid: 'const self = this; self;',
+	},
 	'constructor-super': {
 		valid:
 			'class Base {} class Thing extends Base { constructor() { super(); } }',
 		invalid:
 			'class Base {} class Thing extends Base { constructor() { null; } }',
 	},
+	curly: {
+		valid: 'const value = 1; if (value) { value; }',
+		invalid: 'const value = 1; if (value) value;',
+	},
 	'default-case-last': {
 		valid: 'const value = 1; switch (value) { case 1: break; default: break; }',
 		invalid:
 			'const value = 1; switch (value) { default: break; case 1: break; }',
 	},
+	eqeqeq: {
+		valid: 'const value = null; if (value === null) { value; }',
+		invalid: 'const value = null; if (value == null) { value; }',
+	},
 	'for-direction': {
 		valid: 'for (let index = 0; index < 2; index += 1) { index; }',
 		invalid: 'for (let index = 0; index < 2; index -= 1) { index; }',
+	},
+	'grouped-accessor-pairs': {
+		valid:
+			'class Thing { get value() { return 1; } set value(next) { next; } }',
+		invalid:
+			'class Thing { set value(next) { next; } get value() { return 1; } }',
 	},
 	'guard-for-in': {
 		valid:
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
 		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
+	},
+	'logical-assignment-operators': {
+		valid: 'let value = null; value ??= 1; value;',
+		invalid: 'let value = null; if (!value) { value = 1; } value;',
+	},
+	'new-cap': {
+		valid: 'function Thing() { return 1; } const made = Thing(); made;',
+		invalid: 'function thing() { return 1; } const made = new thing(); made;',
 	},
 	'no-alert': {
 		valid: "process.stdout.write('hello');",
@@ -97,6 +135,10 @@ const core: RuleFixtures = {
 		invalid:
 			'const value = 1; switch (value) { case 1: break; case 1: break; }',
 	},
+	'no-empty': {
+		valid: 'try { null; } catch (failure) { failure; }',
+		invalid: 'try { null; } catch (failure) {}',
+	},
 	'no-empty-character-class': {
 		valid: 'const pattern = /a[b]/; pattern;',
 		invalid: 'const pattern = /a[]/; pattern;',
@@ -146,6 +188,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder[Symbol.iterator] = null;',
 		invalid: 'const holder = {}; holder.__iterator__ = null;',
 	},
+	'no-labels': {
+		valid: 'for (const value of [1]) { value; }',
+		invalid: 'outer: for (const value of [1]) { value; }',
+	},
 	'no-lone-blocks': {
 		valid: '{ const scoped = 1; scoped; }',
 		invalid: 'const value = 1; { value; }',
@@ -164,6 +210,10 @@ const core: RuleFixtures = {
 	'no-loss-of-precision': {
 		valid: 'const value = 12345; value;',
 		invalid: 'const value = 9007199254740993; value;',
+	},
+	'no-multi-assign': {
+		valid: 'let first = 1; let second = 1; first; second;',
+		invalid: 'let first; let second; first = second = 1; first; second;',
 	},
 	'no-negated-condition': {
 		valid: 'const value = 1; if (value === 1) { value; } else { null; }',
@@ -193,9 +243,17 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
 	},
+	'no-param-reassign': {
+		valid: 'const run = (holder) => holder.first; run;',
+		invalid: 'const run = (holder) => { holder.first = 1; }; run;',
+	},
 	'no-plusplus': {
 		valid: 'let count = 0; count += 1; count;',
 		invalid: 'let count = 0; count++; count;',
+	},
+	'no-promise-executor-return': {
+		valid: 'const task = new Promise((resolve) => { resolve(1); }); task;',
+		invalid: 'const task = new Promise((resolve) => resolve(1)); task;',
 	},
 	'no-proto': {
 		valid: 'const holder = {}; Object.getPrototypeOf(holder);',
@@ -209,9 +267,18 @@ const core: RuleFixtures = {
 		valid: 'const pattern = /a {2}b/; pattern;',
 		invalid: 'const pattern = /a  b/; pattern;',
 	},
+	'no-return-assign': {
+		valid: 'let value = 1; function run() { value = 2; return value; } run;',
+		invalid: 'let value = 1; function run() { return (value = 2); } run;',
+	},
 	'no-script-url': {
 		valid: "const target = 'https://example.com'; target;",
 		invalid: "const target = 'javascript:void(0)'; target;",
+	},
+	'no-self-assign': {
+		valid:
+			'const holder = { first: 1, second: 2 }; holder.first = holder.second;',
+		invalid: 'const holder = { first: 1 }; holder.first = holder.first;',
 	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
@@ -245,8 +312,12 @@ const core: RuleFixtures = {
 		valid: 'let index = 0; while (index < 2) { index += 1; } index;',
 		invalid: 'let index = 0; while (index < 2) { null; } index;',
 	},
+	'no-unneeded-ternary': {
+		valid: 'const value = 1; const next = value ?? 2; next;',
+		invalid: 'const value = 1; const next = value ? value : 2; next;',
+	},
 	'no-unreachable': {
-		valid: 'const run = () => { return 1; }; run;',
+		valid: 'const run = () => { null; }; run;',
 		invalid: 'const run = () => { return 1; null; }; run;',
 	},
 	'no-unreachable-loop': {
@@ -298,6 +369,27 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value;',
 		invalid: 'var value = 1; value;',
 	},
+	'no-void': {
+		valid: 'void 0;',
+		invalid: 'const value = void 0; value;',
+	},
+	'object-shorthand': {
+		valid: 'const shape = { run() { return 1; } }; shape;',
+		invalid: 'const shape = { run: function () { return 1; } }; shape;',
+	},
+	'one-var': {
+		valid: 'let first = 1; let second = 2; first; second;',
+		invalid: 'let first = 1, second = 2; first; second;',
+	},
+	'operator-assignment': {
+		valid: 'let value = 1; value += 1; value;',
+		invalid: 'let value = 1; value = value + 1; value;',
+	},
+	'prefer-arrow-callback': {
+		valid: 'const doubled = [1].map((value) => value); doubled;',
+		invalid:
+			'const doubled = [1].map(function double(value) { return value; }); doubled;',
+	},
 	'prefer-exponentiation-operator': {
 		valid: 'const value = 2 ** 3; value;',
 		invalid: 'const value = Math.pow(2, 3); value;',
@@ -332,6 +424,16 @@ const core: RuleFixtures = {
 		valid: 'const name = 1; const text = `a${name}`; text;',
 		invalid: "const name = 1; const text = 'a' + name; text;",
 	},
+	radix: {
+		valid: "const value = parseInt('1', 10); value;",
+		invalid: "const value = parseInt('1'); value;",
+	},
+	'require-atomic-updates': {
+		valid:
+			'const holder = { value: 0 }; const run = async () => { const next = await Promise.resolve(1); holder.value += next; }; run;',
+		invalid:
+			'const holder = { value: 0 }; const run = async () => { holder.value += await Promise.resolve(1); }; run;',
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',
@@ -339,6 +441,16 @@ const core: RuleFixtures = {
 	'symbol-description': {
 		valid: "const marker = Symbol('marker'); marker;",
 		invalid: 'const marker = Symbol(); marker;',
+	},
+	'use-isnan': {
+		valid:
+			'const values = [1]; values.findIndex((value) => Number.isNaN(value));',
+		invalid: 'const values = [1]; values.indexOf(NaN);',
+	},
+	'valid-typeof': {
+		valid: "const value = 1; if (typeof value === 'number') { value; }",
+		invalid:
+			"const value = 1; const expected = 'number'; if (typeof value === expected) { value; }",
 	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
