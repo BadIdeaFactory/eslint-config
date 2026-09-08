@@ -70,6 +70,7 @@ const core: Linter.Config = {
 		'no-extra-boolean-cast': 'error',
 		'no-fallthrough': 'error',
 		'no-func-assign': 'error',
+		'no-import-assign': 'error',
 		'no-invalid-regexp': 'error',
 		'no-irregular-whitespace': 'error',
 		'no-iterator': 'error',
