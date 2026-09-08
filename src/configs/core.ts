@@ -134,6 +134,7 @@ const core: Linter.Config = {
 		radix: ['error', 'always'],
 		'require-atomic-updates': ['error', { allowProperties: false }],
 		'require-yield': 'error',
+		strict: 'error',
 		'symbol-description': 'error',
 		'unicode-bom': 'error',
 		'use-isnan': [
