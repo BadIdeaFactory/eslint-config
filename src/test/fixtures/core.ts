@@ -349,6 +349,11 @@ const core: RuleFixtures = {
 			'const values = [1]; values.findIndex((value) => Number.isNaN(value));',
 		invalid: 'const values = [1]; values.indexOf(NaN);',
 	},
+	'valid-typeof': {
+		valid: "const value = 1; if (typeof value === 'number') { value; }",
+		invalid:
+			"const value = 1; const expected = 'number'; if (typeof value === expected) { value; }",
+	},
 	yoda: {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const value = 1; if (1 === value) { value; }',

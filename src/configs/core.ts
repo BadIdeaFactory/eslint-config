@@ -87,6 +87,7 @@ const core: Linter.Config = {
 			'error',
 			{ enforceForSwitchCase: true, enforceForIndexOf: true },
 		],
+		'valid-typeof': ['error', { requireStringLiterals: true }],
 		yoda: ['error', 'never'],
 	},
 };
