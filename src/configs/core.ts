@@ -79,6 +79,7 @@ const core: Linter.Config = {
 		'no-new-wrappers': 'error',
 		'no-obj-calls': 'error',
 		'no-object-constructor': 'error',
+		'no-octal': 'error',
 		'no-param-reassign': ['error', { props: true }],
 		'no-plusplus': 'error',
 		'no-promise-executor-return': 'error',
