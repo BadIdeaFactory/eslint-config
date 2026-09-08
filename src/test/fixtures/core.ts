@@ -108,6 +108,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const values = [1]; if (values === []) { values; }',
 	},
+	'no-constant-condition': {
+		valid: 'while (true) { break; }',
+		invalid: 'if (true) { null; }',
+	},
 	'no-constructor-return': {
 		valid: 'class Thing { constructor() { this.ready = true; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
