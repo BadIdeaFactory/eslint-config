@@ -82,6 +82,7 @@ const core: Linter.Config = {
 		'no-obj-calls': 'error',
 		'no-object-constructor': 'error',
 		'no-octal': 'error',
+		'no-octal-escape': 'error',
 		'no-param-reassign': ['error', { props: true }],
 		'no-plusplus': 'error',
 		'no-promise-executor-return': 'error',
