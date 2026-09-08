@@ -373,6 +373,10 @@ const core: RuleFixtures = {
 		valid: 'const name = 1; const text = `a${name}`; text;',
 		invalid: "const name = 1; const text = 'a' + name; text;",
 	},
+	radix: {
+		valid: "const value = parseInt('1', 10); value;",
+		invalid: "const value = parseInt('1'); value;",
+	},
 	'require-yield': {
 		valid: 'function* items() { yield 1; } items;',
 		invalid: 'function* items() { return 1; } items;',

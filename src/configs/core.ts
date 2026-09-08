@@ -90,6 +90,7 @@ const core: Linter.Config = {
 		'prefer-rest-params': 'error',
 		'prefer-spread': 'error',
 		'prefer-template': 'error',
+		radix: ['error', 'always'],
 		'require-yield': 'error',
 		'symbol-description': 'error',
 		'use-isnan': [
