@@ -37,6 +37,10 @@ const core: RuleFixtures = {
 		valid: 'let value = null; value ??= 1; value;',
 		invalid: 'let value = null; if (!value) { value = 1; } value;',
 	},
+	'new-cap': {
+		valid: 'function Thing() { return 1; } const made = Thing(); made;',
+		invalid: 'function thing() { return 1; } const made = new thing(); made;',
+	},
 	'no-alert': {
 		valid: "process.stdout.write('hello');",
 		invalid: "alert('hello');",
