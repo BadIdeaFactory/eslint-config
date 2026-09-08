@@ -23,6 +23,10 @@ const core: RuleFixtures = {
 		invalid:
 			'class Base {} class Thing extends Base { constructor() { null; } }',
 	},
+	curly: {
+		valid: 'const value = 1; if (value) { value; }',
+		invalid: 'const value = 1; if (value) value;',
+	},
 	'default-case-last': {
 		valid: 'const value = 1; switch (value) { case 1: break; default: break; }',
 		invalid:

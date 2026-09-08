@@ -22,6 +22,7 @@ const core: Linter.Config = {
 		],
 		'consistent-this': ['error', 'that'],
 		'constructor-super': 'error',
+		curly: ['error', 'all'],
 		'default-case-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
