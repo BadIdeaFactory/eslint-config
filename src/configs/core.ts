@@ -13,6 +13,11 @@ const core: Linter.Config = {
 		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
 		'guard-for-in': 'error',
+		'logical-assignment-operators': [
+			'error',
+			'always',
+			{ enforceForIfStatements: true },
+		],
 		'no-alert': 'error',
 		'no-async-promise-executor': 'error',
 		'no-await-in-loop': 'error',

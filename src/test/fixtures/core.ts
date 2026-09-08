@@ -33,6 +33,10 @@ const core: RuleFixtures = {
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
 		invalid: 'const source = { a: 1 }; for (const key in source) { key; }',
 	},
+	'logical-assignment-operators': {
+		valid: 'let value = null; value ??= 1; value;',
+		invalid: 'let value = null; if (!value) { value = 1; } value;',
+	},
 	'no-alert': {
 		valid: "process.stdout.write('hello');",
 		invalid: "alert('hello');",
