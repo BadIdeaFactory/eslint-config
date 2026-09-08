@@ -75,6 +75,7 @@ const core: Linter.Config = {
 		'no-useless-rename': 'error',
 		'no-useless-return': 'error',
 		'no-var': 'error',
+		'operator-assignment': ['error', 'always'],
 		'prefer-exponentiation-operator': 'error',
 		'prefer-named-capture-group': 'error',
 		'prefer-numeric-literals': 'error',

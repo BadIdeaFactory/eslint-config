@@ -311,6 +311,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value;',
 		invalid: 'var value = 1; value;',
 	},
+	'operator-assignment': {
+		valid: 'let value = 1; value += 1; value;',
+		invalid: 'let value = 1; value = value + 1; value;',
+	},
 	'prefer-exponentiation-operator': {
 		valid: 'const value = 2 ** 3; value;',
 		invalid: 'const value = Math.pow(2, 3); value;',
