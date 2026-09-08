@@ -123,6 +123,7 @@ const core: Linter.Config = {
 			'error',
 			{ allowNamedFunctions: false, allowUnboundThis: false },
 		],
+		'prefer-const': 'error',
 		'prefer-exponentiation-operator': 'error',
 		'prefer-named-capture-group': 'error',
 		'prefer-numeric-literals': 'error',
