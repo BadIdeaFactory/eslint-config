@@ -10,6 +10,11 @@ expecting.
 `src/configs/` and `fixtures/`. Adding a rule generally should not require writing a
 new test, but it will usually involve adding a new fixture.
 
+Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so a
+sample that needs more than one line — or a character that would otherwise have to be
+escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and `tsc`,
+since the samples are deliberately malformed.
+
 The suite resolves `configs` on its own, with nothing layered on top. What a consumer
 stacks around us is their business and outside our control; what we can and should
 check is that our own modules do not cancel each other out, and that every rule
@@ -22,7 +27,8 @@ declared in `src/configs/` and the set of rules with fixtures are the same set, 
 adding one without the other fails.
 
 1. Add the rule to the matching module in `src/configs/`.
-2. Add a fixture to the matching file in `fixtures/`.
+2. Add a folder to the matching rule set in `fixtures/`, holding `valid.ts` and
+   `invalid.ts`.
 
 The two directories are split along the same seams on purpose, so that contributors
 working on unrelated areas of the config are rarely editing the same file.

@@ -100,13 +100,24 @@ src/
 ├── index.ts            # Composes the modules; exports `configs`
 └── test/               # See src/test/README.md
     ├── config.test.ts  # One generic harness; derives everything it runs
-    └── fixtures/       # Per-rule sample pairs, split on the same seams
+    └── fixtures/
+        ├── index.ts    # Reads the samples off disk
+        └── core/       # One folder per rule, holding its two samples
+            └── yoda/
+                ├── valid.ts
+                └── invalid.ts
 ```
 
 `src/configs/` and `src/test/fixtures/` are split along the same seams
 deliberately, so contributors working on unrelated areas rarely touch the same
-file. Adding a rule means editing one module and one fixture file — never
+file. Adding a rule means editing one module and adding two files — never
 writing a new test.
+
+The samples are real files rather than string literals so that a multi-line
+one, or one carrying an irregular character, reads as the code it is. They are
+deliberately malformed, so the directory is ignored by Prettier, ESLint and
+`tsc`; Prettier does not repair lint violations but it does reflow lines, and
+several rules are about line structure.
 
 The structure will grow as the config does. Update this section when it does.
 
