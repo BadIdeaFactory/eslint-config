@@ -41,6 +41,7 @@ const core: Linter.Config = {
 		'no-lonely-if': 'error',
 		'no-loop-func': 'error',
 		'no-loss-of-precision': 'error',
+		'no-multi-assign': ['error', { ignoreNonDeclaration: false }],
 		'no-negated-condition': 'error',
 		'no-new': 'error',
 		'no-new-func': 'error',

@@ -169,6 +169,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 12345; value;',
 		invalid: 'const value = 9007199254740993; value;',
 	},
+	'no-multi-assign': {
+		valid: 'let first = 1; let second = 1; first; second;',
+		invalid: 'let first; let second; first = second = 1; first; second;',
+	},
 	'no-negated-condition': {
 		valid: 'const value = 1; if (value === 1) { value; } else { null; }',
 		invalid: 'const value = 1; if (value !== 1) { value; } else { null; }',
