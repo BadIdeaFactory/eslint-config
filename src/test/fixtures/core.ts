@@ -217,6 +217,11 @@ const core: RuleFixtures = {
 		valid: "const target = 'https://example.com'; target;",
 		invalid: "const target = 'javascript:void(0)'; target;",
 	},
+	'no-self-assign': {
+		valid:
+			'const holder = { first: 1, second: 2 }; holder.first = holder.second;',
+		invalid: 'const holder = { first: 1 }; holder.first = holder.first;',
+	},
 	'no-self-compare': {
 		valid: 'const value = 1; if (value === 2) { value; }',
 		invalid: 'const value = 1; if (value === value) { value; }',

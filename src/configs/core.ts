@@ -53,6 +53,7 @@ const core: Linter.Config = {
 		'no-prototype-builtins': 'error',
 		'no-regex-spaces': 'error',
 		'no-script-url': 'error',
+		'no-self-assign': ['error', { props: true }],
 		'no-self-compare': 'error',
 		'no-sequences': 'error',
 		'no-shadow-restricted-names': 'error',
