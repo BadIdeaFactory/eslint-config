@@ -74,6 +74,14 @@ export default defineConfig([
 		},
 	},
 	{
+		// Fixtures hold sample code as string data, and this rule reads inside
+		// string literals, so it cannot tell a sample from a mistake here.
+		files: ['src/test/fixtures/**/*.ts'],
+		rules: {
+			'no-template-curly-in-string': 'off',
+		},
+	},
+	{
 		files: ['**/*.test.ts', 'src/test/**/*.ts'],
 		rules: {
 			// Forcing return type definitions in our ad-hoc test functions is not
