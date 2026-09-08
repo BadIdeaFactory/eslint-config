@@ -229,6 +229,10 @@ const core: RuleFixtures = {
 		valid: 'let count = 0; count += 1; count;',
 		invalid: 'let count = 0; count++; count;',
 	},
+	'no-promise-executor-return': {
+		valid: 'const task = new Promise((resolve) => { resolve(1); }); task;',
+		invalid: 'const task = new Promise((resolve) => resolve(1)); task;',
+	},
 	'no-proto': {
 		valid: 'const holder = {}; Object.getPrototypeOf(holder);',
 		invalid: 'const holder = {}; holder.__proto__;',
