@@ -311,6 +311,10 @@ const core: RuleFixtures = {
 		valid: 'let value = 1; value;',
 		invalid: 'var value = 1; value;',
 	},
+	'object-shorthand': {
+		valid: 'const shape = { run() { return 1; } }; shape;',
+		invalid: 'const shape = { run: function () { return 1; } }; shape;',
+	},
 	'operator-assignment': {
 		valid: 'let value = 1; value += 1; value;',
 		invalid: 'let value = 1; value = value + 1; value;',
