@@ -201,6 +201,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder;',
 		invalid: 'const holder = new Object(); holder;',
 	},
+	'no-param-reassign': {
+		valid: 'const run = (holder) => holder.first; run;',
+		invalid: 'const run = (holder) => { holder.first = 1; }; run;',
+	},
 	'no-plusplus': {
 		valid: 'let count = 0; count += 1; count;',
 		invalid: 'let count = 0; count++; count;',
