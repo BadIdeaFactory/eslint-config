@@ -108,6 +108,10 @@ const core: RuleFixtures = {
 		valid: 'const value = 1; if (value === 1) { value; }',
 		invalid: 'const values = [1]; if (values === []) { values; }',
 	},
+	'no-constant-condition': {
+		valid: 'while (true) { break; }',
+		invalid: 'if (true) { null; }',
+	},
 	'no-constructor-return': {
 		valid: 'class Thing { constructor() { this.ready = true; } }',
 		invalid: 'class Thing { constructor() { return 1; } }',
@@ -410,6 +414,10 @@ const core: RuleFixtures = {
 	'prefer-object-spread': {
 		valid: 'const merged = { ...{ first: 1 } }; merged;',
 		invalid: 'const merged = Object.assign({}, { first: 1 }); merged;',
+	},
+	'prefer-regex-literals': {
+		valid: 'const pattern = /a/; pattern;',
+		invalid: 'const pattern = new RegExp(/a/); pattern;',
 	},
 	'prefer-rest-params': {
 		valid: 'const collect = (...values) => values; collect;',

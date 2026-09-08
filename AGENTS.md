@@ -405,6 +405,13 @@ more tightly than a restatement would, and unlike a restatement it cannot be
 brought back into agreement by copying a value across. Resist any suggestion to
 add an expected-rules table; it would be a second copy of the config.
 
+Behaviour is checked one rule at a time — always, with no opt-out — and
+composition separately, by resolving the config and asserting no rule arrives
+below the severity it declares. Those answer different questions, and conflating
+them cost us: while every sample was linted against everything, adding a rule
+meant editing unrelated samples it happened to also report, and two rules that
+necessarily fire on the same code could not both be demonstrated at all.
+
 The suite resolves `configs` on its own. Layering a third-party config into it
 (`eslint-config-prettier` was the tempting one) tests that dependency rather
 than us: it would turn the suite red when _they_ changed their disable list,
