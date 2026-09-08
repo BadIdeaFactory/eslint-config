@@ -15,6 +15,11 @@ const core: Linter.Config = {
 			'error',
 			{ allowImplicit: false, allowVoid: false, checkForEach: true },
 		],
+		'arrow-body-style': [
+			'error',
+			'as-needed',
+			{ requireReturnForObjectLiteral: false },
+		],
 		'consistent-this': ['error', 'that'],
 		'constructor-super': 'error',
 		'default-case-last': 'error',

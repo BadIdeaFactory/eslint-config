@@ -9,6 +9,10 @@ const core: RuleFixtures = {
 		valid: '[1].forEach((value) => { value; });',
 		invalid: '[1].forEach((value) => value);',
 	},
+	'arrow-body-style': {
+		valid: 'const make = () => ({}); make;',
+		invalid: 'const make = () => { return {}; }; make;',
+	},
 	'consistent-this': {
 		valid: 'const that = this; that;',
 		invalid: 'const self = this; self;',
@@ -309,7 +313,7 @@ const core: RuleFixtures = {
 		invalid: 'const value = 1; const next = value ? value : 2; next;',
 	},
 	'no-unreachable': {
-		valid: 'const run = () => { return 1; }; run;',
+		valid: 'const run = () => { null; }; run;',
 		invalid: 'const run = () => { return 1; null; }; run;',
 	},
 	'no-unreachable-loop': {
