@@ -32,6 +32,12 @@ const core: RuleFixtures = {
 		valid: 'for (let index = 0; index < 2; index += 1) { index; }',
 		invalid: 'for (let index = 0; index < 2; index -= 1) { index; }',
 	},
+	'grouped-accessor-pairs': {
+		valid:
+			'class Thing { get value() { return 1; } set value(next) { next; } }',
+		invalid:
+			'class Thing { set value(next) { next; } get value() { return 1; } }',
+	},
 	'guard-for-in': {
 		valid:
 			'const source = { a: 1 }; for (const key of Object.keys(source)) { key; }',
