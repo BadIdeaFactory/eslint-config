@@ -158,6 +158,10 @@ const core: RuleFixtures = {
 		valid: 'const holder = {}; holder[Symbol.iterator] = null;',
 		invalid: 'const holder = {}; holder.__iterator__ = null;',
 	},
+	'no-labels': {
+		valid: 'for (const value of [1]) { value; }',
+		invalid: 'outer: for (const value of [1]) { value; }',
+	},
 	'no-lone-blocks': {
 		valid: '{ const scoped = 1; scoped; }',
 		invalid: 'const value = 1; { value; }',

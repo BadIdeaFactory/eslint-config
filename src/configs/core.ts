@@ -42,6 +42,7 @@ const core: Linter.Config = {
 		'no-func-assign': 'error',
 		'no-invalid-regexp': 'error',
 		'no-iterator': 'error',
+		'no-labels': ['error', { allowLoop: false, allowSwitch: false }],
 		'no-lone-blocks': 'error',
 		'no-lonely-if': 'error',
 		'no-loop-func': 'error',
