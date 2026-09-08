@@ -20,6 +20,7 @@ const core: Linter.Config = {
 			'as-needed',
 			{ requireReturnForObjectLiteral: false },
 		],
+		complexity: ['error', { variant: 'modified', max: 10 }],
 		'consistent-this': ['error', 'that'],
 		'constructor-super': 'error',
 		curly: ['error', 'all'],
