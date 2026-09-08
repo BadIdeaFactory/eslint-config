@@ -76,6 +76,7 @@ const core: Linter.Config = {
 		'no-useless-return': 'error',
 		'no-var': 'error',
 		'object-shorthand': ['error', 'always'],
+		'one-var': ['error', { initialized: 'never' }],
 		'operator-assignment': ['error', 'always'],
 		'prefer-exponentiation-operator': 'error',
 		'prefer-named-capture-group': 'error',
