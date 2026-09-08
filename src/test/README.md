@@ -41,11 +41,13 @@ options — the pair constrains them more tightly than a restatement would, and 
 restatement it cannot be brought back into agreement by copying a value across.
 
 A pair that reads the same whichever option is set documents nothing. Check that it
-actually inverts before you commit it.
+actually inverts before you commit it — nothing enforces this, so it is on you.
 
-Keep samples to one line and free of anything the rule under test does not need. Every
-sample is linted by the whole config, so an unrelated violation inside one surfaces as
-a confusing failure of the rule you are adding.
+Keep samples to one line and free of anything the rule under test does not need. Each
+sample is linted against **that rule alone**, always, so an unrelated violation inside
+one is harmless: a `while (true)` in the `no-constant-condition` sample does not have
+to answer to `no-unreachable-loop`. It was once otherwise, and adding a rule then meant
+editing unrelated samples that happened to also report it.
 
 ## Every rule is an error
 

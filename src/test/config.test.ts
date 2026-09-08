@@ -9,16 +9,19 @@ const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
 
 const SAMPLE_PATHS = ['sample.js', 'sample.ts'];
 
-const published = new ESLint({
-	overrideConfigFile: true,
-	overrideConfig: [...configs],
-});
+const withoutRules = (config: Linter.Config): Linter.Config => {
+	const copy = { ...config };
+	delete copy.rules;
+	return copy;
+};
 
-const declaredRules = () => {
+const languageSetupOnly = configs.map(withoutRules);
+
+const firstDeclarationOfEachRule = () => {
 	const declared = new Map<string, Linter.RuleEntry>();
 	for (const config of configs) {
 		for (const [ruleId, entry] of Object.entries(config.rules ?? {})) {
-			if (entry !== undefined) {
+			if (entry !== undefined && !declared.has(ruleId)) {
 				declared.set(ruleId, entry);
 			}
 		}
@@ -26,22 +29,35 @@ const declaredRules = () => {
 	return declared;
 };
 
-// Rules are declared as `'error'` but resolve to `2`.
 const severityCode = (entry: Linter.RuleEntry | undefined) => {
 	const severity = Array.isArray(entry) ? entry[0] : entry;
 	return typeof severity === 'string' ? SEVERITY_CODES[severity] : severity;
 };
 
-const report = async (source: string, filePath: string) => {
-	const [result] = await published.lintText(source, { filePath });
+const reportsInIsolation = async (
+	ruleId: string,
+	entry: Linter.RuleEntry,
+	source: string,
+	filePath: string,
+) => {
+	const linter = new ESLint({
+		overrideConfigFile: true,
+		overrideConfig: [...languageSetupOnly, { rules: { [ruleId]: entry } }],
+	});
+	const [result] = await linter.lintText(source, { filePath });
 	return (result?.messages ?? []).map(
 		(message) => message.ruleId ?? `parse error: ${message.message}`,
 	);
 };
 
+const published = new ESLint({
+	overrideConfigFile: true,
+	overrideConfig: [...configs],
+});
+
 describe('the published config', () => {
 	it('ships every rule at error severity', () => {
-		const downgraded = [...declaredRules().entries()]
+		const downgraded = [...firstDeclarationOfEachRule().entries()]
 			.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
 			.map(([ruleId]) => ruleId);
 		assert.deepEqual(downgraded, []);
@@ -49,32 +65,44 @@ describe('the published config', () => {
 
 	it('ships a fixture for every rule it declares', () => {
 		assert.deepEqual(
-			[...declaredRules().keys()].sort(),
+			[...firstDeclarationOfEachRule().keys()].sort(),
 			Object.keys(fixtures).sort(),
 		);
 	});
 
+	describe('survives its own composition', () => {
+		for (const filePath of SAMPLE_PATHS) {
+			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
+				const resolved = (await published.calculateConfigForFile(filePath)) as
+					Linter.Config | undefined;
+				const cancelled = [...firstDeclarationOfEachRule().entries()]
+					.filter(
+						([ruleId, entry]) =>
+							severityCode(resolved?.rules?.[ruleId]) !== severityCode(entry),
+					)
+					.map(([ruleId]) => ruleId);
+				assert.deepEqual(cancelled, []);
+			});
+		}
+	});
+
 	for (const [ruleId, { valid, invalid }] of Object.entries(fixtures)) {
+		const entry = firstDeclarationOfEachRule().get(ruleId) ?? 'error';
+
 		describe(ruleId, () => {
 			for (const filePath of SAMPLE_PATHS) {
-				it(`reaches ${filePath} at the declared severity`, async () => {
-					// ESLint types `calculateConfigForFile` as `Promise<any>`.
-					const resolved = (await published.calculateConfigForFile(
-						filePath,
-					)) as Linter.Config | undefined;
-					assert.equal(
-						severityCode(resolved?.rules?.[ruleId]),
-						severityCode(declaredRules().get(ruleId)),
-						`${ruleId} does not reach ${filePath} at the severity it declares`,
+				it(`reports the invalid sample in ${filePath}`, async () => {
+					assert.deepEqual(
+						await reportsInIsolation(ruleId, entry, invalid, filePath),
+						[ruleId],
 					);
 				});
 
-				it(`reports the invalid sample in ${filePath}`, async () => {
-					assert.deepEqual(await report(invalid, filePath), [ruleId]);
-				});
-
 				it(`leaves the valid sample alone in ${filePath}`, async () => {
-					assert.deepEqual(await report(valid, filePath), []);
+					assert.deepEqual(
+						await reportsInIsolation(ruleId, entry, valid, filePath),
+						[],
+					);
 				});
 			}
 		});
