@@ -5,6 +5,10 @@ const core: RuleFixtures = {
 		valid: '[1].forEach((value) => { value; });',
 		invalid: '[1].forEach((value) => value);',
 	},
+	'consistent-this': {
+		valid: 'const that = this; that;',
+		invalid: 'const self = this; self;',
+	},
 	'constructor-super': {
 		valid:
 			'class Base {} class Thing extends Base { constructor() { super(); } }',

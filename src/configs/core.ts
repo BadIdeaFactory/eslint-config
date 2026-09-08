@@ -7,6 +7,7 @@ const core: Linter.Config = {
 			'error',
 			{ allowImplicit: false, allowVoid: false, checkForEach: true },
 		],
+		'consistent-this': ['error', 'that'],
 		'constructor-super': 'error',
 		'default-case-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
