@@ -9,7 +9,7 @@ import biffudConfigs from './src/index.ts';
 // How this repository lints itself. Rules this package publishes come from
 // `./src`; anything still inline below has yet to move there.
 export default defineConfig([
-	globalIgnores(['dist/']),
+	globalIgnores(['dist/', 'src/test/fixtures/*/*/']),
 	js.configs.recommended,
 	tsConfigs.strictTypeChecked,
 	tsConfigs.stylisticTypeChecked,
@@ -71,14 +71,6 @@ export default defineConfig([
 					},
 				},
 			],
-		},
-	},
-	{
-		// Fixtures hold sample code as string data, and this rule reads inside
-		// string literals, so it cannot tell a sample from a mistake here.
-		files: ['src/test/fixtures/**/*.ts'],
-		rules: {
-			'no-template-curly-in-string': 'off',
 		},
 	},
 	{

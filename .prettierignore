@@ -1,0 +1,3 @@
+# Fixture samples are deliberately malformed. Prettier does not repair lint
+# violations, but it reflows lines, and some rules are about line structure.
+src/test/fixtures/*/*/
