@@ -35,6 +35,10 @@ const core: Linter.Config = {
 			{ enforceForIfStatements: true },
 		],
 		'max-depth': ['error', { max: 5 }],
+		'max-lines': [
+			'error',
+			{ max: 450, skipBlankLines: true, skipComments: true },
+		],
 		'max-nested-callbacks': ['error', { max: 3 }],
 		'new-cap': ['error', { newIsCap: true, capIsNew: false, properties: true }],
 		'no-alert': 'error',
