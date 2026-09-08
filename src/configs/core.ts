@@ -3,6 +3,14 @@ import type { Linter } from 'eslint';
 const core: Linter.Config = {
 	name: '@biffud/eslint-config/core',
 	rules: {
+		'accessor-pairs': [
+			'error',
+			{
+				setWithoutGet: true,
+				getWithoutSet: false,
+				enforceForClassMembers: true,
+			},
+		],
 		'array-callback-return': [
 			'error',
 			{ allowImplicit: false, allowVoid: false, checkForEach: true },

@@ -1,6 +1,10 @@
 import type { RuleFixtures } from './types.ts';
 
 const core: RuleFixtures = {
+	'accessor-pairs': {
+		valid: 'class Thing { get value() { return 1; } }',
+		invalid: 'class Thing { set value(next) { next; } }',
+	},
 	'array-callback-return': {
 		valid: '[1].forEach((value) => { value; });',
 		invalid: '[1].forEach((value) => value);',
