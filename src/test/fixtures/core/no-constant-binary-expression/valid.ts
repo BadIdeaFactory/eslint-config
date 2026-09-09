@@ -1,1 +1,4 @@
-const value = 1; if (value === 1) { value; }
+const value = 1;
+if (value === 1) {
+	value;
+}

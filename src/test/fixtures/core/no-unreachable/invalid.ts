@@ -1,1 +1,5 @@
-const run = () => { return 1; null; }; run;
+const run = () => {
+	return 1;
+	null;
+};
+run;

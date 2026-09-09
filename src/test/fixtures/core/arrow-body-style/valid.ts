@@ -1,1 +1,2 @@
-const make = () => ({}); make;
+const make = () => ({});
+make;

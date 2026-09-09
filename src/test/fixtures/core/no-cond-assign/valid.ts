@@ -1,1 +1,4 @@
-let value = 1; if (value === 2) { value; }
+let value = 1;
+if (value === 2) {
+	value;
+}

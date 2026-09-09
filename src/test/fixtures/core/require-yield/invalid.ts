@@ -1,1 +1,4 @@
-function* items() { return 1; } items;
+function* items() {
+	return 1;
+}
+items;

@@ -1,1 +1,2 @@
-const pattern = new RegExp('['); pattern;
+const pattern = new RegExp('[');
+pattern;

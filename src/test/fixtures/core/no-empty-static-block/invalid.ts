@@ -1,1 +1,3 @@
-class Thing { static {} }
+class Thing {
+	static {}
+}

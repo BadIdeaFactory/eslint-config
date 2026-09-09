@@ -1,1 +1,6 @@
-class Base {} class Thing extends Base { constructor() { super(); } }
+class Base {}
+class Thing extends Base {
+	constructor() {
+		super();
+	}
+}

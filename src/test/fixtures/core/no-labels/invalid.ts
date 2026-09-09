@@ -1,1 +1,3 @@
-outer: for (const value of [1]) { value; }
+outer: for (const value of [1]) {
+	value;
+}

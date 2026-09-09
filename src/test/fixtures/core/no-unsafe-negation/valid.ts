@@ -1,1 +1,4 @@
-const holder = {}; if (!('first' in holder)) { holder; }
+const holder = {};
+if (!('first' in holder)) {
+	holder;
+}

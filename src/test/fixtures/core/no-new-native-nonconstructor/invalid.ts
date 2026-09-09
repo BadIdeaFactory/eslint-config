@@ -1,1 +1,2 @@
-const marker = new Symbol('marker'); marker;
+const marker = new Symbol('marker');
+marker;

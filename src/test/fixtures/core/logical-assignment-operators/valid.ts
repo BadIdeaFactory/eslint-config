@@ -1,1 +1,3 @@
-let value = null; value ??= 1; value;
+let value = null;
+value ??= 1;
+value;

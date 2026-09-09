@@ -1,1 +1,2 @@
-class Thing {} Thing = null;
+class Thing {}
+Thing = null;

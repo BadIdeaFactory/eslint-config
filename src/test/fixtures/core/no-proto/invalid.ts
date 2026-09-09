@@ -1,1 +1,2 @@
-const holder = {}; holder.__proto__;
+const holder = {};
+holder.__proto__;

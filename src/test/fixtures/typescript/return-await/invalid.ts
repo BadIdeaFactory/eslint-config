@@ -1,1 +1,3 @@
-const resolved = async () => { return Promise.resolve(1); };
+const resolved = async () => {
+	return Promise.resolve(1);
+};

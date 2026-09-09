@@ -1,1 +1,3 @@
-class Thing {} const made = new Thing(); made;
+class Thing {}
+const made = new Thing();
+made;

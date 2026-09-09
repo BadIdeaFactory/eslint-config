@@ -1,1 +1,2 @@
-const source = '{}'; eval(source);
+const source = '{}';
+eval(source);

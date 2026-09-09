@@ -1,1 +1,2 @@
-const pattern = /(?<letter>a)/; pattern;
+const pattern = /(?<letter>a)/;
+pattern;

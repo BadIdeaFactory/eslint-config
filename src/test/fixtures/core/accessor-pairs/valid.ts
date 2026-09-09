@@ -1,1 +1,5 @@
-class Thing { get value() { return 1; } }
+class Thing {
+	get value() {
+		return 1;
+	}
+}

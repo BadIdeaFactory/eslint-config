@@ -1,1 +1,2 @@
-const value = 1; value = 2;
+const value = 1;
+value = 2;

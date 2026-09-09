@@ -1,1 +1,3 @@
-[1].forEach((value) => { value; });
+[1].forEach((value) => {
+	value;
+});

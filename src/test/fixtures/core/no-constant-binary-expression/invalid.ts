@@ -1,1 +1,4 @@
-const values = [1]; if (values === []) { values; }
+const values = [1];
+if (values === []) {
+	values;
+}

@@ -1,1 +1,3 @@
-for (const value of [1]) { value; }
+for (const value of [1]) {
+	value;
+}

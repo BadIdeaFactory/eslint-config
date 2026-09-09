@@ -1,1 +1,2 @@
-const show = (value) => value; show.call(null, 1);
+const show = (value) => value;
+show.call(null, 1);

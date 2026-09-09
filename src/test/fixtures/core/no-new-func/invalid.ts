@@ -1,1 +1,2 @@
-const make = new Function('return 1'); make;
+const make = new Function('return 1');
+make;

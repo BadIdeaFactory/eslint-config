@@ -1,1 +1,3 @@
-let count = 0; count++; count;
+let count = 0;
+count++;
+count;

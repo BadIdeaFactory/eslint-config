@@ -1,1 +1,8 @@
-class Thing { set value(next) { next; } get value() { return 1; } }
+class Thing {
+	set value(next) {
+		next;
+	}
+	get value() {
+		return 1;
+	}
+}

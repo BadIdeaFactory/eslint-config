@@ -1,1 +1,2 @@
-const holder = {}; holder.__iterator__ = null;
+const holder = {};
+holder.__iterator__ = null;

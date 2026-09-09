@@ -1,1 +1,5 @@
-try { null; } catch (failure) { failure = null; }
+try {
+	null;
+} catch (failure) {
+	failure = null;
+}

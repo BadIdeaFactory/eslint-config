@@ -1,1 +1,2 @@
-const values = [1]; values.indexOf(NaN);
+const values = [1];
+values.indexOf(NaN);

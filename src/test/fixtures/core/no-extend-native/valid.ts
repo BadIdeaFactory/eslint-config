@@ -1,1 +1,2 @@
-const helper = { custom: null }; helper;
+const helper = { custom: null };
+helper;

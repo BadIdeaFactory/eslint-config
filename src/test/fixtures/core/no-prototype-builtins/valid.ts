@@ -1,1 +1,2 @@
-const holder = {}; Object.hasOwn(holder, 'first');
+const holder = {};
+Object.hasOwn(holder, 'first');

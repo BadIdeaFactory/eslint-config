@@ -1,1 +1,2 @@
-const holder = {}; holder.hasOwnProperty('first');
+const holder = {};
+holder.hasOwnProperty('first');

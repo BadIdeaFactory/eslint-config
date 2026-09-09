@@ -1,1 +1,2 @@
-const holder = {}; holder[Symbol.iterator] = null;
+const holder = {};
+holder[Symbol.iterator] = null;

@@ -1,1 +1,2 @@
-const value = 12345; value;
+const value = 12345;
+value;

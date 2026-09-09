@@ -1,1 +1,3 @@
-if (await Promise.resolve(true)) { }
+if (await Promise.resolve(true)) {
+	null;
+}

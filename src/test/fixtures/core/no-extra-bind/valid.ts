@@ -1,1 +1,4 @@
-const bound = function () { return this; }.bind(null); bound;
+const bound = function () {
+	return this;
+}.bind(null);
+bound;

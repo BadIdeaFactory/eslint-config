@@ -1,1 +1,4 @@
-function outer() { return arguments.callee; } outer;
+function outer() {
+	return arguments.callee;
+}
+outer;

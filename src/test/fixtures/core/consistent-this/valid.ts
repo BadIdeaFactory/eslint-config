@@ -1,1 +1,2 @@
-const that = this; that;
+const that = this;
+that;

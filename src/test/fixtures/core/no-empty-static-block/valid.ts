@@ -1,1 +1,5 @@
-class Thing { static { Thing.name; } }
+class Thing {
+	static {
+		Thing.name;
+	}
+}

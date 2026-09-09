@@ -1,1 +1,4 @@
-const value = null; if (value == null) { value; }
+const value = null;
+if (value == null) {
+	value;
+}

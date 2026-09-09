@@ -1,1 +1,2 @@
-const pattern = /\x1f/; pattern;
+const pattern = /\x1f/;
+pattern;

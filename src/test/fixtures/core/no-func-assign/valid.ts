@@ -1,1 +1,3 @@
-function thing() {} const alias = thing; alias;
+function thing() {}
+const alias = thing;
+alias;

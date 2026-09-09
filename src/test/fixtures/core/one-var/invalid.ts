@@ -1,1 +1,4 @@
-let first = 1, second = 2; first; second;
+let first = 1,
+	second = 2;
+first;
+second;

@@ -1,1 +1,2 @@
-const source = '{}'; JSON.parse(source);
+const source = '{}';
+JSON.parse(source);

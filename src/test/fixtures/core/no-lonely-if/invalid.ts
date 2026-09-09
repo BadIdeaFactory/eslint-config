@@ -1,1 +1,8 @@
-const value = 1; if (value === 1) { value; } else { if (value === 2) { value; } }
+const value = 1;
+if (value === 1) {
+	value;
+} else {
+	if (value === 2) {
+		value;
+	}
+}

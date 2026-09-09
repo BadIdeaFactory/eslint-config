@@ -1,1 +1,2 @@
-const value = parseInt('1'); value;
+const value = parseInt('1');
+value;

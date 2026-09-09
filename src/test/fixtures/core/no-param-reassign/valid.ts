@@ -1,1 +1,2 @@
-const run = (holder) => holder.first; run;
+const run = (holder) => holder.first;
+run;

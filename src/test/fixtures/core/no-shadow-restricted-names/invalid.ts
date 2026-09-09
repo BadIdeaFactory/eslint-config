@@ -1,1 +1,2 @@
-const undefined = 1; undefined;
+const undefined = 1;
+undefined;
