@@ -15,6 +15,13 @@ module. Nothing else can demonstrate `with`, a legacy octal or a `delete` of a v
 which are syntax errors under the module semantics every other sample gets. Use `.ts`
 unless the rule is about syntax a module cannot contain.
 
+Fixtures are grouped by rule set, one directory per module in `src/configs/`. A rule
+set names the prefix its rule ids carry — `core` adds nothing, `typescript` adds
+`@typescript-eslint/` — because a rule id stops being a legal directory name once it
+carries a plugin. Adding a rule set means naming it in `RuleSet` in `fixtures/types.ts`
+and giving it a prefix; the loader refuses a directory it does not recognise rather
+than inventing a rule id for it.
+
 Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so a
 sample that needs more than one line — or a character that would otherwise have to be
 escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and `tsc`,
@@ -72,10 +79,17 @@ one cannot see a downgrade we make ourselves — both ends move together — and
 `invalid` sample still reports its rule id at any severity. Without this assertion an
 `error` quietly becoming a `warn` passes the whole suite.
 
-## Why every sample runs twice
+## Why most samples run twice
 
 Each sample is linted as both `sample.js` and `sample.ts`. A shareable config reaches
 `.js` for free, but reaches `.ts` only for as long as something in it keeps supplying a
 parser. That asymmetry is invisible from inside this repository — `eslint.config.mjs`
 supplies a parser of its own either way — and it was a real bug here before
 `src/configs/typescript.ts` existed.
+
+TypeScript rules are the exception and run once. They are declared in the same block as
+the parser that makes `.ts` lintable at all, so `.js` is a file they are never asked
+about; linting one there would report a missing plugin rather than a missing violation.
+Which paths a rule set reaches is `REACHED_PATHS` in `config.test.ts`, and the
+composition test reads the same table, so a rule that stopped reaching the files it is
+meant for fails there rather than passing quietly.
