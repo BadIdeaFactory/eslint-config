@@ -1,0 +1,1 @@
+if (Promise.resolve(true)) { }
