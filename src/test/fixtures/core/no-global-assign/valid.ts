@@ -1,0 +1,2 @@
+const alias = Object;
+alias;
