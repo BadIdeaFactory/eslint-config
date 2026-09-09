@@ -24,6 +24,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/require-await': 'error',
 		'@typescript-eslint/return-await': ['error', 'always'],
+		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
 	},
 };
 
