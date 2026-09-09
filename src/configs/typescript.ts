@@ -20,6 +20,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-misused-promises': 'error',
+		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 	},
 };
 
