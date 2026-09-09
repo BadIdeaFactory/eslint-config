@@ -16,6 +16,9 @@ const typescript: Linter.Config = {
 			projectService: true,
 		},
 	},
+	rules: {
+		'@typescript-eslint/await-thenable': 'error',
+	},
 };
 
 export { typescript };

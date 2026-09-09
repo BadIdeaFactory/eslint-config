@@ -102,8 +102,12 @@ src/
     ├── config.test.ts  # One generic harness; derives everything it runs
     └── fixtures/
         ├── index.ts    # Reads the samples off disk
-        └── core/       # One folder per rule, holding its two samples
-            └── yoda/
+        ├── core/       # One folder per rule, holding its two samples
+        │   └── yoda/
+        │       ├── valid.ts
+        │       └── invalid.ts
+        └── typescript/ # Same, for ids carrying `@typescript-eslint/`
+            └── await-thenable/
                 ├── valid.ts
                 └── invalid.ts
 ```
