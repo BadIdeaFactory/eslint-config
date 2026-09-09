@@ -25,6 +25,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
 		'@typescript-eslint/no-unsafe-function-type': 'error',
+		'@typescript-eslint/no-unsafe-member-access': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/require-await': 'error',
