@@ -80,7 +80,7 @@ npm run lint
 
 `npm run format` fixes Prettier formatting and ESLint auto-fixable rules
 (including import ordering). `npm run lint` additionally runs `tsc --noEmit`
-against `tsconfig.dev.json`. Run `npm test` too whenever you touch `src/` or
+against `tsconfig.json`. Run `npm test` too whenever you touch `src/` or
 `scripts/`.
 
 `npm run lint:commit` and `npm run lint:major` are deliberately not part
@@ -152,6 +152,19 @@ The structure will grow as the config does. Update this section when it does.
 5. **Type-only imports** — `verbatimModuleSyntax` is on, so type-only imports
    must use `import type`
 
+### The two tsconfigs
+
+`tsconfig.json` is the project everything reads: `npm run lint:tsc`, the editor,
+and any tool that goes looking for the nearest config. It covers `src`,
+`scripts` and `eslint.config.mjs`, and emits nothing.
+
+`tsconfig.build.json` is narrower and exists only to emit `dist/`, so it drops
+the tests and everything outside `src`.
+
+The broad one has to be the one named `tsconfig.json`, because that is the name
+tools find by convention and a tool that finds the build config instead
+concludes that half this repository is not in a project at all.
+
 ### Module system and file extensions
 
 This is an ESM project configured so Node can run the TypeScript sources
@@ -190,7 +203,7 @@ hand-format; run `npm run format`.
 - `eslint-config-prettier` goes **last** in the config array so it can turn off
   every stylistic rule the earlier presets enabled.
 - Non-TypeScript files are not in the type-aware program. Give them
-  `tsConfigs.disableTypeChecked` rather than widening `tsconfig.dev.json`.
+  `tsConfigs.disableTypeChecked` rather than widening `tsconfig.json`.
 - **No top-level `await` in anything reachable from `src/index.ts`.** The
   package is published ESM-only, and CommonJS consumers reach it through Node's
   `require(esm)`, which refuses any module that is not fully synchronous. A

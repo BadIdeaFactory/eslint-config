@@ -22,7 +22,7 @@ export default defineConfig([
 				...globals.node,
 			},
 			parserOptions: {
-				project: './tsconfig.dev.json',
+				project: './tsconfig.json',
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
