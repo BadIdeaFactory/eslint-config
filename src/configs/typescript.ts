@@ -18,6 +18,7 @@ const typescript: Linter.Config = {
 	},
 	rules: {
 		'@typescript-eslint/await-thenable': 'error',
+		'@typescript-eslint/no-floating-promises': 'error',
 	},
 };
 
