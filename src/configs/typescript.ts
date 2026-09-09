@@ -21,6 +21,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-misused-promises': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
+		'@typescript-eslint/promise-function-async': 'error',
 	},
 };
 
