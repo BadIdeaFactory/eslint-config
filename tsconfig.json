@@ -1,9 +1,7 @@
 {
 	"extends": "@tsconfig/node24/tsconfig.json",
 	"compilerOptions": {
-		"outDir": "dist",
-		"rootDir": "src",
-		"declaration": true,
+		"noEmit": true,
 		"resolveJsonModule": true,
 		"noUncheckedIndexedAccess": true,
 		"isolatedModules": true,
@@ -11,8 +9,10 @@
 		"allowImportingTsExtensions": true,
 		"rewriteRelativeImportExtensions": true,
 		"erasableSyntaxOnly": true,
+		"allowJs": true,
+		"checkJs": true,
 		"types": ["node"]
 	},
-	"include": ["src"],
-	"exclude": ["**/*.test.ts", "**/src/test"]
+	"include": ["src", "scripts", "eslint.config.mjs"],
+	"exclude": ["src/test/fixtures/*/*"]
 }

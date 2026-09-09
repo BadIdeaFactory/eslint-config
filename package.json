@@ -20,7 +20,7 @@
 	},
 	"scripts": {
 		"build": "npm run cleanup && npm run build:node",
-		"build:node": "tsc -p tsconfig.json",
+		"build:node": "tsc -p tsconfig.build.json",
 		"cleanup": "rimraf dist",
 		"prepack": "npm run build",
 		"format": "npm run format:eslint && npm run format:prettier",
@@ -31,7 +31,7 @@
 		"lint:major": "node scripts/check-major.ts",
 		"lint:eslint": "eslint . --max-warnings=0",
 		"lint:prettier": "prettier . --check",
-		"lint:tsc": "tsc --noEmit -p tsconfig.dev.json",
+		"lint:tsc": "tsc --noEmit -p tsconfig.json",
 		"test": "node --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\""
 	},
 	"repository": {

@@ -22,7 +22,9 @@ export default defineConfig([
 				...globals.node,
 			},
 			parserOptions: {
-				project: './tsconfig.dev.json',
+				// The project service arrives with `...biffudConfigs`; all this adds
+				// is a root to resolve from, so a lint run started anywhere in the
+				// tree finds the same tsconfig.
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},

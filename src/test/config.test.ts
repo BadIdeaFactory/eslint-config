@@ -3,17 +3,32 @@ import { describe, it } from 'node:test';
 import { ESLint } from 'eslint';
 import configs from '../index.ts';
 import { fixtures } from './fixtures/index.ts';
+import type { RuleFixture, RuleSet } from './fixtures/types.ts';
 import type { Linter } from 'eslint';
 
 const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
 
-const MODULE_SAMPLE_PATHS = ['sample.js', 'sample.ts'];
+// `sample.ts` exists on disk, and has to: the project service types only a
+// file some tsconfig covers, and an invented path is in none. The `.js` and
+// `.cjs` samples are text alone.
+const samplePath = (extension: string) => `src/test/sample.${extension}`;
 
-// A rule set whose samples end in .cjs is asking to be parsed as a classic
-// script. Nothing else can demonstrate `with`, a legacy octal or a `delete` of
-// a variable, all of which are syntax errors under the module semantics the
-// other samples get.
-const SCRIPT_SAMPLE_PATHS = ['sample.cjs'];
+// Core rules run in both: a shareable config reaches `.js` for free, but
+// reaches `.ts` only while something in it supplies a parser. TypeScript rules
+// ship in that same block, so `.js` has no plugin to resolve their ids against.
+const REACHED_PATHS: Record<RuleSet, string[]> = {
+	core: [samplePath('js'), samplePath('ts')],
+	typescript: [samplePath('ts')],
+};
+
+// A rule whose samples end in .cjs is asking to be parsed as a classic script.
+// Nothing else can demonstrate `with`, a legacy octal or a `delete` of a
+// variable, all of which are syntax errors under the module semantics the other
+// samples get.
+const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];
+
+const samplePathsFor = ({ script, ruleSet }: RuleFixture) =>
+	script ? SCRIPT_SAMPLE_PATHS : REACHED_PATHS[ruleSet];
 
 const withoutRules = (config: Linter.Config): Linter.Config => {
 	const copy = { ...config };
@@ -68,8 +83,18 @@ const rulesBelowError = () =>
 		.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
 		.map(([ruleId]) => ruleId);
 
-const rulesCancelledIn = (resolved: Linter.Config | undefined) =>
-	[...firstDeclarationOfEachRule().entries()]
+// A rule reaches a path when the fixture demonstrating it is linted there.
+const rulesReaching = (filePath: string) =>
+	[...firstDeclarationOfEachRule().entries()].filter(([ruleId]) => {
+		const fixture = fixtures[ruleId];
+		return fixture !== undefined && samplePathsFor(fixture).includes(filePath);
+	});
+
+const rulesCancelledIn = (
+	resolved: Linter.Config | undefined,
+	filePath: string,
+) =>
+	rulesReaching(filePath)
 		.filter(
 			([ruleId, entry]) =>
 				severityCode(resolved?.rules?.[ruleId]) !== severityCode(entry),
@@ -94,21 +119,21 @@ describe('the published config', () => {
 	});
 
 	describe('survives its own composition', () => {
-		for (const filePath of MODULE_SAMPLE_PATHS) {
+		for (const filePath of new Set(Object.values(REACHED_PATHS).flat())) {
 			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
 				const resolved = (await published.calculateConfigForFile(filePath)) as
 					Linter.Config | undefined;
-				assert.deepEqual(rulesCancelledIn(resolved), []);
+				assert.deepEqual(rulesCancelledIn(resolved, filePath), []);
 			});
 		}
 	});
 
-	for (const [ruleId, { valid, invalid, script }] of Object.entries(fixtures)) {
+	for (const [ruleId, fixture] of Object.entries(fixtures)) {
 		const entry = firstDeclarationOfEachRule().get(ruleId) ?? 'error';
-		const paths = script ? SCRIPT_SAMPLE_PATHS : MODULE_SAMPLE_PATHS;
+		const { valid, invalid, script } = fixture;
 
 		describe(ruleId, () => {
-			for (const filePath of paths) {
+			for (const filePath of samplePathsFor(fixture)) {
 				it(`reports the invalid sample in ${filePath}`, async () => {
 					assert.deepEqual(
 						await reportsInIsolation(ruleId, entry, invalid, filePath, script),

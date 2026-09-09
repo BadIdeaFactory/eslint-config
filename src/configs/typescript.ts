@@ -1,4 +1,4 @@
-import { parser } from 'typescript-eslint';
+import { parser, plugin } from 'typescript-eslint';
 import type { Linter } from 'eslint';
 
 // Without this block the package would not reach `.ts` at all: ESLint only
@@ -7,8 +7,17 @@ import type { Linter } from 'eslint';
 const typescript: Linter.Config = {
 	name: '@biffud/eslint-config/typescript',
 	files: ['**/*.{ts,mts,cts,tsx}'],
+	plugins: {
+		'@typescript-eslint': plugin,
+	},
 	languageOptions: {
 		parser,
+		parserOptions: {
+			projectService: true,
+		},
+	},
+	rules: {
+		'@typescript-eslint/await-thenable': 'error',
 	},
 };
 
