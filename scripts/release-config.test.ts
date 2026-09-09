@@ -45,7 +45,7 @@ const commit = (message: string) => ({
 });
 
 const bumpFor = async (message: string) =>
-	analyzeCommits(configFor('@semantic-release/commit-analyzer'), {
+	await analyzeCommits(configFor('@semantic-release/commit-analyzer'), {
 		commits: [commit(message)],
 		logger: { log: () => undefined },
 		cwd: process.cwd(),
@@ -53,7 +53,7 @@ const bumpFor = async (message: string) =>
 	});
 
 const notesFor = async (messages: string[]) =>
-	generateNotes(configFor('@semantic-release/release-notes-generator'), {
+	await generateNotes(configFor('@semantic-release/release-notes-generator'), {
 		cwd: process.cwd(),
 		options: {
 			repositoryUrl: 'https://github.com/BadIdeaFactory/eslint-config.git',

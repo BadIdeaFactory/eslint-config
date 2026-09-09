@@ -23,6 +23,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/require-await': 'error',
+		'@typescript-eslint/return-await': ['error', 'always'],
 	},
 };
 
