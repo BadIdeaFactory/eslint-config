@@ -96,7 +96,7 @@ scripts/
 src/
 ├── configs/            # The rules, split by concern
 │   ├── core.ts         # Core ESLint rules; universal, no `files`
-│   └── typescript.ts   # Language setup that makes `.ts` lintable at all
+│   └── typescript.ts   # The parser, the plugin, and the TypeScript rules
 ├── index.ts            # Composes the modules; exports `configs`
 └── test/               # See src/test/README.md
     ├── config.test.ts  # One generic harness; derives everything it runs
@@ -204,6 +204,16 @@ hand-format; run `npm run format`.
   every stylistic rule the earlier presets enabled.
 - Non-TypeScript files are not in the type-aware program. Give them
   `tsConfigs.disableTypeChecked` rather than widening `tsconfig.json`.
+- **The parser, the plugin and the TypeScript rules share one config object.**
+  The `files` glob on it is what makes `.ts` lintable at all, so a rule declared
+  outside it would either not reach `.ts` or would reach `.js`, where the plugin
+  is not registered and the rule id does not resolve. Keep them together.
+- **Type information comes from `projectService`, not `project`.** A shareable
+  config cannot name a tsconfig path, because the path would be ours rather than
+  the consumer's; the project service finds whichever tsconfig already covers
+  each file. The two are mutually exclusive — typescript-eslint fails the parse
+  outright if both are set — so a consumer with `project` in their own config
+  has to drop it, and so did `eslint.config.mjs`.
 - **No top-level `await` in anything reachable from `src/index.ts`.** The
   package is published ESM-only, and CommonJS consumers reach it through Node's
   `require(esm)`, which refuses any module that is not fully synchronous. A
@@ -350,8 +360,8 @@ is generated automatically as a result.
 ## Dependencies
 
 `typescript-eslint` is a **runtime `dependency`, not a devDependency.**
-`src/configs/typescript.ts` ships its parser, and without a parser the config
-cannot claim `**/*.ts` at all — ESLint's default parser cannot read a type
+`src/configs/typescript.ts` ships its parser and its plugin, and without a
+parser the config cannot claim `**/*.ts` at all — ESLint's default parser cannot read a type
 annotation, so a config that names `.ts` files without supplying one produces
 parse errors rather than lint results. Anything else this package reaches for
 at config-resolution time (a plugin, a parser, a resolver) belongs in

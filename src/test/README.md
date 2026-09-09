@@ -93,3 +93,16 @@ about; linting one there would report a missing plugin rather than a missing vio
 Which paths a rule set reaches is `REACHED_PATHS` in `config.test.ts`, and the
 composition test reads the same table, so a rule that stopped reaching the files it is
 meant for fails there rather than passing quietly.
+
+## Why sample.ts is a real file
+
+`sample.ts` exists on disk; `sample.js` and `sample.cjs` do not. The type-aware rules
+get their types from the project service, which supplies them only for a file some
+tsconfig already covers, and a path the suite invents belongs to no project. Nothing
+reads what is committed at `sample.ts` — every lint replaces the contents — so it holds
+the smallest thing `isolatedModules` still accepts as a module.
+
+The alternative was to hand the suite its own inferred project, and that quietly cost
+the suite its best assertion: with the tests supplying type information themselves, a
+published config that stopped supplying any still passed every one of them. Leave the
+types coming from the config under test.

@@ -8,19 +8,24 @@ import type { Linter } from 'eslint';
 
 const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
 
+// `sample.ts` exists on disk, and has to: the project service types only a
+// file some tsconfig covers, and an invented path is in none. The `.js` and
+// `.cjs` samples are text alone.
+const samplePath = (extension: string) => `src/test/sample.${extension}`;
+
 // Core rules run in both: a shareable config reaches `.js` for free, but
 // reaches `.ts` only while something in it supplies a parser. TypeScript rules
 // ship in that same block, so `.js` has no plugin to resolve their ids against.
 const REACHED_PATHS: Record<RuleSet, string[]> = {
-	core: ['sample.js', 'sample.ts'],
-	typescript: ['sample.ts'],
+	core: [samplePath('js'), samplePath('ts')],
+	typescript: [samplePath('ts')],
 };
 
 // A rule whose samples end in .cjs is asking to be parsed as a classic script.
 // Nothing else can demonstrate `with`, a legacy octal or a `delete` of a
 // variable, all of which are syntax errors under the module semantics the other
 // samples get.
-const SCRIPT_SAMPLE_PATHS = ['sample.cjs'];
+const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];
 
 const samplePathsFor = ({ script, ruleSet }: RuleFixture) =>
 	script ? SCRIPT_SAMPLE_PATHS : REACHED_PATHS[ruleSet];

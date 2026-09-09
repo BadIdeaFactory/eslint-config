@@ -19,6 +19,10 @@ import biffud from '@biffud/eslint-config';
 export default [...biffud];
 ```
 
+### Type information
+
+This config set is type aware, and finds your types using typescript-eslint's project service.
+
 ## Rules
 
 Every rule this config sets lives in [`src/configs/`](src/configs), split by concern,
