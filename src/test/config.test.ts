@@ -106,6 +106,14 @@ const published = new ESLint({
 	overrideConfig: [...configs],
 });
 
+const isConfig = (value: unknown): value is Linter.Config =>
+	typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const resolvedConfigFor = async (filePath: string) => {
+	const resolved: unknown = await published.calculateConfigForFile(filePath);
+	return isConfig(resolved) ? resolved : undefined;
+};
+
 describe('the published config', () => {
 	it('ships every rule at error severity', () => {
 		assert.deepEqual(rulesBelowError(), []);
@@ -121,8 +129,7 @@ describe('the published config', () => {
 	describe('survives its own composition', () => {
 		for (const filePath of new Set(Object.values(REACHED_PATHS).flat())) {
 			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
-				const resolved = (await published.calculateConfigForFile(filePath)) as
-					Linter.Config | undefined;
+				const resolved = await resolvedConfigFor(filePath);
 				assert.deepEqual(rulesCancelledIn(resolved, filePath), []);
 			});
 		}

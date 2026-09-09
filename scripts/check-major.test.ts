@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -97,12 +97,11 @@ const check = ({ commits }: Scenario): number => {
 			git('commit', '--quiet', '--allow-empty', '--message', subject);
 		}
 
-		try {
-			execFileSync('node', [SCRIPT, base, 'HEAD'], { cwd: dir, stdio: 'pipe' });
-			return 0;
-		} catch (error) {
-			return (error as { status?: number }).status ?? -1;
-		}
+		const { status } = spawnSync('node', [SCRIPT, base, 'HEAD'], {
+			cwd: dir,
+			stdio: 'pipe',
+		});
+		return status ?? -1;
 	} finally {
 		rmSync(dir, { recursive: true, force: true });
 	}

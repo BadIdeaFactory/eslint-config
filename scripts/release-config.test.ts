@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import { analyzeCommits } from '@semantic-release/commit-analyzer';
 import { generateNotes } from '@semantic-release/release-notes-generator';
+import releaserc from '../.releaserc.json' with { type: 'json' };
 
 // `.releaserc.json` decides version numbers and npm versions are immutable, so
 // it is worth more than a config file's usual scrutiny. Nothing else exercises
@@ -13,22 +12,17 @@ import { generateNotes } from '@semantic-release/release-notes-generator';
 // These cases load the real file rather than a fixture, so a change to it has
 // to survive them.
 
-const RELEASERC = join(import.meta.dirname, '..', '.releaserc.json');
-
-type ConfiguredPlugin = [name: string, config: Record<string, unknown>];
-type Plugin = string | ConfiguredPlugin;
-
-const plugins = (
-	JSON.parse(readFileSync(RELEASERC, 'utf8')) as { plugins: Plugin[] }
-).plugins;
-
 const configFor = (name: string): Record<string, unknown> => {
-	const entry = plugins.find(
-		(plugin): plugin is ConfiguredPlugin =>
-			Array.isArray(plugin) && plugin[0] === name,
+	const entry = releaserc.plugins.find(
+		(plugin) => Array.isArray(plugin) && plugin[0] === name,
 	);
-	assert.ok(entry, `${name} should be configured in .releaserc.json`);
-	return entry[1];
+	assert.ok(Array.isArray(entry), `${name} should be configured with options`);
+	const [, config] = entry;
+	assert.ok(
+		typeof config === 'object',
+		`${name} should carry an options object`,
+	);
+	return config;
 };
 
 const commit = (message: string) => ({
