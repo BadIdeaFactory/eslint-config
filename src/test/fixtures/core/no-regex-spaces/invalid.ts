@@ -1,1 +1,2 @@
-const pattern = /a  b/; pattern;
+const pattern = /a  b/;
+pattern;

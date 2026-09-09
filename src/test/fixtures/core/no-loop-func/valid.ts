@@ -1,1 +1,2 @@
-const made = [1].map((value) => () => value); made;
+const made = [1].map((value) => () => value);
+made;

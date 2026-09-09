@@ -1,1 +1,2 @@
-const shape = { ['first']: 1 }; shape;
+const shape = { ['first']: 1 };
+shape;

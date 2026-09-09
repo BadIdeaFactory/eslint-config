@@ -1,1 +1,2 @@
-const merged = { ...{ first: 1 } }; merged;
+const merged = { ...{ first: 1 } };
+merged;

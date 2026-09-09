@@ -1,1 +1,3 @@
-const value = 1; debugger; value;
+const value = 1;
+debugger;
+value;

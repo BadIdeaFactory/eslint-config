@@ -1,1 +1,2 @@
-const value = 2 ** 3; value;
+const value = 2 ** 3;
+value;

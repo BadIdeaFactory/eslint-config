@@ -1,1 +1,2 @@
-const value = void 0; value;
+const value = void 0;
+value;

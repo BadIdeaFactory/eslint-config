@@ -1,1 +1,2 @@
-const target = 'https://example.com'; target;
+const target = 'https://example.com';
+target;

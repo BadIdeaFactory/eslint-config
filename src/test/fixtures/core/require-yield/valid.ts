@@ -1,1 +1,4 @@
-function* items() { yield 1; } items;
+function* items() {
+	yield 1;
+}
+items;

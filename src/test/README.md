@@ -22,10 +22,10 @@ carries a plugin. Adding a rule set means naming it in `RuleSet` in `fixtures/ty
 and giving it a prefix; the loader refuses a directory it does not recognise rather
 than inventing a rule id for it.
 
-Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so a
-sample that needs more than one line — or a character that would otherwise have to be
-escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and `tsc`,
-since the samples are deliberately malformed.
+Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so that
+a sample spanning several lines — or carrying a character that would otherwise have to
+be escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and
+`tsc`, since the samples are deliberately malformed.
 
 The suite resolves `configs` on its own, with nothing layered on top. What a consumer
 stacks around us is their business and outside our control; what we can and should
@@ -61,11 +61,23 @@ restatement it cannot be brought back into agreement by copying a value across.
 A pair that reads the same whichever option is set documents nothing. Check that it
 actually inverts before you commit it — nothing enforces this, so it is on you.
 
-Keep samples to one line and free of anything the rule under test does not need. Each
-sample is linted against **that rule alone**, always, so an unrelated violation inside
-one is harmless: a `while (true)` in the `no-constant-condition` sample does not have
-to answer to `no-unreachable-loop`. It was once otherwise, and adding a rule then meant
-editing unrelated samples that happened to also report it.
+Keep samples free of anything the rule under test does not need, and write what is left
+the way you would write it anywhere else. A sample is read far more often than it is
+run, so it takes the line breaks and the indentation it would have in real code —
+statements one per line, blocks opened and closed. Do not squeeze one onto a single
+line; brevity here is measured in what a reader has to hold in their head, not in
+newlines.
+
+The exception is a rule about line structure. `no-unexpected-multiline` is the whole of
+its own sample, and `no-irregular-whitespace` is a sample you cannot even see. Those
+carry their formatting as content, and reformatting them repairs the violation instead
+of presenting it — which is why the fixture directory is ignored by Prettier, and why
+`npm run format` must never be pointed at it.
+
+Each sample is linted against **that rule alone**, always, so an unrelated violation
+inside one is harmless: a `while (true)` in the `no-constant-condition` sample does not
+have to answer to `no-unreachable-loop`. It was once otherwise, and adding a rule then
+meant editing unrelated samples that happened to also report it.
 
 ## Every rule is an error
 

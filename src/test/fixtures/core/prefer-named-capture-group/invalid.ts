@@ -1,1 +1,2 @@
-const pattern = /(a)/; pattern;
+const pattern = /(a)/;
+pattern;

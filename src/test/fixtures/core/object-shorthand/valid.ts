@@ -1,1 +1,6 @@
-const shape = { run() { return 1; } }; shape;
+const shape = {
+	run() {
+		return 1;
+	},
+};
+shape;

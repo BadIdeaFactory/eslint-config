@@ -1,1 +1,7 @@
-class Base {} class Thing extends Base { constructor() { this.ready = true; super(); } }
+class Base {}
+class Thing extends Base {
+	constructor() {
+		this.ready = true;
+		super();
+	}
+}

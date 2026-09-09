@@ -1,1 +1,4 @@
-function outer() { return outer; } outer;
+function outer() {
+	return outer;
+}
+outer;

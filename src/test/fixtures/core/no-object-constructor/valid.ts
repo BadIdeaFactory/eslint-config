@@ -1,1 +1,2 @@
-const holder = {}; holder;
+const holder = {};
+holder;

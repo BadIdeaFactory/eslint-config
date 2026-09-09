@@ -1,1 +1,2 @@
-var value = 1; value;
+var value = 1;
+value;

@@ -1,1 +1,4 @@
-function collect() { return arguments; } collect;
+function collect() {
+	return arguments;
+}
+collect;

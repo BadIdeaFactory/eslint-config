@@ -1,1 +1,2 @@
-const merged = Object.assign({}, { first: 1 }); merged;
+const merged = Object.assign({}, { first: 1 });
+merged;

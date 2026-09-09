@@ -1,1 +1,2 @@
-const show = (value) => value; show(1);
+const show = (value) => value;
+show(1);

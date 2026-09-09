@@ -1,1 +1,5 @@
-class Thing { set value(next) { next; } }
+class Thing {
+	set value(next) {
+		next;
+	}
+}

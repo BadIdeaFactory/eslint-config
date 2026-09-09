@@ -1,1 +1,2 @@
-class Thing {} Thing;
+class Thing {}
+Thing;

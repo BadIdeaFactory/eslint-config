@@ -1,1 +1,2 @@
-const collect = (...values) => values; collect;
+const collect = (...values) => values;
+collect;

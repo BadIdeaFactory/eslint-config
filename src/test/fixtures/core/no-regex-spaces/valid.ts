@@ -1,1 +1,2 @@
-const pattern = /a {2}b/; pattern;
+const pattern = /a {2}b/;
+pattern;

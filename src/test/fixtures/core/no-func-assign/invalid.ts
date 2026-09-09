@@ -1,1 +1,2 @@
-function thing() {} thing = null;
+function thing() {}
+thing = null;

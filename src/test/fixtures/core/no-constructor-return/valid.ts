@@ -1,1 +1,5 @@
-class Thing { constructor() { this.ready = true; } }
+class Thing {
+	constructor() {
+		this.ready = true;
+	}
+}

@@ -1,1 +1,2 @@
-const text = '\a'; text;
+const text = '\a';
+text;

@@ -1,1 +1,2 @@
-const value = Math(1); value;
+const value = Math(1);
+value;

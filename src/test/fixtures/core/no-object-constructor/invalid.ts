@@ -1,1 +1,2 @@
-const holder = new Object(); holder;
+const holder = new Object();
+holder;

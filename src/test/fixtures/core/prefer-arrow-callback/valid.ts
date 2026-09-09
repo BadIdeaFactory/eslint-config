@@ -1,1 +1,2 @@
-const doubled = [1].map((value) => value); doubled;
+const doubled = [1].map((value) => value);
+doubled;

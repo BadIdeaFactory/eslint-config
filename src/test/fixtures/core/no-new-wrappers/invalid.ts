@@ -1,1 +1,2 @@
-const value = new String('1'); value;
+const value = new String('1');
+value;

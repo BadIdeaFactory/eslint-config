@@ -1,1 +1,3 @@
-if (true) { null; }
+if (true) {
+	null;
+}

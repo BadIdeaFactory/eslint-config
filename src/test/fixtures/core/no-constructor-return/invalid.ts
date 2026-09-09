@@ -1,1 +1,5 @@
-class Thing { constructor() { return 1; } }
+class Thing {
+	constructor() {
+		return 1;
+	}
+}

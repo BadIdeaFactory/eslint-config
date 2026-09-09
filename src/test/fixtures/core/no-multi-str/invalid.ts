@@ -1,3 +1,4 @@
-const text = 'a\
+const text =
+	'a\
 b';
 text;

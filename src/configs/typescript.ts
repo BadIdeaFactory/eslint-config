@@ -18,6 +18,13 @@ const typescript: Linter.Config = {
 	},
 	rules: {
 		'@typescript-eslint/await-thenable': 'error',
+		'@typescript-eslint/no-floating-promises': 'error',
+		'@typescript-eslint/no-misused-promises': 'error',
+		'@typescript-eslint/prefer-promise-reject-errors': 'error',
+		'@typescript-eslint/promise-function-async': 'error',
+		'@typescript-eslint/require-await': 'error',
+		'@typescript-eslint/return-await': ['error', 'always'],
+		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
 	},
 };
 

@@ -1,1 +1,2 @@
-const { first: first } = { first: 1 }; first;
+const { first: first } = { first: 1 };
+first;

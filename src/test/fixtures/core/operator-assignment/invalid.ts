@@ -1,1 +1,3 @@
-let value = 1; value = value + 1; value;
+let value = 1;
+value = value + 1;
+value;

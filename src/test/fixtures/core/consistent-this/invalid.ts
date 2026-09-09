@@ -1,1 +1,2 @@
-const self = this; self;
+const self = this;
+self;

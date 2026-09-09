@@ -1,1 +1,2 @@
-class Thing {} new Thing();
+class Thing {}
+new Thing();

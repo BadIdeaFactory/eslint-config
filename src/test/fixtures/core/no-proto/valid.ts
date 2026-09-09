@@ -1,1 +1,2 @@
-const holder = {}; Object.getPrototypeOf(holder);
+const holder = {};
+Object.getPrototypeOf(holder);

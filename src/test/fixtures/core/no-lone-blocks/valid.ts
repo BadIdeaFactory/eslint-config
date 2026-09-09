@@ -1,1 +1,4 @@
-{ const scoped = 1; scoped; }
+{
+	const scoped = 1;
+	scoped;
+}

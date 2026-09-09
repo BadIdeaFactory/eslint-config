@@ -1,1 +1,2 @@
-const text = 'ab'; text;
+const text = 'ab';
+text;

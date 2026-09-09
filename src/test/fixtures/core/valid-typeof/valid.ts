@@ -1,1 +1,4 @@
-const value = 1; if (typeof value === 'number') { value; }
+const value = 1;
+if (typeof value === 'number') {
+	value;
+}
