@@ -67,6 +67,11 @@ const typescript: Linter.Config = {
 			{ allowThrowingAny: false, allowThrowingUnknown: false },
 		],
 		'@typescript-eslint/prefer-as-const': 'error',
+		'@typescript-eslint/prefer-destructuring': [
+			'error',
+			{ array: true, object: true },
+			{ enforceForRenamedProperties: true },
+		],
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',

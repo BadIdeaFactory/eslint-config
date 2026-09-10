@@ -86,7 +86,7 @@ const rulesBelowError = () =>
 // A rule reaches a path when the fixture demonstrating it is linted there.
 const rulesReaching = (filePath: string) =>
 	[...firstDeclarationOfEachRule().entries()].filter(([ruleId]) => {
-		const fixture = fixtures[ruleId];
+		const { [ruleId]: fixture } = fixtures;
 		return fixture !== undefined && samplePathsFor(fixture).includes(filePath);
 	});
 
