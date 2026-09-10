@@ -80,6 +80,7 @@ const typescript: Linter.Config = {
 			'error',
 			{ allowBitwiseExpressions: true },
 		],
+		'@typescript-eslint/prefer-namespace-keyword': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
