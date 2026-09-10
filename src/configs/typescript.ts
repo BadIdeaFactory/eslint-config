@@ -34,6 +34,7 @@ const typescript: Linter.Config = {
 			{ allowConstantLoopConditions: 'only-allowed-literals' },
 		],
 		'@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
+		'@typescript-eslint/no-unnecessary-qualifier': 'error',
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
