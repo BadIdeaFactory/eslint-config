@@ -33,6 +33,7 @@ const typescript: Linter.Config = {
 		],
 		'@typescript-eslint/no-misused-new': 'error',
 		'@typescript-eslint/no-misused-promises': 'error',
+		'@typescript-eslint/no-misused-spread': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
 		'@typescript-eslint/no-unnecessary-condition': [
