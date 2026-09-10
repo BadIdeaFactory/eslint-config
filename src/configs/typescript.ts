@@ -19,6 +19,7 @@ const typescript: Linter.Config = {
 	rules: {
 		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
+		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
 		'@typescript-eslint/no-floating-promises': 'error',
