@@ -68,6 +68,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
+		'@typescript-eslint/require-array-sort-compare': 'error',
 		'@typescript-eslint/require-await': 'error',
 		'@typescript-eslint/return-await': ['error', 'always'],
 		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
