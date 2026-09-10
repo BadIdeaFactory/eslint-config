@@ -61,6 +61,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-useless-constructor': 'error',
 		'@typescript-eslint/no-useless-default-assignment': 'error',
 		'@typescript-eslint/no-useless-empty-export': 'error',
+		'@typescript-eslint/only-throw-error': [
+			'error',
+			{ allowThrowingAny: false, allowThrowingUnknown: false },
+		],
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/require-await': 'error',
