@@ -48,6 +48,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-unsafe-member-access': 'error',
 		'@typescript-eslint/no-unsafe-return': 'error',
 		'@typescript-eslint/no-unsafe-type-assertion': 'error',
+		'@typescript-eslint/no-useless-constructor': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/require-await': 'error',
