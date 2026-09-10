@@ -76,6 +76,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/prefer-for-of': 'error',
 		'@typescript-eslint/prefer-function-type': 'error',
 		'@typescript-eslint/prefer-includes': 'error',
+		'@typescript-eslint/prefer-literal-enum-member': [
+			'error',
+			{ allowBitwiseExpressions: true },
+		],
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
