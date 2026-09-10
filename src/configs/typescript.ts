@@ -27,6 +27,7 @@ const typescript: Linter.Config = {
 			{ checkNever: true },
 		],
 		'@typescript-eslint/no-misused-promises': 'error',
+		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
