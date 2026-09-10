@@ -72,6 +72,7 @@ const typescript: Linter.Config = {
 			{ array: true, object: true },
 			{ enforceForRenamedProperties: true },
 		],
+		'@typescript-eslint/prefer-find': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
