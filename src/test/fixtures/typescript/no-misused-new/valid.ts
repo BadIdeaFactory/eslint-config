@@ -1,0 +1,3 @@
+interface ThingConstructor {
+	new (): object;
+}

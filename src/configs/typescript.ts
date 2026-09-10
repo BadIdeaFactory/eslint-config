@@ -31,6 +31,7 @@ const typescript: Linter.Config = {
 			'error',
 			{ checkNever: true },
 		],
+		'@typescript-eslint/no-misused-new': 'error',
 		'@typescript-eslint/no-misused-promises': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
