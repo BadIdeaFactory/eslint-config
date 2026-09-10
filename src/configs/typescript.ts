@@ -87,6 +87,7 @@ const typescript: Linter.Config = {
 		],
 		'@typescript-eslint/prefer-optional-chain': 'error',
 		'@typescript-eslint/prefer-promise-reject-errors': 'error',
+		'@typescript-eslint/prefer-readonly': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
 		'@typescript-eslint/require-array-sort-compare': 'error',
