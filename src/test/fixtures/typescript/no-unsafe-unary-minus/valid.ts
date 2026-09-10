@@ -1,0 +1,1 @@
+const negated = -1;

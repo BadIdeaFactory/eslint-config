@@ -1,0 +1,3 @@
+interface Thing {
+	new (): Thing;
+}
