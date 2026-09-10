@@ -52,6 +52,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
+		'@typescript-eslint/no-unsafe-enum-comparison': 'error',
 		'@typescript-eslint/no-unsafe-function-type': 'error',
 		'@typescript-eslint/no-unsafe-member-access': 'error',
 		'@typescript-eslint/no-unsafe-return': 'error',
