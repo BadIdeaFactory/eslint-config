@@ -90,6 +90,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/prefer-readonly': 'error',
 		'@typescript-eslint/prefer-reduce-type-parameter': 'error',
 		'@typescript-eslint/prefer-regexp-exec': 'error',
+		'@typescript-eslint/prefer-return-this-type': 'error',
 		'@typescript-eslint/promise-function-async': 'error',
 		'@typescript-eslint/related-getter-setter-pairs': 'error',
 		'@typescript-eslint/require-array-sort-compare': 'error',
