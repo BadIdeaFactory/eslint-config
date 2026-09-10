@@ -22,6 +22,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-inferrable-types': 'error',
+		'@typescript-eslint/no-meaningless-void-operator': [
+			'error',
+			{ checkNever: true },
+		],
 		'@typescript-eslint/no-misused-promises': 'error',
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
