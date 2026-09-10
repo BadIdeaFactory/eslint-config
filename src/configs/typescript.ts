@@ -29,6 +29,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-misused-promises': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
+		'@typescript-eslint/no-unnecessary-condition': [
+			'error',
+			{ allowConstantLoopConditions: 'only-allowed-literals' },
+		],
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
