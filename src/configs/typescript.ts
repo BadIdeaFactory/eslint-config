@@ -35,6 +35,7 @@ const typescript: Linter.Config = {
 		],
 		'@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
 		'@typescript-eslint/no-unnecessary-qualifier': 'error',
+		'@typescript-eslint/no-unnecessary-template-expression': 'error',
 		'@typescript-eslint/no-unsafe-argument': 'error',
 		'@typescript-eslint/no-unsafe-assignment': 'error',
 		'@typescript-eslint/no-unsafe-call': 'error',
