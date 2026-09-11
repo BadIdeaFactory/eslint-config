@@ -20,6 +20,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
 		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/class-literal-property-style': 'error',
+		'@typescript-eslint/consistent-generic-constructors': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
