@@ -39,6 +39,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-array-constructor': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
+		'@typescript-eslint/no-confusing-non-null-assertion': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
