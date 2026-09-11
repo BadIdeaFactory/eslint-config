@@ -22,6 +22,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/class-literal-property-style': 'error',
 		'@typescript-eslint/consistent-generic-constructors': 'error',
 		'@typescript-eslint/consistent-indexed-object-style': 'error',
+		'@typescript-eslint/consistent-type-assertions': [
+			'error',
+			{ objectLiteralTypeAssertions: 'never' },
+		],
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
