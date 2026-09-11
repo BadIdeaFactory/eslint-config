@@ -156,6 +156,7 @@ const typescript: Linter.Config = {
 			'error',
 			{ allowString: false, allowNumber: false, allowNullableObject: false },
 		],
+		'@typescript-eslint/strict-void-return': 'error',
 		'@typescript-eslint/switch-exhaustiveness-check': [
 			'error',
 			{ allowDefaultCaseForExhaustiveSwitch: false },
