@@ -50,6 +50,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-empty-object-type': 'error',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
+		'@typescript-eslint/no-extraneous-class': [
+			'error',
+			{ allowWithDecorator: true },
+		],
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-for-in-array': 'error',
 		'@typescript-eslint/no-implied-eval': 'error',
