@@ -74,6 +74,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-non-null-assertion': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-require-imports': 'error',
+		'@typescript-eslint/no-this-alias': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
 		'@typescript-eslint/no-unnecessary-condition': [
 			'error',
