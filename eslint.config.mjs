@@ -46,9 +46,6 @@ export default defineConfig([
 				},
 			],
 
-			// `verbatimModuleSyntax` is on, so type-only imports have to say so.
-			'@typescript-eslint/consistent-type-imports': 'error',
-
 			// Unlike some code bases we explicitly do not want default exports.
 			'import-x/prefer-default-export': 'off',
 			'import-x/no-default-export': 'error',

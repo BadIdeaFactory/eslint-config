@@ -31,6 +31,7 @@ const typescript: Linter.Config = {
 			'error',
 			{ fixMixedExportsWithInlineTypeSpecifier: true },
 		],
+		'@typescript-eslint/consistent-type-imports': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
