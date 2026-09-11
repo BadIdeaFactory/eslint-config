@@ -46,6 +46,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-for-in-array': 'error',
 		'@typescript-eslint/no-implied-eval': 'error',
+		'@typescript-eslint/no-import-type-side-effects': 'error',
 		'@typescript-eslint/no-inferrable-types': 'error',
 		'@typescript-eslint/no-meaningless-void-operator': [
 			'error',
