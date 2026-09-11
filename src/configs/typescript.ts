@@ -17,6 +17,7 @@ const typescript: Linter.Config = {
 		},
 	},
 	rules: {
+		'@typescript-eslint/adjacent-overload-signatures': 'error',
 		'@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
 		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/ban-ts-comment': 'error',
