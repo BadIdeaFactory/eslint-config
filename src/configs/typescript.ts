@@ -19,6 +19,8 @@ const typescript: Linter.Config = {
 	rules: {
 		'@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
 		'@typescript-eslint/await-thenable': 'error',
+		'@typescript-eslint/ban-ts-comment': 'error',
+		'@typescript-eslint/ban-tslint-comment': 'error',
 		'@typescript-eslint/class-literal-property-style': 'error',
 		'@typescript-eslint/consistent-generic-constructors': 'error',
 		'@typescript-eslint/consistent-indexed-object-style': 'error',
@@ -37,12 +39,14 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-array-constructor': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
+		'@typescript-eslint/no-confusing-non-null-assertion': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
 		'@typescript-eslint/no-floating-promises': 'error',
 		'@typescript-eslint/no-for-in-array': 'error',
 		'@typescript-eslint/no-implied-eval': 'error',
+		'@typescript-eslint/no-import-type-side-effects': 'error',
 		'@typescript-eslint/no-inferrable-types': 'error',
 		'@typescript-eslint/no-meaningless-void-operator': [
 			'error',
@@ -52,7 +56,12 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-misused-promises': 'error',
 		'@typescript-eslint/no-misused-spread': 'error',
 		'@typescript-eslint/no-mixed-enums': 'error',
+		'@typescript-eslint/no-namespace': 'error',
+		'@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
+		'@typescript-eslint/no-non-null-asserted-optional-chain': 'error',
+		'@typescript-eslint/no-non-null-assertion': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
+		'@typescript-eslint/no-require-imports': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
 		'@typescript-eslint/no-unnecessary-condition': [
 			'error',
@@ -120,6 +129,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/switch-exhaustiveness-check': [
 			'error',
 			{ allowDefaultCaseForExhaustiveSwitch: false },
+		],
+		'@typescript-eslint/triple-slash-reference': [
+			'error',
+			{ lib: 'never', types: 'never' },
 		],
 		'@typescript-eslint/unbound-method': 'error',
 		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
