@@ -152,6 +152,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/restrict-plus-operands': 'error',
 		'@typescript-eslint/restrict-template-expressions': 'error',
 		'@typescript-eslint/return-await': ['error', 'always'],
+		'@typescript-eslint/strict-boolean-expressions': [
+			'error',
+			{ allowString: false, allowNumber: false, allowNullableObject: false },
+		],
 		'@typescript-eslint/switch-exhaustiveness-check': [
 			'error',
 			{ allowDefaultCaseForExhaustiveSwitch: false },
