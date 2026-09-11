@@ -17,7 +17,24 @@ const typescript: Linter.Config = {
 		},
 	},
 	rules: {
+		'@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
 		'@typescript-eslint/await-thenable': 'error',
+		'@typescript-eslint/class-literal-property-style': 'error',
+		'@typescript-eslint/consistent-generic-constructors': 'error',
+		'@typescript-eslint/consistent-indexed-object-style': 'error',
+		'@typescript-eslint/consistent-type-assertions': [
+			'error',
+			{ objectLiteralTypeAssertions: 'never' },
+		],
+		'@typescript-eslint/consistent-type-definitions': 'error',
+		'@typescript-eslint/consistent-type-exports': [
+			'error',
+			{ fixMixedExportsWithInlineTypeSpecifier: true },
+		],
+		'@typescript-eslint/consistent-type-imports': 'error',
+		'@typescript-eslint/dot-notation': 'error',
+		'@typescript-eslint/method-signature-style': 'error',
+		'@typescript-eslint/no-array-constructor': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
@@ -61,6 +78,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-useless-constructor': 'error',
 		'@typescript-eslint/no-useless-default-assignment': 'error',
 		'@typescript-eslint/no-useless-empty-export': 'error',
+		'@typescript-eslint/no-wrapper-object-types': 'error',
 		'@typescript-eslint/non-nullable-type-assertion-style': 'error',
 		'@typescript-eslint/only-throw-error': [
 			'error',
