@@ -21,6 +21,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/await-thenable': 'error',
 		'@typescript-eslint/class-literal-property-style': 'error',
 		'@typescript-eslint/consistent-generic-constructors': 'error',
+		'@typescript-eslint/consistent-indexed-object-style': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
