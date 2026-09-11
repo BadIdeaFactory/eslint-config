@@ -102,6 +102,10 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-unsafe-unary-minus': 'error',
 		'@typescript-eslint/no-unused-expressions': 'error',
 		'@typescript-eslint/no-unused-private-class-members': 'error',
+		'@typescript-eslint/no-unused-vars': [
+			'error',
+			{ ignoreRestSiblings: true, argsIgnorePattern: '^_' },
+		],
 		'@typescript-eslint/no-useless-constructor': 'error',
 		'@typescript-eslint/no-useless-default-assignment': 'error',
 		'@typescript-eslint/no-useless-empty-export': 'error',

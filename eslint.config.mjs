@@ -39,13 +39,6 @@ export default defineConfig([
 				},
 			],
 
-			'@typescript-eslint/no-unused-vars': [
-				'error',
-				{
-					caughtErrors: 'none',
-				},
-			],
-
 			// Unlike some code bases we explicitly do not want default exports.
 			'import-x/prefer-default-export': 'off',
 			'import-x/no-default-export': 'error',
