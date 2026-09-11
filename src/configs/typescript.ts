@@ -130,6 +130,10 @@ const typescript: Linter.Config = {
 			'error',
 			{ allowDefaultCaseForExhaustiveSwitch: false },
 		],
+		'@typescript-eslint/triple-slash-reference': [
+			'error',
+			{ lib: 'never', types: 'never' },
+		],
 		'@typescript-eslint/unbound-method': 'error',
 		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
 	},
