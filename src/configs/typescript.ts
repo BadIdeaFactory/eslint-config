@@ -149,6 +149,7 @@ const typescript: Linter.Config = {
 			{ lib: 'never', types: 'never' },
 		],
 		'@typescript-eslint/unbound-method': 'error',
+		'@typescript-eslint/unified-signatures': 'error',
 		'@typescript-eslint/use-unknown-in-catch-callback-variable': 'error',
 	},
 };
