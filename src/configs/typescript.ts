@@ -106,6 +106,10 @@ const typescript: Linter.Config = {
 			'error',
 			{ ignoreRestSiblings: true, argsIgnorePattern: '^_' },
 		],
+		'@typescript-eslint/no-use-before-define': [
+			'error',
+			{ functions: false, classes: false, enums: false, variables: false },
+		],
 		'@typescript-eslint/no-useless-constructor': 'error',
 		'@typescript-eslint/no-useless-default-assignment': 'error',
 		'@typescript-eslint/no-useless-empty-export': 'error',
