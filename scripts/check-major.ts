@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 const DEFAULT_BASE = 'origin/main';
 const DEFAULT_HEAD = 'HEAD';
 const EXIT_FAILURE = 1;
+const FIRST_ARGUMENT = 2;
 
 const BREAKING_SUBJECT = /^[a-z]+(?:\([^\)]*\))?!:/v;
 const BREAKING_FOOTER = /^BREAKING[ \-]CHANGE:/mv;
@@ -52,7 +53,8 @@ const peerMajorAt = (ref: string): string | undefined => {
 	return major;
 };
 
-const [, , base = DEFAULT_BASE, head = DEFAULT_HEAD] = process.argv;
+const [base = DEFAULT_BASE, head = DEFAULT_HEAD] =
+	process.argv.slice(FIRST_ARGUMENT);
 
 const [breaking] = commitsIn(base, head).filter(isBreaking);
 const before = peerMajorAt(base);

@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { RuleFixtures, RuleSet } from './types.ts';
 
-const FIXTURE_ROOT = import.meta.dirname;
+const { dirname: FIXTURE_ROOT } = import.meta;
 
 // Some rule prefixes aren't valid file paths, this lets us
 // redirect them to fixture paths that can actually exist
