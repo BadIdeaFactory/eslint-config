@@ -43,6 +43,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-base-to-string': 'error',
 		'@typescript-eslint/no-confusing-non-null-assertion': 'error',
 		'@typescript-eslint/no-dupe-class-members': 'error',
+		'@typescript-eslint/no-duplicate-enum-values': 'error',
 		'@typescript-eslint/no-duplicate-type-constituents': 'error',
 		'@typescript-eslint/no-explicit-any': 'error',
 		'@typescript-eslint/no-extra-non-null-assertion': 'error',
