@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 import { ESLint } from 'eslint';
 import configs from '../index.ts';
 import { fixtures } from './fixtures/index.ts';
+import { assertReportsThisRuleAndNothingElse } from './reports.ts';
 import type { RuleFixture, RuleSet } from './fixtures/types.ts';
 import type { Linter } from 'eslint';
 
@@ -141,19 +142,33 @@ describe('the published config', () => {
 
 		describe(ruleId, () => {
 			for (const filePath of samplePathsFor(fixture)) {
-				it(`reports the invalid sample in ${filePath}`, async () => {
-					assert.deepEqual(
-						await reportsInIsolation(ruleId, entry, invalid, filePath, script),
-						[ruleId],
-					);
-				});
+				for (const invalidCase of invalid) {
+					it(`reports invalid/${invalidCase.name} in ${filePath}`, async () => {
+						const reportedRuleIds = await reportsInIsolation(
+							ruleId,
+							entry,
+							invalidCase.source,
+							filePath,
+							script,
+						);
+						assertReportsThisRuleAndNothingElse(ruleId, reportedRuleIds);
+					});
+				}
 
-				it(`leaves the valid sample alone in ${filePath}`, async () => {
-					assert.deepEqual(
-						await reportsInIsolation(ruleId, entry, valid, filePath, script),
-						[],
-					);
-				});
+				for (const validCase of valid) {
+					it(`leaves valid/${validCase.name} alone in ${filePath}`, async () => {
+						assert.deepEqual(
+							await reportsInIsolation(
+								ruleId,
+								entry,
+								validCase.source,
+								filePath,
+								script,
+							),
+							[],
+						);
+					});
+				}
 			}
 		});
 	}
