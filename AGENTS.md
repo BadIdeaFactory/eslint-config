@@ -100,22 +100,32 @@ src/
 ├── index.ts            # Composes the modules; exports `configs`
 └── test/               # See src/test/README.md
     ├── config.test.ts  # One generic harness; derives everything it runs
+    ├── reports.ts      # What an invalid sample must report
+    ├── reports.test.ts # Its cases
     └── fixtures/
-        ├── index.ts    # Reads the samples off disk
-        ├── core/       # One folder per rule, holding its two samples
+        ├── index.ts        # Reads the samples off disk
+        ├── loader.test.ts  # Its cases: fixture shapes accepted and refused
+        ├── core/       # One folder per rule, holding its case directories
         │   └── yoda/
-        │       ├── valid.ts
-        │       └── invalid.ts
+        │       ├── invalid/
+        │       │   └── default.ts
+        │       └── valid/
+        │           └── default.ts
         └── typescript/ # Same, for ids carrying `@typescript-eslint/`
             └── await-thenable/
-                ├── valid.ts
-                └── invalid.ts
+                ├── invalid/
+                │   └── default.ts
+                └── valid/
+                    └── default.ts
 ```
 
 `src/configs/` and `src/test/fixtures/` are split along the same seams
 deliberately, so contributors working on unrelated areas rarely touch the same
-file. Adding a rule means editing one module and adding two files — never
-writing a new test.
+file. Adding a rule means editing one module and adding its samples — never
+writing a new test. Every rule keeps those samples as named cases in a `valid/`
+and an `invalid/` directory, one file per case and each linted on its own, so a
+rule whose options are a list can hold a case per option; `src/test/README.md`
+has the details.
 
 The samples are real files rather than string literals so that a multi-line
 one, or one carrying an irregular character, reads as the code it is. They are
@@ -434,8 +444,14 @@ repository settings, so it can quietly fall behind this workflow.
 ### What the tests are for
 
 `src/test/config.test.ts` tests the **configuration**, never the rules. The
-contributor-facing detail — how to add a rule, how to choose its two samples —
+contributor-facing detail — how to add a rule, how to choose its samples —
 lives in `src/test/README.md`; read that before adding a rule.
+
+Two parts of the harness carry unit tests of their own, because no fixture on
+disk exercises them: `src/test/fixtures/loader.test.ts` covers the fixture
+shapes the loader accepts and refuses, and `src/test/reports.test.ts` covers
+what an invalid sample must report. Both run under `npm test` beside the
+generated suite.
 
 The one policy worth restating here: fixtures carry no copy of a rule's
 severity or options. A `valid`/`invalid` sample pair pins the chosen option

@@ -13,7 +13,8 @@ new test, but it will usually involve adding a new fixture.
 A rule whose samples end in `.cjs` instead is parsed as a classic script rather than a
 module. Nothing else can demonstrate `with`, a legacy octal or a `delete` of a variable,
 which are syntax errors under the module semantics every other sample gets. Use `.ts`
-unless the rule is about syntax a module cannot contain.
+unless the rule is about syntax a module cannot contain. Every case for one rule
+shares that choice; a fixture mixing the two is refused.
 
 Fixtures are grouped by rule set, one directory per module in `src/configs/`. A rule
 set names the prefix its rule ids carry — `core` adds nothing, `typescript` adds
@@ -22,10 +23,12 @@ carries a plugin. Adding a rule set means naming it in `RuleSet` in `fixtures/ty
 and giving it a prefix; the loader refuses a directory it does not recognise rather
 than inventing a rule id for it.
 
-Samples live on disk, one folder per rule holding `valid.ts` and `invalid.ts`, so that
-a sample spanning several lines — or carrying a character that would otherwise have to
-be escaped — reads as the code it is. The folder is ignored by Prettier, ESLint and
-`tsc`, since the samples are deliberately malformed.
+Samples live on disk, so that a sample spanning several lines — or carrying a character
+that would otherwise have to be escaped — reads as the code it is. Every rule holds two
+case directories, `valid/` and `invalid/`, with one file per case; where one case is all
+a rule needs, that case is named `default.ts`. The folder is ignored by Prettier, ESLint
+and `tsc`, since the samples are deliberately malformed, and those ignores reach the
+case directories with it.
 
 The suite resolves `configs` on its own, with nothing layered on top. What a consumer
 stacks around us is their business and outside our control; what we can and should
@@ -39,27 +42,32 @@ declared in `src/configs/` and the set of rules with fixtures are the same set, 
 adding one without the other fails.
 
 1. Add the rule to the matching module in `src/configs/`.
-2. Add a folder to the matching rule set in `fixtures/`, holding `valid.ts` and
-   `invalid.ts`.
+2. Add a folder to the matching rule set in `fixtures/`, holding a `valid/` and an
+   `invalid/` directory. One case in each is enough to start — `default.ts` in both.
 
 The two directories are split along the same seams on purpose, so that contributors
 working on unrelated areas of the config are rarely editing the same file.
 
-## Choosing the two samples
+## Choosing the samples
 
-Each fixture is a pair:
+Each fixture has a `valid` half and an `invalid` half:
 
-- `invalid` — must report exactly this rule, and nothing else.
+- `invalid` — every message it reports must be this rule, and there must be at least
+  one. Reporting the rule more than once is fine, and some rules cannot do otherwise:
+  a sample that reports its rule twice is still demonstrating that rule and nothing
+  else, so the suite asserts the rule rather than a count.
 - `valid` — must report nothing at all.
 
-Choose the pair so that it **pins the option you chose**. `yoda` is the model: under
-`'never'` the invalid sample errors and the valid one does not, and under `'always'`
-both results invert. That is why the fixtures carry no copy of the rule's severity or
-options — the pair constrains them more tightly than a restatement would, and unlike a
-restatement it cannot be brought back into agreement by copying a value across.
+Choose the samples so that they **pin the option you chose**. `yoda` is the model:
+under `'never'` the invalid sample errors and the valid one does not, and under
+`'always'` both results invert. That is why the fixtures carry no copy of the rule's
+severity or options — the samples constrain them more tightly than a restatement
+would, and unlike a restatement they cannot be brought back into agreement by copying
+a value across.
 
-A pair that reads the same whichever option is set documents nothing. Check that it
-actually inverts before you commit it — nothing enforces this, so it is on you.
+Samples that read the same whichever option is set document nothing, and that holds
+for every case in a directory too. Check that they actually invert before you commit
+them — nothing enforces this, so it is on you.
 
 Keep samples free of anything the rule under test does not need, and write what is left
 the way you would write it anywhere else. A sample is read far more often than it is
@@ -78,6 +86,48 @@ Each sample is linted against **that rule alone**, always, so an unrelated viola
 inside one is harmless: a `while (true)` in the `no-constant-condition` sample does not
 have to answer to `no-unreachable-loop`. It was once otherwise, and adding a rule then
 meant editing unrelated samples that happened to also report it.
+
+## One case, or several
+
+One case in each half is enough for a rule with one option, and that is what nearly
+every rule here ships: `valid/default.ts` against `invalid/default.ts`. The name earns
+its keep once there is more than one, because it is what the test output prints — a
+failure reads `reports invalid/multiline` rather than naming only the rule.
+
+One case stops being enough for a rule whose options are a list rather than a set of
+flags: `@typescript-eslint/naming-convention` takes a selector per kind of name —
+variables, types, properties — and no single pair can pin more than one of them.
+Shipping such a rule against one pair would leave most of what it enforces untested,
+and a later edit to any other selector could not fail anything. That rule holds a case
+per selector:
+
+```
+fixtures/typescript/naming-convention/
+├── invalid/
+│   ├── property.ts
+│   ├── type.ts
+│   └── variable.ts
+└── valid/
+    ├── property.ts
+    ├── type.ts
+    └── variable.ts
+```
+
+Each case is linted on its own, so a failure says which case broke rather than only
+which rule. The two halves are independent: a rule may hold several invalid cases
+against a single valid one.
+
+The loader refuses a fixture it cannot read unambiguously rather than testing less than
+it appears to: a rule missing its `valid/` or `invalid/` directory, a case directory
+with no cases in it, one holding an entry that is not a sample file, and anything else
+sitting in a rule's folder — a stray `cases/` directory, or a `valid.ts` left over from
+before the case directories, either of which would otherwise sit there unread. Hidden
+entries are ignored at every level, so an editor or Finder dropping one in costs
+nothing.
+
+Everything above still applies to every case. A case earns its place by inverting when
+the option changes, and a directory whose cases all read the same whichever option is
+set documents no more than one of them would.
 
 ## Every rule is an error
 
