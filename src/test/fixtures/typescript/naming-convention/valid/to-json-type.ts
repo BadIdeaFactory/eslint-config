@@ -1,0 +1,3 @@
+interface Point {
+	toJSON(): string;
+}
