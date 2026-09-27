@@ -56,13 +56,21 @@ const severityCode = (entry: Linter.RuleEntry | undefined) => {
 	return typeof severity === 'string' ? SEVERITY_CODES[severity] : severity;
 };
 
-const reportsInIsolation = async (
-	ruleId: string,
-	entry: Linter.RuleEntry,
-	source: string,
-	filePath: string,
-	script = false,
-) => {
+interface IsolatedLint {
+	ruleId: string;
+	entry: Linter.RuleEntry;
+	source: string;
+	filePath: string;
+	script: boolean;
+}
+
+const reportsInIsolation = async ({
+	ruleId,
+	entry,
+	source,
+	filePath,
+	script,
+}: IsolatedLint) => {
 	const linter = new ESLint({
 		overrideConfigFile: true,
 		overrideConfig: [
@@ -144,13 +152,13 @@ describe('the published config', () => {
 			for (const filePath of samplePathsFor(fixture)) {
 				for (const invalidCase of invalid) {
 					it(`reports invalid/${invalidCase.name} in ${filePath}`, async () => {
-						const reportedRuleIds = await reportsInIsolation(
+						const reportedRuleIds = await reportsInIsolation({
 							ruleId,
 							entry,
-							invalidCase.source,
+							source: invalidCase.source,
 							filePath,
 							script,
-						);
+						});
 						assertReportsThisRuleAndNothingElse(ruleId, reportedRuleIds);
 					});
 				}
@@ -158,13 +166,13 @@ describe('the published config', () => {
 				for (const validCase of valid) {
 					it(`leaves valid/${validCase.name} alone in ${filePath}`, async () => {
 						assert.deepEqual(
-							await reportsInIsolation(
+							await reportsInIsolation({
 								ruleId,
 								entry,
-								validCase.source,
+								source: validCase.source,
 								filePath,
 								script,
-							),
+							}),
 							[],
 						);
 					});

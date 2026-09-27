@@ -30,6 +30,7 @@ const core: Linter.Config = {
 			{ max: 450, skipBlankLines: true, skipComments: true },
 		],
 		'max-nested-callbacks': ['error', { max: 3 }],
+		'max-params': ['error', { max: 4 }],
 		'new-cap': ['error', { capIsNew: false }],
 		'no-alert': 'error',
 		'no-async-promise-executor': 'error',
