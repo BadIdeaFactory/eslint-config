@@ -37,6 +37,7 @@ const typescript: Linter.Config = {
 		],
 		'@typescript-eslint/consistent-type-imports': 'error',
 		'@typescript-eslint/dot-notation': 'error',
+		'@typescript-eslint/explicit-function-return-type': 'error',
 		'@typescript-eslint/init-declarations': ['error', 'always'],
 		'@typescript-eslint/method-signature-style': 'error',
 		'@typescript-eslint/no-array-constructor': 'error',
