@@ -29,8 +29,6 @@ export default defineConfig([
 			},
 		},
 		rules: {
-			'@typescript-eslint/explicit-function-return-type': 'error',
-
 			'@typescript-eslint/no-magic-numbers': [
 				'error',
 				{
