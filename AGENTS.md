@@ -198,10 +198,16 @@ Do not write inline comments that restate what a rule's own documentation says.
 A reader who wants to know what `yoda` does will go read the `yoda` docs, and a
 comment that paraphrases them is one more thing to keep in sync.
 
-The comment that _is_ wanted is the one explaining a decision the reader cannot
-recover from the code: why we deviate from a rule's default options, why a rule
-is switched off for a subset of files, why a preset is ordered where it is.
-Rules that simply state a default need no commentary.
+**The rule entries in `src/configs/` carry no comments at all**, however good the
+reason. Why a rule deviates from its default options, why one of its entries is
+shaped the way it is, why an option was chosen over the obvious alternative: all
+of that goes in the body of the commit that adds the rule, where `git log` and
+`git blame` will hand it to the reader who asks. A rules object stays a table of
+rules.
+
+Comments about the shape of a config still belong where they are — why a block
+exists at all, why a rule is switched off for a subset of files, why a preset is
+ordered where it is. Those describe the file rather than a rule's options.
 
 ### Formatting
 
