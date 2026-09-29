@@ -29,14 +29,6 @@ export default defineConfig([
 			},
 		},
 		rules: {
-			'@typescript-eslint/no-magic-numbers': [
-				'error',
-				{
-					detectObjects: false,
-					ignoreEnums: true,
-				},
-			],
-
 			// Unlike some code bases we explicitly do not want default exports.
 			'import-x/prefer-default-export': 'off',
 			'import-x/no-default-export': 'error',
@@ -71,12 +63,21 @@ export default defineConfig([
 			'@typescript-eslint/explicit-function-return-type': 'off',
 
 			// Tests use hard coded numbers in lots of places, and that's OK.
-			'@typescript-eslint/no-magic-numbers': 'off',
+			'no-magic-numbers': 'off',
 
 			// `node:test` returns a promise from `describe` and `it` that the
 			// runner itself owns; there is nothing useful to await at the call
 			// site, and awaiting would serialise the suite.
 			'@typescript-eslint/no-floating-promises': 'off',
+		},
+	},
+	{
+		// A lint config is a table of thresholds, and a threshold means most
+		// beside the rule it tunes; pulling each into a named constant would
+		// move it away from the only context that explains it.
+		files: ['src/configs/**/*.ts'],
+		rules: {
+			'no-magic-numbers': 'off',
 		},
 	},
 	{

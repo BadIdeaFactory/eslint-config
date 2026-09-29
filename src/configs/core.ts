@@ -74,6 +74,18 @@ const core: Linter.Config = {
 		'no-lonely-if': 'error',
 		'no-loop-func': 'error',
 		'no-loss-of-precision': 'error',
+		'no-magic-numbers': [
+			'error',
+			{
+				ignore: [0, 1],
+				enforceConst: true,
+				detectObjects: true,
+				ignoreEnums: true,
+				ignoreNumericLiteralTypes: true,
+				ignoreReadonlyClassProperties: true,
+				ignoreTypeIndexes: true,
+			},
+		],
 		'no-misleading-character-class': 'error',
 		'no-multi-assign': 'error',
 		'no-multi-str': 'error',
