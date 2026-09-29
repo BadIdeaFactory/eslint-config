@@ -1,6 +1,7 @@
 {
-	"extends": "@tsconfig/node24/tsconfig.json",
+	"extends": "@tsconfig/node22/tsconfig.json",
 	"compilerOptions": {
+		"target": "es2024",
 		"noEmit": true,
 		"resolveJsonModule": true,
 		"noUncheckedIndexedAccess": true,
