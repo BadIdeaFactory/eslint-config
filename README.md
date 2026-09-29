@@ -4,7 +4,7 @@
 
 Expertly implemented ESLint configurations for overengineered projects.
 
-A shareable [ESLint](https://eslint.org) configuration that pressures everybody on your team to care a little bit too much about code quality.
+A shareable [ESLint](https://eslint.org) configuration for TypeScript projects that pressures everybody on your team to care a little bit too much about code quality.
 
 ## Usage
 
@@ -19,9 +19,19 @@ import biffud from '@biffud/eslint-config';
 export default [...biffud];
 ```
 
+### TypeScript
+
+This config set is written for TypeScript projects. Its TypeScript rules apply to
+`.ts`, `.mts`, `.cts` and `.tsx` files only. The core ESLint rules also reach any
+JavaScript files you lint, but a JavaScript-only project is not what this package is
+designed for.
+
 ### Type information
 
-This config set is type aware, and finds your types using typescript-eslint's project service.
+This config set is type aware, and finds your types using typescript-eslint's project
+service. Every TypeScript file you lint must be covered by one of your tsconfigs, and
+your own config must not set `parserOptions.project`: typescript-eslint refuses to
+parse when both are set.
 
 ## Rules
 
