@@ -10,11 +10,18 @@ expecting.
 `src/configs/` and `fixtures/`. Adding a rule generally should not require writing a
 new test, but it will usually involve adding a new fixture.
 
-A rule whose samples end in `.cjs` instead is parsed as a classic script rather than a
-module. Nothing else can demonstrate `with`, a legacy octal or a `delete` of a variable,
-which are syntax errors under the module semantics every other sample gets. Use `.ts`
-unless the rule is about syntax a module cannot contain. Every case for one rule
-shares that choice; a fixture mixing the two is refused.
+A sample's extension says what it contains, and so where it can be linted. A `.js`
+sample is plain JavaScript and is linted as every path its rule set reaches. A `.ts`
+sample carries TypeScript syntax and is linted as `sample.ts` alone; a core rule uses
+one to pin an option that only TypeScript code can reach, beside `.js` cases for the
+rest. Each half of a core rule still needs a `.js` case, so that the rule is shown to
+reach `.js` at all.
+
+A rule whose samples end in `.cjs` is parsed as a classic script rather than a module.
+Nothing else can demonstrate `with`, a legacy octal or a `delete` of a variable, which
+are syntax errors under the module semantics every other sample gets. Use it only when
+the rule is about syntax a module cannot contain. Every case for such a rule is a
+`.cjs`; a fixture mixing script and module samples is refused.
 
 Fixtures are grouped by rule set, one directory per module in `src/configs/`. A rule
 set names the prefix its rule ids carry — `core` adds nothing, `typescript` adds
@@ -26,7 +33,7 @@ than inventing a rule id for it.
 Samples live on disk, so that a sample spanning several lines — or carrying a character
 that would otherwise have to be escaped — reads as the code it is. Every rule holds two
 case directories, `valid/` and `invalid/`, with one file per case; where one case is all
-a rule needs, that case is named `default.ts`. The folder is ignored by Prettier, ESLint
+a rule needs, that case is named `default`. The folder is ignored by Prettier, ESLint
 and `tsc`, since the samples are deliberately malformed, and those ignores reach the
 case directories with it.
 
@@ -43,7 +50,8 @@ adding one without the other fails.
 
 1. Add the rule to the matching module in `src/configs/`.
 2. Add a folder to the matching rule set in `fixtures/`, holding a `valid/` and an
-   `invalid/` directory. One case in each is enough to start — `default.ts` in both.
+   `invalid/` directory. One case in each is enough to start — `default.js` in both
+   for a core rule, `default.ts` for a TypeScript one.
 
 The two directories are split along the same seams on purpose, so that contributors
 working on unrelated areas of the config are rarely editing the same file.
@@ -90,7 +98,7 @@ meant editing unrelated samples that happened to also report it.
 ## One case, or several
 
 One case in each half is enough for a rule with one option, and that is what nearly
-every rule here ships: `valid/default.ts` against `invalid/default.ts`. The name earns
+every rule here ships: `valid/default` against `invalid/default`. The name earns
 its keep once there is more than one, because it is what the test output prints — a
 failure reads `reports invalid/multiline` rather than naming only the rule.
 
@@ -120,7 +128,7 @@ against a single valid one.
 The loader refuses a fixture it cannot read unambiguously rather than testing less than
 it appears to: a rule missing its `valid/` or `invalid/` directory, a case directory
 with no cases in it, one holding an entry that is not a sample file, and anything else
-sitting in a rule's folder — a stray `cases/` directory, or a `valid.ts` left over from
+sitting in a rule's folder — a stray `cases/` directory, or a `valid.js` left over from
 before the case directories, either of which would otherwise sit there unread. Hidden
 entries are ignored at every level, so an editor or Finder dropping one in costs
 nothing.
@@ -143,9 +151,9 @@ one cannot see a downgrade we make ourselves — both ends move together — and
 
 ## Why most samples run twice
 
-Each sample is linted as both `sample.js` and `sample.ts`. A shareable config reaches
-`.js` for free, but reaches `.ts` only for as long as something in it keeps supplying a
-parser. That asymmetry is invisible from inside this repository — `eslint.config.mjs`
+Each `.js` sample of a core rule is linted as both `sample.js` and `sample.ts`. A
+shareable config reaches `.js` for free, but reaches `.ts` only for as long as something
+in it keeps supplying a parser. That asymmetry is invisible from inside this repository — `eslint.config.mjs`
 supplies a parser of its own either way — and it was a real bug here before
 `src/configs/typescript.ts` existed.
 
@@ -154,7 +162,8 @@ the parser that makes `.ts` lintable at all, so `.js` is a file they are never a
 about; linting one there would report a missing plugin rather than a missing violation.
 Which paths a rule set reaches is `REACHED_PATHS` in `config.test.ts`, and the
 composition test reads the same table, so a rule that stopped reaching the files it is
-meant for fails there rather than passing quietly.
+meant for fails there rather than passing quietly. A `.ts` sample runs once for the
+same reason a TypeScript rule does: `sample.ts` is the only path that can parse it.
 
 ## Why sample.ts is a real file
 

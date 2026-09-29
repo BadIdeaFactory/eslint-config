@@ -108,9 +108,9 @@ src/
         ├── core/       # One folder per rule, holding its case directories
         │   └── yoda/
         │       ├── invalid/
-        │       │   └── default.ts
+        │       │   └── default.js
         │       └── valid/
-        │           └── default.ts
+        │           └── default.js
         └── typescript/ # Same, for ids carrying `@typescript-eslint/`
             └── await-thenable/
                 ├── invalid/
@@ -125,7 +125,9 @@ file. Adding a rule means editing one module and adding its samples — never
 writing a new test. Every rule keeps those samples as named cases in a `valid/`
 and an `invalid/` directory, one file per case and each linted on its own, so a
 rule whose options are a list can hold a case per option; `src/test/README.md`
-has the details.
+has the details. A sample's extension says what it holds: `.js` is plain
+JavaScript and runs everywhere its rule set reaches, `.ts` carries TypeScript
+syntax and runs only as TypeScript.
 
 The samples are real files rather than string literals so that a multi-line
 one, or one carrying an irregular character, reads as the code it is. They are

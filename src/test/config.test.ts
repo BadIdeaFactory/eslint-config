@@ -4,10 +4,18 @@ import { ESLint } from 'eslint';
 import configs from '../index.ts';
 import { fixtures } from './fixtures/index.ts';
 import { assertReportsThisRuleAndNothingElse } from './reports.ts';
-import type { RuleFixture, RuleSet } from './fixtures/types.ts';
+import type {
+	FixtureCase,
+	RuleFixture,
+	RuleSet,
+	SampleExtension,
+	SampleKind,
+} from './fixtures/types.ts';
 import type { Linter } from 'eslint';
 
 const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
+
+const SAMPLE_KINDS: SampleKind[] = ['valid', 'invalid'];
 
 // `sample.ts` exists on disk, and has to: the project service types only a
 // file some tsconfig covers, and an invented path is in none. The `.js` and
@@ -28,8 +36,37 @@ const REACHED_PATHS: Record<RuleSet, string[]> = {
 // samples get.
 const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];
 
-const samplePathsFor = ({ script, ruleSet }: RuleFixture) =>
-	script ? SCRIPT_SAMPLE_PATHS : REACHED_PATHS[ruleSet];
+// A .ts sample carries TypeScript syntax, which only a .ts path can parse. A
+// .js sample is plain JavaScript and goes everywhere its rule set reaches.
+const CASE_PATHS: Record<SampleExtension, (ruleSet: RuleSet) => string[]> = {
+	cjs: () => SCRIPT_SAMPLE_PATHS,
+	js: (ruleSet) => REACHED_PATHS[ruleSet],
+	ts: () => [samplePath('ts')],
+};
+
+const casePathsFor = (ruleSet: RuleSet, { extension }: FixtureCase) =>
+	CASE_PATHS[extension](ruleSet);
+
+const samplePathsIn = (ruleSet: RuleSet, cases: FixtureCase[]) =>
+	cases.flatMap((fixtureCase) => casePathsFor(ruleSet, fixtureCase));
+
+const samplePathsFor = ({ ruleSet, valid, invalid }: RuleFixture) =>
+	samplePathsIn(ruleSet, [...valid, ...invalid]);
+
+const unreachedPathsIn = (ruleSet: RuleSet, cases: FixtureCase[]) => {
+	const linted = samplePathsIn(ruleSet, cases);
+	return REACHED_PATHS[ruleSet].filter((path) => !linted.includes(path));
+};
+
+const halvesMissingReachedPaths = () =>
+	Object.entries(fixtures)
+		.filter(([, { script }]) => !script)
+		.flatMap(([ruleId, fixture]) =>
+			SAMPLE_KINDS.filter(
+				(sampleKind) =>
+					unreachedPathsIn(fixture.ruleSet, fixture[sampleKind]).length !== 0,
+			).map((sampleKind) => `${ruleId} ${sampleKind}/`),
+		);
 
 const withoutRules = (config: Linter.Config): Linter.Config => {
 	const copy = { ...config };
@@ -135,6 +172,10 @@ describe('the published config', () => {
 		);
 	});
 
+	it('demonstrates each half of every rule on every path its rule set reaches', () => {
+		assert.deepEqual(halvesMissingReachedPaths(), []);
+	});
+
 	describe('survives its own composition', () => {
 		for (const filePath of new Set(Object.values(REACHED_PATHS).flat())) {
 			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
@@ -146,11 +187,11 @@ describe('the published config', () => {
 
 	for (const [ruleId, fixture] of Object.entries(fixtures)) {
 		const entry = firstDeclarationOfEachRule().get(ruleId) ?? 'error';
-		const { valid, invalid, script } = fixture;
+		const { valid, invalid, script, ruleSet } = fixture;
 
 		describe(ruleId, () => {
-			for (const filePath of samplePathsFor(fixture)) {
-				for (const invalidCase of invalid) {
+			for (const invalidCase of invalid) {
+				for (const filePath of casePathsFor(ruleSet, invalidCase)) {
 					it(`reports invalid/${invalidCase.name} in ${filePath}`, async () => {
 						const reportedRuleIds = await reportsInIsolation({
 							ruleId,
@@ -162,8 +203,10 @@ describe('the published config', () => {
 						assertReportsThisRuleAndNothingElse(ruleId, reportedRuleIds);
 					});
 				}
+			}
 
-				for (const validCase of valid) {
+			for (const validCase of valid) {
+				for (const filePath of casePathsFor(ruleSet, validCase)) {
 					it(`leaves valid/${validCase.name} alone in ${filePath}`, async () => {
 						assert.deepEqual(
 							await reportsInIsolation({
