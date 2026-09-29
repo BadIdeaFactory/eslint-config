@@ -43,15 +43,15 @@ describe('the fixture loader', () => {
 	it('reads each case file as a case named after it', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			'no-var': {
-				'valid/default.ts': 'let a = 1;\n',
-				'invalid/default.ts': 'var a = 1;\n',
+				'valid/default.js': 'let a = 1;\n',
+				'invalid/default.js': 'var a = 1;\n',
 			},
 		});
 
 		assert.deepEqual(loadFixturesFrom(fixtureRoot), {
 			'no-var': {
-				valid: [{ name: 'default', source: 'let a = 1;' }],
-				invalid: [{ name: 'default', source: 'var a = 1;' }],
+				valid: [{ name: 'default', source: 'let a = 1;', extension: 'js' }],
+				invalid: [{ name: 'default', source: 'var a = 1;', extension: 'js' }],
 				script: false,
 				ruleSet: 'core',
 			},
@@ -61,18 +61,20 @@ describe('the fixture loader', () => {
 	it('names every case in a directory, and sorts them', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			curly: {
-				'valid/default.ts': 'if (a) {\n\tb();\n}\n',
-				'invalid/single.ts': 'if (a) b();\n',
-				'invalid/multiline.ts': 'if (a)\n\tb();\n',
+				'valid/default.js': 'if (a) {\n\tb();\n}\n',
+				'invalid/single.js': 'if (a) b();\n',
+				'invalid/multiline.js': 'if (a)\n\tb();\n',
 			},
 		});
 
 		assert.deepEqual(loadFixturesFrom(fixtureRoot), {
 			curly: {
-				valid: [{ name: 'default', source: 'if (a) {\n\tb();\n}' }],
+				valid: [
+					{ name: 'default', source: 'if (a) {\n\tb();\n}', extension: 'js' },
+				],
 				invalid: [
-					{ name: 'multiline', source: 'if (a)\n\tb();' },
-					{ name: 'single', source: 'if (a) b();' },
+					{ name: 'multiline', source: 'if (a)\n\tb();', extension: 'js' },
+					{ name: 'single', source: 'if (a) b();', extension: 'js' },
 				],
 				script: false,
 				ruleSet: 'core',
@@ -93,11 +95,31 @@ describe('the fixture loader', () => {
 		assert.equal(fixture?.script, true);
 	});
 
+	it('reads JavaScript and TypeScript cases side by side', () => {
+		const fixtureRoot = coreFixtureTreeWith({
+			'no-magic-numbers': {
+				'valid/default.js': 'const LIMIT = 3;\n',
+				'valid/enum.ts': 'enum Status {\n\tOk = 200,\n}\n',
+				'invalid/default.js': 'a * 3;\n',
+			},
+		});
+
+		const { 'no-magic-numbers': fixture } = loadFixturesFrom(fixtureRoot);
+
+		assert.deepEqual(
+			fixture?.valid.map(({ name, extension }) => [name, extension]),
+			[
+				['default', 'js'],
+				['enum', 'ts'],
+			],
+		);
+	});
+
 	it('ignores a hidden file sitting beside the cases', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			curly: {
-				'valid/default.ts': 'if (a) {\n\tb();\n}\n',
-				'invalid/single.ts': 'if (a) b();\n',
+				'valid/default.js': 'if (a) {\n\tb();\n}\n',
+				'invalid/single.js': 'if (a) b();\n',
 				'invalid/.DS_Store': 'not a sample\n',
 			},
 		});
@@ -105,17 +127,17 @@ describe('the fixture loader', () => {
 		const { curly: fixture } = loadFixturesFrom(fixtureRoot);
 
 		assert.deepEqual(fixture?.invalid, [
-			{ name: 'single', source: 'if (a) b();' },
+			{ name: 'single', source: 'if (a) b();', extension: 'js' },
 		]);
 	});
 
 	it('ignores a hidden directory in the rule set', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			'no-var': {
-				'valid/default.ts': 'let a = 1;\n',
-				'invalid/default.ts': 'var a = 1;\n',
+				'valid/default.js': 'let a = 1;\n',
+				'invalid/default.js': 'var a = 1;\n',
 			},
-			'.cache': { 'junk.ts': 'not a fixture\n' },
+			'.cache': { 'junk.js': 'not a fixture\n' },
 		});
 
 		assert.deepEqual(Object.keys(loadFixturesFrom(fixtureRoot)), ['no-var']);
@@ -124,8 +146,8 @@ describe('the fixture loader', () => {
 	it('refuses a case directory holding a file that is not a sample', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			curly: {
-				'valid/default.ts': 'if (a) {\n\tb();\n}\n',
-				'invalid/single.ts': 'if (a) b();\n',
+				'valid/default.js': 'if (a) {\n\tb();\n}\n',
+				'invalid/single.js': 'if (a) b();\n',
 				'invalid/notes.md': 'why this case exists\n',
 			},
 		});
@@ -136,15 +158,15 @@ describe('the fixture loader', () => {
 	it('refuses a directory sitting among the cases', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			curly: {
-				'valid/default.ts': 'if (a) {\n\tb();\n}\n',
-				'invalid/single.ts': 'if (a) b();\n',
+				'valid/default.js': 'if (a) {\n\tb();\n}\n',
+				'invalid/single.js': 'if (a) b();\n',
 				'invalid/nested': EMPTY_DIRECTORY,
 			},
 		});
 
 		assert.throws(
 			() => loadFixturesFrom(fixtureRoot),
-			/nested, which is not a \.ts or \.cjs sample file/v,
+			/nested, which is not a \.cjs, \.js, or \.ts sample file/v,
 		);
 	});
 
@@ -152,7 +174,7 @@ describe('the fixture loader', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			'no-with': {
 				'valid/default.cjs': 'a.b();\n',
-				'invalid/statement.ts': 'with (a) {\n\tb();\n}\n',
+				'invalid/statement.js': 'with (a) {\n\tb();\n}\n',
 			},
 		});
 
@@ -162,7 +184,7 @@ describe('the fixture loader', () => {
 	it('refuses a case directory holding no cases', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			'no-var': {
-				'valid/default.ts': 'let a = 1;\n',
+				'valid/default.js': 'let a = 1;\n',
 				invalid: EMPTY_DIRECTORY,
 			},
 		});
@@ -172,7 +194,7 @@ describe('the fixture loader', () => {
 
 	it('refuses a rule missing one half of its cases', () => {
 		const fixtureRoot = coreFixtureTreeWith({
-			curly: { 'invalid/default.ts': 'if (a) b();\n' },
+			curly: { 'invalid/default.js': 'if (a) b();\n' },
 		});
 
 		assert.throws(
@@ -184,12 +206,12 @@ describe('the fixture loader', () => {
 	it('refuses a sample left beside the case directories', () => {
 		const fixtureRoot = coreFixtureTreeWith({
 			'no-var': {
-				'valid/default.ts': 'let a = 1;\n',
-				'invalid/default.ts': 'var a = 1;\n',
-				'valid.ts': 'let a = 1;\n',
+				'valid/default.js': 'let a = 1;\n',
+				'invalid/default.js': 'var a = 1;\n',
+				'valid.js': 'let a = 1;\n',
 			},
 		});
 
-		assert.throws(() => loadFixturesFrom(fixtureRoot), /holds valid\.ts/v);
+		assert.throws(() => loadFixturesFrom(fixtureRoot), /holds valid\.js/v);
 	});
 });

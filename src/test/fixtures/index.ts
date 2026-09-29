@@ -4,6 +4,7 @@ import type {
 	FixtureCase,
 	RuleFixtures,
 	RuleSet,
+	SampleExtension,
 	SampleKind,
 } from './types.ts';
 import type { Dirent } from 'node:fs';
@@ -11,8 +12,10 @@ import type { Dirent } from 'node:fs';
 const { dirname: FIXTURE_ROOT } = import.meta;
 
 const SCRIPT_EXTENSION = 'cjs';
-const MODULE_EXTENSION = 'ts';
-const SAMPLE_EXTENSIONS = [SCRIPT_EXTENSION, MODULE_EXTENSION];
+const SAMPLE_EXTENSIONS: SampleExtension[] = [SCRIPT_EXTENSION, 'js', 'ts'];
+const SAMPLE_EXTENSION_LIST = new Intl.ListFormat('en', {
+	type: 'disjunction',
+}).format(SAMPLE_EXTENSIONS.map((extension) => `.${extension}`));
 const SAMPLE_KINDS = ['valid', 'invalid'] as const;
 
 // Some rule prefixes aren't valid file paths, this lets us
@@ -43,9 +46,11 @@ const isRuleSet = (name: string): name is RuleSet =>
 const isScriptSamplePath = (samplePath: string) =>
 	samplePath.endsWith(`.${SCRIPT_EXTENSION}`);
 
+const sampleExtensionOf = (samplePath: string) =>
+	SAMPLE_EXTENSIONS.find((extension) => samplePath.endsWith(`.${extension}`));
+
 const isSampleFileEntry = (entry: Dirent) =>
-	!entry.isDirectory() &&
-	SAMPLE_EXTENSIONS.some((extension) => entry.name.endsWith(`.${extension}`));
+	!entry.isDirectory() && sampleExtensionOf(entry.name) !== undefined;
 
 const assertNoStrayEntriesIn = (rulePath: string, ruleEntries: Dirent[]) => {
 	const strayNames = ruleEntries
@@ -81,7 +86,7 @@ const casePathsIn = (caseDirectory: string) => {
 		.map((entry) => entry.name);
 	if (strayNames.length !== 0) {
 		throw new Error(
-			`Fixture directory '${caseDirectory}' holds ${strayNames.join(', ')}, which is not a .${MODULE_EXTENSION} or .${SCRIPT_EXTENSION} sample file.`,
+			`Fixture directory '${caseDirectory}' holds ${strayNames.join(', ')}, which is not a ${SAMPLE_EXTENSION_LIST} sample file.`,
 		);
 	}
 	if (entries.length === 0) {
@@ -98,7 +103,7 @@ const assertOneParsingMode = (rulePath: string, casePaths: string[]) => {
 		scriptCasePaths.length !== 0 && scriptCasePaths.length !== casePaths.length;
 	if (mixesParsingModes) {
 		throw new Error(
-			`Fixture '${rulePath}' mixes .${SCRIPT_EXTENSION} and .${MODULE_EXTENSION} samples. Every sample for one rule shares a parsing mode.`,
+			`Fixture '${rulePath}' mixes .${SCRIPT_EXTENSION} samples with module samples. Every sample for one rule shares a parsing mode.`,
 		);
 	}
 };
@@ -106,10 +111,17 @@ const assertOneParsingMode = (rulePath: string, casePaths: string[]) => {
 const parsesAsScript = (casePaths: string[]) =>
 	casePaths.every(isScriptSamplePath);
 
-const fixtureCaseAt = (samplePath: string): FixtureCase => ({
-	name: basename(samplePath, extname(samplePath)),
-	source: sampleSourceAt(samplePath),
-});
+const fixtureCaseAt = (samplePath: string): FixtureCase => {
+	const extension = sampleExtensionOf(samplePath);
+	if (extension === undefined) {
+		throw new Error(`'${samplePath}' is not a sample file.`);
+	}
+	return {
+		name: basename(samplePath, extname(samplePath)),
+		source: sampleSourceAt(samplePath),
+		extension,
+	};
+};
 
 const loadFixturesFrom = (fixtureRoot: string): RuleFixtures => {
 	const loaded: RuleFixtures = {};

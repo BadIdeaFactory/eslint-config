@@ -3,9 +3,12 @@ type RuleSet = 'core' | 'typescript';
 
 type SampleKind = 'valid' | 'invalid';
 
+type SampleExtension = 'cjs' | 'js' | 'ts';
+
 interface FixtureCase {
 	name: string;
 	source: string;
+	extension: SampleExtension;
 }
 
 interface RuleFixture {
@@ -17,4 +20,11 @@ interface RuleFixture {
 
 type RuleFixtures = Record<string, RuleFixture>;
 
-export type { FixtureCase, RuleFixture, RuleFixtures, RuleSet, SampleKind };
+export type {
+	FixtureCase,
+	RuleFixture,
+	RuleFixtures,
+	RuleSet,
+	SampleExtension,
+	SampleKind,
+};
