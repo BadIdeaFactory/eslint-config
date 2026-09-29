@@ -105,6 +105,19 @@ const core: Linter.Config = {
 		'no-proto': 'error',
 		'no-prototype-builtins': 'error',
 		'no-regex-spaces': 'error',
+		'no-restricted-syntax': [
+			'error',
+			{
+				selector:
+					"CallExpression[callee.object.name='process'][callee.property.name='exit'] > Literal",
+				message: 'Name the exit code in a constant.',
+			},
+			{
+				selector:
+					"AssignmentExpression[left.object.name='process'][left.property.name='exitCode'] > Literal.right",
+				message: 'Name the exit code in a constant.',
+			},
+		],
 		'no-return-assign': ['error', 'always'],
 		'no-script-url': 'error',
 		'no-self-assign': 'error',
