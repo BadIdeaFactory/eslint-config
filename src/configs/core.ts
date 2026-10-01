@@ -4,6 +4,7 @@ const core: Linter.Config = {
 	name: '@biffud/eslint-config/core',
 	linterOptions: {
 		reportUnusedDisableDirectives: 'error',
+		reportUnusedInlineConfigs: 'error',
 	},
 	rules: {
 		'accessor-pairs': 'error',
