@@ -182,6 +182,14 @@ describe('the published config', () => {
 				const resolved = await resolvedConfigFor(filePath);
 				assert.deepEqual(rulesCancelledIn(resolved, filePath), []);
 			});
+
+			it(`reports unused disable directives as errors in ${filePath}`, async () => {
+				const resolved = await resolvedConfigFor(filePath);
+				assert.equal(
+					resolved?.linterOptions?.reportUnusedDisableDirectives,
+					SEVERITY_CODES.error,
+				);
+			});
 		}
 	});
 
