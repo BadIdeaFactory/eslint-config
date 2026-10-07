@@ -62,6 +62,10 @@ const typescript: Linter.Config = {
 				format: ['strictCamelCase', 'UPPER_CASE'],
 			},
 			{ selector: 'default', modifiers: ['requiresQuotes'], format: null },
+			{
+				selector: ['objectLiteralProperty', 'typeProperty'],
+				format: null,
+			},
 			{ selector: 'variable', modifiers: ['destructured'], format: null },
 			{ selector: 'parameter', modifiers: ['destructured'], format: null },
 			{
