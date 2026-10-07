@@ -17,6 +17,13 @@ const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
 
 const SAMPLE_KINDS: SampleKind[] = ['valid', 'invalid'];
 
+// A comment that no longer changes anything still reads as though it does, so
+// both are reported at the same severity as every rule.
+const UNUSED_COMMENT_OPTIONS = [
+	'reportUnusedDisableDirectives',
+	'reportUnusedInlineConfigs',
+] as const;
+
 // `sample.ts` exists on disk, and has to: the project service types only a
 // file some tsconfig covers, and an invented path is in none. The `.js` and
 // `.cjs` samples are text alone.
@@ -182,6 +189,13 @@ describe('the published config', () => {
 				const resolved = await resolvedConfigFor(filePath);
 				assert.deepEqual(rulesCancelledIn(resolved, filePath), []);
 			});
+
+			for (const option of UNUSED_COMMENT_OPTIONS) {
+				it(`sets ${option} to error in ${filePath}`, async () => {
+					const resolved = await resolvedConfigFor(filePath);
+					assert.equal(resolved?.linterOptions?.[option], SEVERITY_CODES.error);
+				});
+			}
 		}
 	});
 
