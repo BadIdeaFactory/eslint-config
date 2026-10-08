@@ -131,6 +131,7 @@ const core: Linter.Config = {
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',
 		'no-this-before-super': 'error',
+		'no-unassigned-vars': 'error',
 		'no-unexpected-multiline': 'error',
 		'no-unmodified-loop-condition': 'error',
 		'no-unneeded-ternary': ['error', { defaultAssignment: false }],
