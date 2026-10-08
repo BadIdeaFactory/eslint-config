@@ -68,6 +68,7 @@ const core: Linter.Config = {
 		'no-fallthrough': 'error',
 		'no-func-assign': 'error',
 		'no-global-assign': 'error',
+		'no-implicit-coercion': ['error', { disallowTemplateShorthand: true }],
 		'no-implicit-globals': 'error',
 		'no-import-assign': 'error',
 		'no-invalid-regexp': 'error',
