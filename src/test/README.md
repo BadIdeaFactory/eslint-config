@@ -151,7 +151,7 @@ one cannot see a downgrade we make ourselves — both ends move together — and
 
 ## Why most samples run twice
 
-Each `.js` sample of a core rule is linted as both `sample.js` and `sample.ts`. A
+Each `.js` sample of a core or promise rule is linted as both `sample.js` and `sample.ts`. A
 shareable config reaches `.js` for free, but reaches `.ts` only for as long as something
 in it keeps supplying a parser. That asymmetry is invisible from inside this repository — `eslint.config.mjs`
 supplies a parser of its own either way — and it was a real bug here before

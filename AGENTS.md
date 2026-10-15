@@ -96,6 +96,7 @@ scripts/
 src/
 ├── configs/            # The rules, split by concern
 │   ├── core.ts         # Core ESLint rules; universal, no `files`
+│   ├── promise.ts      # eslint-plugin-promise and its rules; also no `files`
 │   └── typescript.ts   # The parser, the plugin, and the TypeScript rules
 ├── index.ts            # Composes the modules; exports `configs`
 └── test/               # See src/test/README.md
@@ -111,6 +112,7 @@ src/
         │       │   └── default.js
         │       └── valid/
         │           └── default.js
+        ├── promise/    # Same, for ids carrying `promise/`
         └── typescript/ # Same, for ids carrying `@typescript-eslint/`
             └── await-thenable/
                 ├── invalid/

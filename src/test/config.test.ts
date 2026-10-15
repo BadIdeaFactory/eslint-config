@@ -29,11 +29,13 @@ const UNUSED_COMMENT_OPTIONS = [
 // `.cjs` samples are text alone.
 const samplePath = (extension: string) => `src/test/sample.${extension}`;
 
-// Core rules run in both: a shareable config reaches `.js` for free, but
-// reaches `.ts` only while something in it supplies a parser. TypeScript rules
-// ship in that same block, so `.js` has no plugin to resolve their ids against.
+// Core and promise rules run in both: a shareable config reaches `.js` for
+// free, but reaches `.ts` only while something in it supplies a parser.
+// TypeScript rules ship in that same block, so `.js` has no plugin to resolve
+// their ids against.
 const REACHED_PATHS: Record<RuleSet, string[]> = {
 	core: [samplePath('js'), samplePath('ts')],
+	promise: [samplePath('js'), samplePath('ts')],
 	typescript: [samplePath('ts')],
 };
 
