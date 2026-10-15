@@ -10,6 +10,7 @@ const promise: Linter.Config = {
 		'promise/avoid-new': 'error',
 		'promise/no-multiple-resolved': 'error',
 		'promise/no-return-wrap': 'error',
+		'promise/param-names': 'error',
 	},
 };
 
