@@ -130,6 +130,7 @@ const core: Linter.Config = {
 		'no-self-assign': 'error',
 		'no-self-compare': 'error',
 		'no-sequences': 'error',
+		'no-setter-return': 'error',
 		'no-shadow-restricted-names': 'error',
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',
