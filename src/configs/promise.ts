@@ -8,6 +8,7 @@ const promise: Linter.Config = {
 	},
 	rules: {
 		'promise/avoid-new': 'error',
+		'promise/no-multiple-resolved': 'error',
 	},
 };
 
