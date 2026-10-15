@@ -19,6 +19,7 @@ const core: Linter.Config = {
 		'constructor-super': 'error',
 		curly: 'error',
 		'default-case-last': 'error',
+		'default-param-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
 		'getter-return': 'error',
