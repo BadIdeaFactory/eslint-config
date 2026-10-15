@@ -162,6 +162,7 @@ const typescript: Linter.Config = {
 			'error',
 			{ allowThrowingAny: false, allowThrowingUnknown: false },
 		],
+		'@typescript-eslint/parameter-properties': 'error',
 		'@typescript-eslint/prefer-as-const': 'error',
 		'@typescript-eslint/prefer-destructuring': [
 			'error',
