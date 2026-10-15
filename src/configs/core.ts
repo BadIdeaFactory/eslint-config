@@ -19,8 +19,10 @@ const core: Linter.Config = {
 		'constructor-super': 'error',
 		curly: 'error',
 		'default-case-last': 'error',
+		'default-param-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
+		'getter-return': 'error',
 		'grouped-accessor-pairs': ['error', 'getBeforeSet'],
 		'guard-for-in': 'error',
 		'logical-assignment-operators': [
@@ -129,6 +131,7 @@ const core: Linter.Config = {
 		'no-self-assign': 'error',
 		'no-self-compare': 'error',
 		'no-sequences': 'error',
+		'no-setter-return': 'error',
 		'no-shadow-restricted-names': 'error',
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',

@@ -118,6 +118,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/no-non-null-assertion': 'error',
 		'@typescript-eslint/no-redundant-type-constituents': 'error',
 		'@typescript-eslint/no-require-imports': 'error',
+		'@typescript-eslint/no-shadow': 'error',
 		'@typescript-eslint/no-this-alias': 'error',
 		'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
 		'@typescript-eslint/no-unnecessary-condition': [
@@ -161,12 +162,14 @@ const typescript: Linter.Config = {
 			'error',
 			{ allowThrowingAny: false, allowThrowingUnknown: false },
 		],
+		'@typescript-eslint/parameter-properties': 'error',
 		'@typescript-eslint/prefer-as-const': 'error',
 		'@typescript-eslint/prefer-destructuring': [
 			'error',
 			{ array: true, object: true },
 			{ enforceForRenamedProperties: true },
 		],
+		'@typescript-eslint/prefer-enum-initializers': 'error',
 		'@typescript-eslint/prefer-find': 'error',
 		'@typescript-eslint/prefer-for-of': 'error',
 		'@typescript-eslint/prefer-function-type': 'error',
