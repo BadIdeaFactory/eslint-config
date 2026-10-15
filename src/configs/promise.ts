@@ -6,7 +6,9 @@ const promise: Linter.Config = {
 	plugins: {
 		promise: promisePlugin,
 	},
-	rules: {},
+	rules: {
+		'promise/avoid-new': 'error',
+	},
 };
 
 export { promise };
