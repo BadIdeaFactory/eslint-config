@@ -21,6 +21,7 @@ const core: Linter.Config = {
 		'default-case-last': 'error',
 		eqeqeq: ['error', 'always', { null: 'always' }],
 		'for-direction': 'error',
+		'getter-return': 'error',
 		'grouped-accessor-pairs': ['error', 'getBeforeSet'],
 		'guard-for-in': 'error',
 		'logical-assignment-operators': [
