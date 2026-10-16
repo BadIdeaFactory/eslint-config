@@ -11,6 +11,7 @@ const promise: Linter.Config = {
 		'promise/catch-or-return': ['error', { allowFinally: true }],
 		'promise/no-multiple-resolved': 'error',
 		'promise/no-new-statics': 'error',
+		'promise/no-return-in-finally': 'error',
 		'promise/no-return-wrap': 'error',
 		'promise/param-names': 'error',
 		'promise/prefer-catch': 'error',
