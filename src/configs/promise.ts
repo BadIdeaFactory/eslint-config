@@ -15,6 +15,7 @@ const promise: Linter.Config = {
 		'promise/no-return-wrap': 'error',
 		'promise/param-names': 'error',
 		'promise/prefer-catch': 'error',
+		'promise/valid-params': 'error',
 	},
 };
 
