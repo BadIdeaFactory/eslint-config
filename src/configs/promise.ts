@@ -8,6 +8,7 @@ const promise: Linter.Config = {
 	},
 	rules: {
 		'promise/avoid-new': 'error',
+		'promise/catch-or-return': ['error', { allowFinally: true }],
 		'promise/no-multiple-resolved': 'error',
 		'promise/no-return-wrap': 'error',
 		'promise/param-names': 'error',
