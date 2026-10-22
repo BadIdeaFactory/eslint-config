@@ -39,6 +39,19 @@ const REACHED_PATHS: Record<RuleSet, string[]> = {
 	typescript: [samplePath('ts')],
 };
 
+// Core rules switched off in `.ts`, where an extension takes over, so they
+// reach `.js` alone. Declared here rather than read off the config, so that
+// the composition test can hold the two against each other.
+const HANDED_OFF_RULES = ['no-unused-vars'];
+
+const HANDED_OFF_PATHS = [samplePath('ts')];
+
+const reachedPathsFor = (ruleId: string, ruleSet: RuleSet) =>
+	REACHED_PATHS[ruleSet].filter(
+		(path) =>
+			!(HANDED_OFF_RULES.includes(ruleId) && HANDED_OFF_PATHS.includes(path)),
+	);
+
 // A rule whose samples end in .cjs is asking to be parsed as a classic script.
 // Nothing else can demonstrate `with`, a legacy octal or a `delete` of a
 // variable, all of which are syntax errors under the module semantics the other
@@ -47,24 +60,41 @@ const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];
 
 // A .ts sample carries TypeScript syntax, which only a .ts path can parse. A
 // .js sample is plain JavaScript and goes everywhere its rule set reaches.
-const CASE_PATHS: Record<SampleExtension, (ruleSet: RuleSet) => string[]> = {
+const CASE_PATHS: Record<
+	SampleExtension,
+	(ruleId: string, ruleSet: RuleSet) => string[]
+> = {
 	cjs: () => SCRIPT_SAMPLE_PATHS,
-	js: (ruleSet) => REACHED_PATHS[ruleSet],
+	js: reachedPathsFor,
 	ts: () => [samplePath('ts')],
 };
 
-const casePathsFor = (ruleSet: RuleSet, { extension }: FixtureCase) =>
-	CASE_PATHS[extension](ruleSet);
+const casePathsFor = (
+	ruleId: string,
+	ruleSet: RuleSet,
+	{ extension }: FixtureCase,
+) => CASE_PATHS[extension](ruleId, ruleSet);
 
-const samplePathsIn = (ruleSet: RuleSet, cases: FixtureCase[]) =>
-	cases.flatMap((fixtureCase) => casePathsFor(ruleSet, fixtureCase));
+const samplePathsIn = (
+	ruleId: string,
+	ruleSet: RuleSet,
+	cases: FixtureCase[],
+) => cases.flatMap((fixtureCase) => casePathsFor(ruleId, ruleSet, fixtureCase));
 
-const samplePathsFor = ({ ruleSet, valid, invalid }: RuleFixture) =>
-	samplePathsIn(ruleSet, [...valid, ...invalid]);
+const samplePathsFor = (
+	ruleId: string,
+	{ ruleSet, valid, invalid }: RuleFixture,
+) => samplePathsIn(ruleId, ruleSet, [...valid, ...invalid]);
 
-const unreachedPathsIn = (ruleSet: RuleSet, cases: FixtureCase[]) => {
-	const linted = samplePathsIn(ruleSet, cases);
-	return REACHED_PATHS[ruleSet].filter((path) => !linted.includes(path));
+const unreachedPathsIn = (
+	ruleId: string,
+	ruleSet: RuleSet,
+	cases: FixtureCase[],
+) => {
+	const linted = samplePathsIn(ruleId, ruleSet, cases);
+	return reachedPathsFor(ruleId, ruleSet).filter(
+		(path) => !linted.includes(path),
+	);
 };
 
 const halvesMissingReachedPaths = () =>
@@ -73,7 +103,8 @@ const halvesMissingReachedPaths = () =>
 		.flatMap(([ruleId, fixture]) =>
 			SAMPLE_KINDS.filter(
 				(sampleKind) =>
-					unreachedPathsIn(fixture.ruleSet, fixture[sampleKind]).length !== 0,
+					unreachedPathsIn(ruleId, fixture.ruleSet, fixture[sampleKind])
+						.length !== 0,
 			).map((sampleKind) => `${ruleId} ${sampleKind}/`),
 		);
 
@@ -142,7 +173,10 @@ const rulesBelowError = () =>
 const rulesReaching = (filePath: string) =>
 	[...firstDeclarationOfEachRule().entries()].filter(([ruleId]) => {
 		const { [ruleId]: fixture } = fixtures;
-		return fixture !== undefined && samplePathsFor(fixture).includes(filePath);
+		return (
+			fixture !== undefined &&
+			samplePathsFor(ruleId, fixture).includes(filePath)
+		);
 	});
 
 const rulesCancelledIn = (
@@ -185,6 +219,20 @@ describe('the published config', () => {
 		assert.deepEqual(halvesMissingReachedPaths(), []);
 	});
 
+	describe('hands core rules to their extensions', () => {
+		for (const filePath of HANDED_OFF_PATHS) {
+			for (const ruleId of HANDED_OFF_RULES) {
+				it(`switches ${ruleId} off in ${filePath}`, async () => {
+					const resolved = await resolvedConfigFor(filePath);
+					assert.equal(
+						severityCode(resolved?.rules?.[ruleId]),
+						SEVERITY_CODES.off,
+					);
+				});
+			}
+		}
+	});
+
 	describe('survives its own composition', () => {
 		for (const filePath of new Set(Object.values(REACHED_PATHS).flat())) {
 			it(`keeps every rule at its declared severity in ${filePath}`, async () => {
@@ -207,7 +255,7 @@ describe('the published config', () => {
 
 		describe(ruleId, () => {
 			for (const invalidCase of invalid) {
-				for (const filePath of casePathsFor(ruleSet, invalidCase)) {
+				for (const filePath of casePathsFor(ruleId, ruleSet, invalidCase)) {
 					it(`reports invalid/${invalidCase.name} in ${filePath}`, async () => {
 						const reportedRuleIds = await reportsInIsolation({
 							ruleId,
@@ -222,7 +270,7 @@ describe('the published config', () => {
 			}
 
 			for (const validCase of valid) {
-				for (const filePath of casePathsFor(ruleSet, validCase)) {
+				for (const filePath of casePathsFor(ruleId, ruleSet, validCase)) {
 					it(`leaves valid/${validCase.name} alone in ${filePath}`, async () => {
 						assert.deepEqual(
 							await reportsInIsolation({
