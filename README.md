@@ -1,4 +1,6 @@
 ![CI](https://github.com/BadIdeaFactory/eslint-config/actions/workflows/ci.yml/badge.svg)
+[![npm](https://img.shields.io/npm/v/@biffud/eslint-config)](https://www.npmjs.com/package/@biffud/eslint-config)
+[![License](https://img.shields.io/npm/l/@biffud/eslint-config)](LICENSE)
 
 # @biffud/eslint-config
 
@@ -42,7 +44,7 @@ does not set it. [`src/index.ts`](src/index.ts) just composes them in order.
 Rules carry options only where we override a rule's default. A rule that reads
 `'error'` alone takes ESLint's defaults deliberately, so anything spelled out is a
 deviation — reading [`src/configs/`](src/configs) tells you exactly where this config
-differs from ESLint's own judgement, and the reason is written next to it.
+differs from ESLint's own judgement, and the commit that added each rule says why.
 
 Options are positional, so a default that precedes one we override stays: dropping it
 would move the option after it into the wrong slot.
@@ -142,4 +144,4 @@ than from `package.json`, so getting the type right is the whole job; see
 
 ## License
 
-[AGPL-3.0](LICENSE)
+[MIT](LICENSE)
