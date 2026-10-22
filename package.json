@@ -46,7 +46,14 @@
 		"eslint",
 		"eslintconfig",
 		"eslint-config",
+		"eslint-flat-config",
+		"flat-config",
 		"typescript",
+		"typescript-eslint",
+		"type-aware",
+		"strict",
+		"styleguide",
+		"eslint-plugin-promise",
 		"linting"
 	],
 	"author": {
