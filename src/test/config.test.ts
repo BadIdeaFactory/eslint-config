@@ -45,6 +45,7 @@ const REACHED_PATHS: Record<RuleSet, string[]> = {
 const HANDED_OFF_RULES = [
 	'no-dupe-class-members',
 	'no-redeclare',
+	'no-throw-literal',
 	'no-unused-private-class-members',
 	'no-unused-vars',
 ];
