@@ -1,4 +1,6 @@
 ![CI](https://github.com/BadIdeaFactory/eslint-config/actions/workflows/ci.yml/badge.svg)
+[![npm](https://img.shields.io/npm/v/@biffud/eslint-config)](https://www.npmjs.com/package/@biffud/eslint-config)
+[![License](https://img.shields.io/npm/l/@biffud/eslint-config)](LICENSE)
 
 # @biffud/eslint-config
 
