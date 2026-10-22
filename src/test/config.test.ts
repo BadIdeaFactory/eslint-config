@@ -42,7 +42,7 @@ const REACHED_PATHS: Record<RuleSet, string[]> = {
 // Core rules switched off in `.ts`, where an extension takes over, so they
 // reach `.js` alone. Declared here rather than read off the config, so that
 // the composition test can hold the two against each other.
-const HANDED_OFF_RULES = ['no-unused-vars'];
+const HANDED_OFF_RULES = ['no-unused-private-class-members', 'no-unused-vars'];
 
 const HANDED_OFF_PATHS = [samplePath('ts')];
 

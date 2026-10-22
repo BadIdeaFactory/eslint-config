@@ -148,6 +148,7 @@ const core: Linter.Config = {
 			'error',
 			{ disallowArithmeticOperators: true },
 		],
+		'no-unused-private-class-members': 'error',
 		'no-unused-vars': [
 			'error',
 			{ ignoreRestSiblings: true, argsIgnorePattern: '^_' },
