@@ -1,7 +1,7 @@
 {
 	"name": "@biffud/eslint-config",
 	"version": "10.0.0",
-	"description": "Expertly implemented eslint configurations for overengineered projects",
+	"description": "Strict, type-aware ESLint flat config for TypeScript — expertly implemented for overengineered projects",
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
