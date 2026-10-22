@@ -165,6 +165,14 @@ composition test reads the same table, so a rule that stopped reaching the files
 meant for fails there rather than passing quietly. A `.ts` sample runs once for the
 same reason a TypeScript rule does: `sample.ts` is the only path that can parse it.
 
+A handful of core rules run once too. Where a TypeScript extension takes over, the core
+form is switched off for `.ts`, so its samples are linted as `sample.js` alone. Those
+rules are `HANDED_OFF_RULES` in `config.test.ts`, declared there rather than read off
+the config, and the suite asserts each one resolves to `off` in `sample.ts`. A rule
+switched off without being declared still reaches `sample.ts` as far as the suite
+knows, so the composition test fails on it; one declared without being switched off
+fails the handoff test.
+
 ## Why sample.ts is a real file
 
 `sample.ts` exists on disk; `sample.js` and `sample.cjs` do not. The type-aware rules

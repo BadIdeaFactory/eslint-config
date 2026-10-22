@@ -55,6 +55,7 @@ const core: Linter.Config = {
 		'no-debugger': 'error',
 		'no-delete-var': 'error',
 		'no-dupe-args': 'error',
+		'no-dupe-class-members': 'error',
 		'no-dupe-else-if': 'error',
 		'no-dupe-keys': 'error',
 		'no-duplicate-case': 'error',
@@ -112,6 +113,7 @@ const core: Linter.Config = {
 		'no-promise-executor-return': 'error',
 		'no-proto': 'error',
 		'no-prototype-builtins': 'error',
+		'no-redeclare': 'error',
 		'no-regex-spaces': 'error',
 		'no-restricted-syntax': [
 			'error',
@@ -136,6 +138,7 @@ const core: Linter.Config = {
 		'no-sparse-arrays': 'error',
 		'no-template-curly-in-string': 'error',
 		'no-this-before-super': 'error',
+		'no-throw-literal': 'error',
 		'no-unassigned-vars': 'error',
 		'no-unexpected-multiline': 'error',
 		'no-unmodified-loop-condition': 'error',
@@ -147,6 +150,11 @@ const core: Linter.Config = {
 		'no-unsafe-optional-chaining': [
 			'error',
 			{ disallowArithmeticOperators: true },
+		],
+		'no-unused-private-class-members': 'error',
+		'no-unused-vars': [
+			'error',
+			{ ignoreRestSiblings: true, argsIgnorePattern: '^_' },
 		],
 		'no-useless-assignment': 'error',
 		'no-useless-backreference': 'error',
