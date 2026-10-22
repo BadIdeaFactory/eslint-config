@@ -144,4 +144,4 @@ than from `package.json`, so getting the type right is the whole job; see
 
 ## License
 
-[AGPL-3.0](LICENSE)
+[MIT](LICENSE)

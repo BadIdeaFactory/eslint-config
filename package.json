@@ -61,7 +61,7 @@
 		"email": "slifty@gmail.com",
 		"url": "https://github.com/slifty"
 	},
-	"license": "AGPL-3.0",
+	"license": "MIT",
 	"peerDependencies": {
 		"eslint": "^10.0.0"
 	},
