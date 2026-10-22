@@ -1,9 +1,6 @@
 import { parser, plugin } from 'typescript-eslint';
 import type { Linter } from 'eslint';
 
-// Without this block the package would not reach `.ts` at all: ESLint only
-// considers `.js`, `.mjs` and `.cjs` lintable by default, and its default
-// parser cannot read a type annotation.
 const TYPESCRIPT_FILES = ['**/*.{ts,mts,cts,tsx}'];
 
 const typescript: Linter.Config = {
@@ -223,9 +220,7 @@ const typescript: Linter.Config = {
 	},
 };
 
-// Core rules that `.js` still needs but that a TypeScript rule above takes
-// over in `.ts`. Switching them off only works from a block composed after
-// `core`.
+// Must be composed after `core`, or `core` switches these back on.
 const typescriptHandoffs: Linter.Config = {
 	name: '@biffud/eslint-config/typescript-handoffs',
 	files: TYPESCRIPT_FILES,

@@ -17,31 +17,19 @@ const SEVERITY_CODES = { off: 0, warn: 1, error: 2 };
 
 const SAMPLE_KINDS: SampleKind[] = ['valid', 'invalid'];
 
-// A comment that no longer changes anything still reads as though it does, so
-// both are reported at the same severity as every rule.
 const UNUSED_COMMENT_OPTIONS = [
 	'reportUnusedDisableDirectives',
 	'reportUnusedInlineConfigs',
 ] as const;
 
-// `sample.ts` exists on disk, and has to: the project service types only a
-// file some tsconfig covers, and an invented path is in none. The `.js` and
-// `.cjs` samples are text alone.
 const samplePath = (extension: string) => `src/test/sample.${extension}`;
 
-// Core and promise rules run in both: a shareable config reaches `.js` for
-// free, but reaches `.ts` only while something in it supplies a parser.
-// TypeScript rules ship in that same block, so `.js` has no plugin to resolve
-// their ids against.
 const REACHED_PATHS: Record<RuleSet, string[]> = {
 	core: [samplePath('js'), samplePath('ts')],
 	promise: [samplePath('js'), samplePath('ts')],
 	typescript: [samplePath('ts')],
 };
 
-// Core rules switched off in `.ts`, where an extension takes over, so they
-// reach `.js` alone. Declared here rather than read off the config, so that
-// the composition test can hold the two against each other.
 const HANDED_OFF_RULES = [
 	'no-dupe-class-members',
 	'no-redeclare',
@@ -58,15 +46,9 @@ const reachedPathsFor = (ruleId: string, ruleSet: RuleSet) =>
 			!(HANDED_OFF_RULES.includes(ruleId) && HANDED_OFF_PATHS.includes(path)),
 	);
 
-// A rule whose samples end in .cjs is asking to be parsed as a classic script.
-// Nothing else can demonstrate `with`, a legacy octal or a `delete` of a
-// variable, all of which are syntax errors under the module semantics the other
-// samples get.
 const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];
 
-// A .ts sample carries TypeScript syntax, which only a .ts path can parse. A
-// .js sample is plain JavaScript and goes everywhere its rule set reaches.
-const CASE_PATHS: Record<
+const CASE_PATHS_BY_EXTENSION: Record<
 	SampleExtension,
 	(ruleId: string, ruleSet: RuleSet) => string[]
 > = {
@@ -79,7 +61,7 @@ const casePathsFor = (
 	ruleId: string,
 	ruleSet: RuleSet,
 	{ extension }: FixtureCase,
-) => CASE_PATHS[extension](ruleId, ruleSet);
+) => CASE_PATHS_BY_EXTENSION[extension](ruleId, ruleSet);
 
 const samplePathsIn = (
 	ruleId: string,
@@ -175,15 +157,17 @@ const rulesBelowError = () =>
 		.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
 		.map(([ruleId]) => ruleId);
 
-// A rule reaches a path when the fixture demonstrating it is linted there.
+const isDemonstratedAt = (ruleId: string, filePath: string) => {
+	const { [ruleId]: fixture } = fixtures;
+	return (
+		fixture !== undefined && samplePathsFor(ruleId, fixture).includes(filePath)
+	);
+};
+
 const rulesReaching = (filePath: string) =>
-	[...firstDeclarationOfEachRule().entries()].filter(([ruleId]) => {
-		const { [ruleId]: fixture } = fixtures;
-		return (
-			fixture !== undefined &&
-			samplePathsFor(ruleId, fixture).includes(filePath)
-		);
-	});
+	[...firstDeclarationOfEachRule().entries()].filter(([ruleId]) =>
+		isDemonstratedAt(ruleId, filePath),
+	);
 
 const rulesCancelledIn = (
 	resolved: Linter.Config | undefined,

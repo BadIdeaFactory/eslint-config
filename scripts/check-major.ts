@@ -1,11 +1,5 @@
 import { execFileSync } from 'node:child_process';
 
-// The major position means the supported ESLint major and nothing else, so a
-// breaking-change marker and a change to the `eslint` peer major are the same
-// event described twice. This asserts they always travel together: a marker
-// without a peer bump would publish a major this package never earned, and a
-// peer bump without a marker would ship new ESLint support as a minor.
-
 const DEFAULT_BASE = 'origin/main';
 const DEFAULT_HEAD = 'HEAD';
 const EXIT_FAILURE = 1;

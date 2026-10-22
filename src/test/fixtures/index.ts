@@ -18,8 +18,6 @@ const SAMPLE_EXTENSION_LIST = new Intl.ListFormat('en', {
 }).format(SAMPLE_EXTENSIONS.map((extension) => `.${extension}`));
 const SAMPLE_KINDS = ['valid', 'invalid'] as const;
 
-// Some rule prefixes aren't valid file paths, this lets us
-// redirect them to fixture paths that can actually exist
 const RULE_ID_PREFIXES: Record<RuleSet, string> = {
 	core: '',
 	promise: 'promise/',
