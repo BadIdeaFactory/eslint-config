@@ -230,6 +230,7 @@ const typescriptHandoffs: Linter.Config = {
 	name: '@biffud/eslint-config/typescript-handoffs',
 	files: TYPESCRIPT_FILES,
 	rules: {
+		'no-dupe-class-members': 'off',
 		'no-unused-private-class-members': 'off',
 		'no-unused-vars': 'off',
 	},

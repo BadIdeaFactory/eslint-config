@@ -55,6 +55,7 @@ const core: Linter.Config = {
 		'no-debugger': 'error',
 		'no-delete-var': 'error',
 		'no-dupe-args': 'error',
+		'no-dupe-class-members': 'error',
 		'no-dupe-else-if': 'error',
 		'no-dupe-keys': 'error',
 		'no-duplicate-case': 'error',
