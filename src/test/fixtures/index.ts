@@ -22,6 +22,7 @@ const SAMPLE_KINDS = ['valid', 'invalid'] as const;
 // redirect them to fixture paths that can actually exist
 const RULE_ID_PREFIXES: Record<RuleSet, string> = {
 	core: '',
+	promise: 'promise/',
 	typescript: '@typescript-eslint/',
 };
 
