@@ -231,6 +231,7 @@ const typescriptHandoffs: Linter.Config = {
 	files: TYPESCRIPT_FILES,
 	rules: {
 		'no-dupe-class-members': 'off',
+		'no-redeclare': 'off',
 		'no-unused-private-class-members': 'off',
 		'no-unused-vars': 'off',
 	},

@@ -44,6 +44,7 @@ const REACHED_PATHS: Record<RuleSet, string[]> = {
 // the composition test can hold the two against each other.
 const HANDED_OFF_RULES = [
 	'no-dupe-class-members',
+	'no-redeclare',
 	'no-unused-private-class-members',
 	'no-unused-vars',
 ];

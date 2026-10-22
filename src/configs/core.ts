@@ -113,6 +113,7 @@ const core: Linter.Config = {
 		'no-promise-executor-return': 'error',
 		'no-proto': 'error',
 		'no-prototype-builtins': 'error',
+		'no-redeclare': 'error',
 		'no-regex-spaces': 'error',
 		'no-restricted-syntax': [
 			'error',
