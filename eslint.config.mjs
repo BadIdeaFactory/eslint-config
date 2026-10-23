@@ -6,8 +6,11 @@ import globals from 'globals';
 import { configs as tsConfigs } from 'typescript-eslint';
 import biffudConfigs from './src/index.ts';
 
-// How this repository lints itself. Rules this package publishes come from
-// `./src`; anything still inline below has yet to move there.
+const TEST_FILES = ['**/*.test.ts', 'src/test/**/*.ts'];
+const RULE_TABLE_FILES = ['src/configs/**/*.ts'];
+const FILES_REQUIRING_DEFAULT_EXPORT = ['eslint.config.mjs', 'src/index.ts'];
+const FILES_OUTSIDE_TYPESCRIPT_PROJECT = ['eslint.config.mjs'];
+
 export default defineConfig([
 	globalIgnores(['dist/', 'src/test/fixtures/*/*/']),
 	js.configs.recommended,
@@ -22,14 +25,10 @@ export default defineConfig([
 				...globals.node,
 			},
 			parserOptions: {
-				// The project service arrives with `...biffudConfigs`; all this adds
-				// is a root to resolve from, so a lint run started anywhere in the
-				// tree finds the same tsconfig.
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
 		rules: {
-			// Unlike some code bases we explicitly do not want default exports.
 			'import-x/prefer-default-export': 'off',
 			'import-x/no-default-export': 'error',
 
@@ -56,42 +55,27 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.test.ts', 'src/test/**/*.ts'],
+		files: TEST_FILES,
 		rules: {
-			// Forcing return type definitions in our ad-hoc test functions is not
-			// worth the added effort / verbosity.
 			'@typescript-eslint/explicit-function-return-type': 'off',
-
-			// Tests use hard coded numbers in lots of places, and that's OK.
 			'no-magic-numbers': 'off',
-
-			// `node:test` returns a promise from `describe` and `it` that the
-			// runner itself owns; there is nothing useful to await at the call
-			// site, and awaiting would serialise the suite.
 			'@typescript-eslint/no-floating-promises': 'off',
 		},
 	},
 	{
-		// A lint config is a table of thresholds, and a threshold means most
-		// beside the rule it tunes; pulling each into a named constant would
-		// move it away from the only context that explains it.
-		files: ['src/configs/**/*.ts'],
+		files: RULE_TABLE_FILES,
 		rules: {
 			'no-magic-numbers': 'off',
 		},
 	},
 	{
-		// The two files whose shape is dictated from outside rather than by our
-		// own taste: ESLint requires a default export here, and consumers reach
-		// for a shareable config the same way.
-		files: ['eslint.config.mjs', 'src/index.ts'],
+		files: FILES_REQUIRING_DEFAULT_EXPORT,
 		rules: {
 			'import-x/no-default-export': 'off',
 		},
 	},
 	{
-		// eslint.config.mjs alone is not covered by the type-aware program.
-		files: ['eslint.config.mjs'],
+		files: FILES_OUTSIDE_TYPESCRIPT_PROJECT,
 		extends: [tsConfigs.disableTypeChecked],
 	},
 	prettier,

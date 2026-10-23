@@ -11,7 +11,8 @@ A shareable [ESLint](https://eslint.org) configuration for TypeScript projects t
 ## Usage
 
 ```bash
-npm install --save-dev @biffud/eslint-config eslint
+npm install --save-dev --save-prefix='~' @biffud/eslint-config
+npm install --save-dev eslint
 ```
 
 ```js
@@ -21,36 +22,21 @@ import biffud from '@biffud/eslint-config';
 export default [...biffud];
 ```
 
-### TypeScript
+This config is written for TypeScript projects. Its TypeScript rules apply to
+`.ts`, `.mts`, `.cts` and `.tsx` files; the core ESLint rules also reach any
+JavaScript you lint.
 
-This config set is written for TypeScript projects. Its TypeScript rules apply to
-`.ts`, `.mts`, `.cts` and `.tsx` files only. The core ESLint rules also reach any
-JavaScript files you lint, but a JavaScript-only project is not what this package is
-designed for.
+It is type aware and finds your types through typescript-eslint's project
+service, so:
 
-### Type information
-
-This config set is type aware, and finds your types using typescript-eslint's project
-service. Every TypeScript file you lint must be covered by one of your tsconfigs, and
-your own config must not set `parserOptions.project`: typescript-eslint refuses to
-parse when both are set.
+- every TypeScript file you lint must be covered by one of your tsconfigs, and
+- your own config must not set `parserOptions.project`.
 
 ## Rules
 
-Every rule this config sets lives in [`src/configs/`](src/configs), split by concern,
-and those files are the whole source of truth — if a rule is not in there, this package
-does not set it. [`src/index.ts`](src/index.ts) just composes them in order.
-
-Rules carry options only where we override a rule's default. A rule that reads
-`'error'` alone takes ESLint's defaults deliberately, so anything spelled out is a
-deviation — reading [`src/configs/`](src/configs) tells you exactly where this config
-differs from ESLint's own judgement, and the commit that added each rule says why.
-
-Options are positional, so a default that precedes one we override stays: dropping it
-would move the option after it into the wrong slot.
-
-Every rule ships with a pair of code samples pinning the behaviour we expect from it;
-see [`src/test/`](src/test).
+Every rule lives in [`src/configs/`](src/configs). A rule set to `'error'` alone
+uses ESLint's defaults, so any options you see there are where we deliberately
+disagree. The commit that added each rule explains why.
 
 ## Versioning
 
@@ -66,81 +52,14 @@ for us to do so. Given that, our three positions are being reassigned:
 | **Minor** | Rule changes and any other breaking change.                   |
 | **Patch** | Everything else — non-breaking additions and fixes alike.     |
 
-Practical consequence for consumers: use `~10.2.0` if you want your lint results to stay put, since that admits patch releases only. Use `^10.2.0` only if you are prepared for rule changes to arrive on their own schedule.
+Patch releases never add lint errors, but any minor release can. We recommend
+a tilde range (`"@biffud/eslint-config": "~10.2.0"`, not `^`), which takes
+patches automatically, and moving to a new minor on purpose when you are ready
+to adopt the latest rules.
 
-## Development
+## Contributing
 
-### Requirements
-
-- Node — see [`.node-version`](.node-version) for the expected version
-
-### Setup
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-### Common Commands
-
-To type check, lint, and check formatting:
-
-```bash
-npm run lint
-```
-
-To automatically fix what can be fixed:
-
-```bash
-npm run format
-```
-
-To build the package to `dist/`:
-
-```bash
-npm run build
-```
-
-### Commit messages
-
-Commits follow [Conventional Commits](https://www.conventionalcommits.org), and
-the type decides the next version, so it is worth getting right:
-
-| Marker                             | Release | Use for                                                       |
-| ---------------------------------- | ------- | ------------------------------------------------------------- |
-| `feat`                             | Minor   | A consumer who changed nothing could newly see a lint error   |
-| `fix`                              | Patch   | Everything else that should reach consumers                   |
-| `!` or a `BREAKING CHANGE:` footer | Major   | This package moved to a new ESLint major. Nothing else, ever. |
-
-`build`, `chore`, `ci`, `docs`, `refactor`, `style` and `test` release nothing.
-A breaking change is marked with a `!` after the type or a `BREAKING CHANGE:`
-footer; it is never a type of its own.
-
-The type is metadata and is not part of the description, which gets the fifty
-characters to itself:
-
-```
-feat: Add the yoda rule and consume it here
-```
-
-CI checks what it can — those fifty characters, the absent full stop, a body
-wrapped at seventy-two, and a description that is not wholly lower-case. The
-rest is convention rather than enforcement: the capitalization, the imperative
-mood, and a body that explains the why. All of it comes from the
-[seven rules of a great commit message](https://cbea.ms/git-commit/).
-
-To check this branch's commits before opening a pull request:
-
-```bash
-npm run lint:commit
-```
-
-### Releases
-
-Merging to `main` publishes. The version comes from the commit types rather
-than from `package.json`, so getting the type right is the whole job; see
-[`AGENTS.md`](AGENTS.md) for how a release is guarded.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## License
 

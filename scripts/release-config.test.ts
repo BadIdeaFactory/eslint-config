@@ -4,14 +4,6 @@ import { analyzeCommits } from '@semantic-release/commit-analyzer';
 import { generateNotes } from '@semantic-release/release-notes-generator';
 import releaserc from '../.releaserc.json' with { type: 'json' };
 
-// `.releaserc.json` decides version numbers and npm versions are immutable, so
-// it is worth more than a config file's usual scrutiny. Nothing else exercises
-// it: a dry run with no releasable commit never reaches the notes generator,
-// which is how a preset that could not render at all sat here undetected.
-//
-// These cases load the real file rather than a fixture, so a change to it has
-// to survive them.
-
 const configFor = (name: string): Record<string, unknown> => {
 	const entry = releaserc.plugins.find(
 		(plugin) => Array.isArray(plugin) && plugin[0] === name,
@@ -67,9 +59,6 @@ const notesFor = async (messages: string[]) =>
 describe('release configuration', () => {
 	describe('the version it would choose', () => {
 		const cases = [
-			// A breaking marker is reserved for moving to a new ESLint major. The
-			// default preset parses `feat!` to no type at all, releasing nothing or
-			// letting an unrelated commit carry the release out as a patch.
 			['feat!: Move to ESLint 11', 'major'],
 			['fix!: Move to ESLint 11', 'major'],
 			['feat: Move to ESLint 11\n\nBREAKING CHANGE: ESLint 11 now.', 'major'],

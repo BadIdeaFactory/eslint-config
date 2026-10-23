@@ -1,509 +1,59 @@
-# Agent Guide for @biffud/eslint-config
-
-This document provides context for LLM agents contributing to the
-`BadIdeaFactory/eslint-config` repository.
-
-## Project Overview
-
-`@biffud/eslint-config` is a shareable ESLint flat configuration for ESLint 10,
-intended to be strict, type-aware, and opinionated.
-
-**Key Technologies:**
-
-- Node.js (see `.node-version` for the current version) with TypeScript
-- ESM throughout — `package.json` sets `"type": "module"`
-- ESLint 10 (flat config), `typescript-eslint`, `eslint-plugin-import-x`
-- Prettier for formatting
-
-For specific dependency versions, consult `package.json`.
-
-**Status:** early. Tooling, CI, and dependency automation exist, and
-`src/index.ts` exports a real — if very short — `configs` array that this
-repository already lints itself with.
-
-## The Two Configs
-
-There are two distinct things in this repo and it is easy to confuse them:
-
-| File                | Role                                          |
-| ------------------- | --------------------------------------------- |
-| `eslint.config.mjs` | How this repository lints **itself**          |
-| `src/index.ts`      | What this repository **publishes** for others |
-
-`eslint.config.mjs` imports the default export of `./src/index.ts` and spreads
-it in, so the repo already eats its own dog food; Node's native type stripping
-is what lets a `.mjs` config import the TypeScript source directly. The rules
-still written inline in `eslint.config.mjs` are the ones that have yet to move
-to `src/`. When you move a rule, move it; do not duplicate it in both places.
-
-A rule belongs inline only while it is genuinely repo-specific (the
-`eslint.config.mjs` default-export exemption, say). Anything this package would
-want to impose on a consumer belongs in `src/`.
-
-## Quick Reference Commands
-
-```bash
-# Install dependencies
-npm ci
-
-# Lint everything (eslint, prettier, tsc)
-npm run lint
-
-# Lint this branch's commit messages against origin/main
-npm run lint:commit
-
-# Check this branch's breaking changes against the eslint peer major
-npm run lint:major
-
-# Run the config tests
-npm test
-
-# Auto-fix formatting and fixable lint errors
-npm run format
-
-# Build to dist/
-npm run build
-```
-
-## After Making Changes
-
-**Always run the formatter and linter after making ANY changes, including
-documentation, configuration, and JSON files:**
-
-```bash
-# Auto-fix formatting issues (run this first)
-npm run format
-
-# Check for remaining problems
-npm run lint
-```
-
-`npm run format` fixes Prettier formatting and ESLint auto-fixable rules
-(including import ordering). `npm run lint` additionally runs `tsc --noEmit`
-against `tsconfig.json`. Run `npm test` too whenever you touch `src/` or
-`scripts/`.
-
-`npm run lint:commit` and `npm run lint:major` are deliberately not part
-of `npm run lint`. They read git history rather than the working tree and need
-`origin/main` fetched, so they cannot run in the same contexts as the rest.
-
-## Project Structure
-
-```
-scripts/
-├── check-major.ts       # Asserts the versioning policy's one invariant
-└── check-major.test.ts  # Its cases, run by `npm test`
-src/
-├── configs/            # The rules, split by concern
-│   ├── core.ts         # Core ESLint rules; universal, no `files`
-│   ├── promise.ts      # eslint-plugin-promise and its rules; also no `files`
-│   └── typescript.ts   # The parser, the plugin, and the TypeScript rules
-├── index.ts            # Composes the modules; exports `configs`
-└── test/               # See src/test/README.md
-    ├── config.test.ts  # One generic harness; derives everything it runs
-    ├── reports.ts      # What an invalid sample must report
-    ├── reports.test.ts # Its cases
-    └── fixtures/
-        ├── index.ts        # Reads the samples off disk
-        ├── loader.test.ts  # Its cases: fixture shapes accepted and refused
-        ├── core/       # One folder per rule, holding its case directories
-        │   └── yoda/
-        │       ├── invalid/
-        │       │   └── default.js
-        │       └── valid/
-        │           └── default.js
-        ├── promise/    # Same, for ids carrying `promise/`
-        └── typescript/ # Same, for ids carrying `@typescript-eslint/`
-            └── await-thenable/
-                ├── invalid/
-                │   └── default.ts
-                └── valid/
-                    └── default.ts
-```
-
-`src/configs/` and `src/test/fixtures/` are split along the same seams
-deliberately, so contributors working on unrelated areas rarely touch the same
-file. Adding a rule means editing one module and adding its samples — never
-writing a new test. Every rule keeps those samples as named cases in a `valid/`
-and an `invalid/` directory, one file per case and each linted on its own, so a
-rule whose options are a list can hold a case per option; `src/test/README.md`
-has the details. A sample's extension says what it holds: `.js` is plain
-JavaScript and runs everywhere its rule set reaches, `.ts` carries TypeScript
-syntax and runs only as TypeScript.
-
-The samples are real files rather than string literals so that a multi-line
-one, or one carrying an irregular character, reads as the code it is. They are
-deliberately malformed, so the directory is ignored by Prettier, ESLint and
-`tsc`; Prettier does not repair lint violations but it does reflow lines, and
-several rules are about line structure.
-
-The structure will grow as the config does. Update this section when it does.
-
-## Code Conventions
-
-### TypeScript
-
-1. **No default exports** — always use named exports
-
-   ```typescript
-   // Good
-   export { configs };
-
-   // Bad
-   export default configs;
-   ```
-
-   Two files are exceptions, both because their shape is dictated from
-   outside rather than by our taste: `eslint.config.mjs`, where ESLint
-   requires a default export, and `src/index.ts`, the published surface,
-   which consumers expect to name themselves rather than alias. The config
-   turns the rule off for those two files specifically.
-
-2. **No magic numbers** — pull them out into named constants
-
-3. **Import ordering** — auto-sorted and alphabetized: builtin, external,
-   internal, parent, sibling, index, object, type. No blank lines between
-   groups.
-
-4. **Explicit return types** — required for all functions (except test files)
-
-5. **Type-only imports** — `verbatimModuleSyntax` is on, so type-only imports
-   must use `import type`
-
-### The two tsconfigs
-
-`tsconfig.json` is the project everything reads: `npm run lint:tsc`, the editor,
-and any tool that goes looking for the nearest config. It covers `src`,
-`scripts` and `eslint.config.mjs`, and emits nothing.
-
-`tsconfig.build.json` is narrower and exists only to emit `dist/`, so it drops
-the tests and everything outside `src`.
-
-The broad one has to be the one named `tsconfig.json`, because that is the name
-tools find by convention and a tool that finds the build config instead
-concludes that half this repository is not in a project at all.
-
-### Module system and file extensions
-
-This is an ESM project configured so Node can run the TypeScript sources
-directly via native type stripping. That imposes two rules:
-
-- **Relative imports carry an explicit `.ts` extension** —
-  `import { thing } from './thing.ts'`. `allowImportingTsExtensions` and
-  `rewriteRelativeImportExtensions` are enabled, so `tsc` rewrites these to
-  `.js` on emit.
-- **`erasableSyntaxOnly` is on** — no `enum`, no parameter properties, no
-  namespaces with runtime output. Use `const` objects with `as const` and union
-  types in place of enums.
-
-### Comments
-
-Do not write inline comments that restate what a rule's own documentation says.
-A reader who wants to know what `yoda` does will go read the `yoda` docs, and a
-comment that paraphrases them is one more thing to keep in sync.
-
-**The rule entries in `src/configs/` carry no comments at all**, however good the
-reason. Why a rule deviates from its default options, why one of its entries is
-shaped the way it is, why an option was chosen over the obvious alternative: all
-of that goes in the body of the commit that adds the rule, where `git log` and
-`git blame` will hand it to the reader who asks. A rules object stays a table of
-rules.
-
-Comments about the shape of a config still belong where they are — why a block
-exists at all, why a rule is switched off for a subset of files, why a preset is
-ordered where it is. Those describe the file rather than a rule's options.
-
-### Formatting
-
-Tabs for indentation, single quotes. Prettier reads `.editorconfig` for the
-indentation settings, so `.prettierrc` only overrides `singleQuote`. Do not
-hand-format; run `npm run format`.
-
-### Config authoring notes
-
-- Import `typescript-eslint` by named export (`import { configs as tsConfigs }`)
-  rather than the default. The default export also carries a `configs` member,
-  which trips `import-x/no-named-as-default-member`.
-- `eslint-config-prettier` goes **last** in the config array so it can turn off
-  every stylistic rule the earlier presets enabled.
-- Non-TypeScript files are not in the type-aware program. Give them
-  `tsConfigs.disableTypeChecked` rather than widening `tsconfig.json`.
-- **The parser, the plugin and the TypeScript rules share one config object.**
-  The `files` glob on it is what makes `.ts` lintable at all, so a rule declared
-  outside it would either not reach `.ts` or would reach `.js`, where the plugin
-  is not registered and the rule id does not resolve. Keep them together.
-- **Type information comes from `projectService`, not `project`.** A shareable
-  config cannot name a tsconfig path, because the path would be ours rather than
-  the consumer's; the project service finds whichever tsconfig already covers
-  each file. The two are mutually exclusive — typescript-eslint fails the parse
-  outright if both are set — so a consumer with `project` in their own config
-  has to drop it, and so did `eslint.config.mjs`.
-- **No top-level `await` in anything reachable from `src/index.ts`.** The
-  package is published ESM-only, and CommonJS consumers reach it through Node's
-  `require(esm)`, which refuses any module that is not fully synchronous. A
-  single top-level `await` would silently cut off every `eslint.config.cjs`
-  user. Keep the exported config plain, synchronous data.
-
-## Versioning Policy
-
-This package does **not** use conventional semantic versioning, and the
-difference matters when you are deciding how to release a change. Because
-almost every change to a lint config breaks somebody's build, "breaking" is not
-a useful thing for the major number to signal. The positions are reassigned:
-
-- **Major — the supported ESLint major, and nothing else.** `10.x.x` supports
-  ESLint 10. Bump it if and only if this package moves to a new ESLint major.
-  Never bump the major to signal that a change is disruptive, and never bump it
-  to mark a milestone.
-- **Minor — rule changes and other breaking changes.** Adding a rule, tightening
-  a rule, removing a rule, renaming an export. If a consumer's `npm run lint`
-  could newly fail, it is a minor.
-- **Patch — everything else.** Both non-breaking additions and bug fixes land
-  here. There is no separate position for "new but harmless."
-
-When in doubt between minor and patch, ask whether a consumer who changed
-nothing could see a new lint error. If yes, minor.
-
-The `peerDependencies` range on `eslint` should always agree with the major —
-`10.x.x` pairs with `"eslint": "^10.0.0"`. If you change one, change the other.
-CI enforces this rather than trusting it: `scripts/check-major.ts` fails a pull
-request that marks a breaking change without changing the peer major, and one
-that changes the peer major without marking a breaking change. The two are the
-same event described twice, so either alone is a mistake.
-
-Nobody sets the version by hand. semantic-release derives it from the commits
-and the git tags, so the `version` in `package.json` is not the source of truth
-and is not committed back after a release. See Releasing below.
-
-Changing the peer range is still a manual edit, and `package-lock.json` records
-the root `peerDependencies`, so run `npm install --package-lock-only` after
-touching it or CI's `npm-install` job fails on the drift.
-
-## Commit Conventions
-
-Commit subjects carry a [Conventional Commits](https://www.conventionalcommits.org)
-type. Release tooling reads those types to decide the next version, which makes
-the type a version number rather than a label — and npm versions are immutable,
-so a wrong type publishes a number that misdescribes the change and cannot be
-taken back.
-
-These map onto the positions in the versioning policy above, not onto their
-conventional meanings:
-
-| Marker                             | Position | Use for                                                       |
-| ---------------------------------- | -------- | ------------------------------------------------------------- |
-| `feat`                             | Minor    | A consumer who changed nothing could newly see a lint error   |
-| `fix`                              | Patch    | Everything else that should reach consumers                   |
-| `!` or a `BREAKING CHANGE:` footer | Major    | This package moved to a new ESLint major. Nothing else, ever. |
-
-`build`, `chore`, `ci`, `docs`, `refactor`, `style` and `test` are available and
-release nothing.
-
-The test for `feat` is the one the versioning policy already poses, so a rule
-added, tightened or removed is a `feat` while a new export nobody's lint run can
-trip over is a `fix`. That is a deliberate departure from the conventional
-reading, where any addition is a feature.
-
-A breaking change is marked with a `!` after the type (`feat!: Move to ESLint
-11`) or with a `BREAKING CHANGE:` footer, never as a type of its own — the type
-enum rejects that, so a contributor who reaches for it gets a red build rather
-than a wrong version.
-
-The marker is also reserved. A rule change is disruptive to consumers and is
-still not a major here: the major position means the supported ESLint version
-and nothing else, so a stray marker would publish a false claim of support for
-an ESLint release this package has never seen.
-
-### The type is not part of the subject
-
-The [seven rules of a great commit message](https://cbea.ms/git-commit/) this
-project inherits — capitalized, imperative, fifty characters, no trailing
-period — apply to the **description**, meaning the text after the type. The
-type is machine metadata and spends none of that budget:
-
-```
-feat: Add the yoda rule and consume it here
-      ^ the description starts here, and the fifty characters start with it
-```
-
-That is why `.commitlintrc.json` turns `header-max-length` off and puts the
-limit on `subject-max-length` instead, and why `subject-case` is inverted rather
-than disabled: the preset rejects a capitalized description, this project
-requires one, so the rule is kept and pointed the other way. It rejects a
-wholly lower-case description, which is as close to "capitalized" as the
-available checks get.
-
-The body rules are unchanged — wrapped at seventy-two, explaining the why, with
-the issue reference closing the prose and any trailers last.
-
-### What is not linted
-
-Merge commits are skipped by commitlint's own defaults, so a merge-commit
-workflow needs no exemption. Dependabot is exempted in CI instead: it writes its
-own subjects in its own style, and the only part that is ours is the prefix,
-which `.github/dependabot.yml` configures directly.
-
-## Releasing
-
-Every merge to `main` publishes. semantic-release reads the commits since the
-last git tag, decides the version from their types, publishes to npm, tags the
-commit and writes the GitHub release. There is no release branch, no manual
-version bump and no changelog file — the GitHub releases page is the record,
-and `@semantic-release/changelog` is deliberately absent because committing a
-changelog back to `main` would fight the branch ruleset for no gain.
-
-**The git tags are the source of truth, not `package.json`.** semantic-release
-finds the last tag reachable from `main` and analyses what came after it. The
-`version` field is rewritten during publish and never committed back, so it
-stays at whatever it was seeded with.
-
-**A wrong version cannot be taken back.** npm versions are immutable and
-semantic-release deliberately offers no way to force one, so the guard against
-one has to sit before the merge rather than after it. That guard is
-`scripts/check-major.ts`, and it is enough only while four things hold: every
-commit reaches `main` through a pull request, `check-major` is a required
-check, there are no bypass actors, and semantic-release reads a breaking marker
-the same way `check-major` does. Weaken any of them and the release path loses
-its only guard, so treat all four as part of it.
-
-That last one is not free. The `conventionalcommits` preset in `.releaserc.json`
-is what makes `feat!:` a major; the default preset silently parses a `!` commit
-to no type at all, releasing nothing or, worse, letting an unrelated `fix:`
-carry the release out as a patch while the breaking change disappears. Do not
-drop the preset, and if you change it, check `feat!:` still yields a major.
-
-A second check at release time was written and then removed deliberately. It
-would have re-asserted the same invariant against the computed version, but
-with those four in place the two agree by construction, and that was not worth
-a script, a test and a plugin to carry.
-
-Publishing uses npm trusted publishing over OIDC, which is why the job asks for
-`id-token: write` and why no npm token is stored in this repository. Provenance
-is generated automatically as a result.
+# Agent Guide
+
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) first: it covers setup, commands,
+adding a rule, commit messages and releases. This file adds what an agent tends
+to get wrong.
+
+## Layout
+
+- `src/configs/` — the published rules, one module per rule set.
+- `src/index.ts` — composes the modules into the exported `configs`.
+- `src/test/` — the config tests and their fixtures; see its README.
+- `scripts/` — `check-major.ts`, the release guard, and its tests.
+- `eslint.config.mjs` — how this repository lints itself. It spreads in
+  `src/index.ts`; only repo-specific settings belong inline. Don't duplicate a
+  rule in both places.
+
+## After any change
+
+Run `npm run format`, then `npm run lint`, then `npm test`.
+
+## Code
+
+- Prefer a well-named constant or helper to a comment. Keep a comment only
+  for a constraint the code can't express. Rule entries in `src/configs/`
+  never take comments; their reasoning goes in the commit body.
+- Named exports only. `eslint.config.mjs` and `src/index.ts` are the exceptions.
+- Relative imports end in `.ts`.
+- `erasableSyntaxOnly` is on: no `enum`, parameter properties or namespaces.
+- Use `import type` for type-only imports.
+
+## Config authoring
+
+- The TypeScript parser, plugin and rules share one config object in
+  `src/configs/typescript.ts`. Keep them together.
+- Use `projectService`, never `project`.
+- No top-level `await` anywhere reachable from `src/index.ts`; CommonJS
+  consumers load it with `require(esm)`.
+- Anything needed at config-resolution time (a plugin or parser) is a
+  `dependency`, not a `devDependency`.
+- Import `typescript-eslint` by named export: `import { configs as tsConfigs }`.
+
+## Versioning
+
+`feat` means a consumer could see a new lint error. A `!` or
+`BREAKING CHANGE:` means a new ESLint major and nothing else. Getting this
+wrong publishes a version that can't be taken back.
 
 ## Dependencies
 
-`typescript-eslint` is a **runtime `dependency`, not a devDependency.**
-`src/configs/typescript.ts` ships its parser and its plugin, and without a
-parser the config cannot claim `**/*.ts` at all — ESLint's default parser cannot read a type
-annotation, so a config that names `.ts` files without supplying one produces
-parse errors rather than lint results. Anything else this package reaches for
-at config-resolution time (a plugin, a parser, a resolver) belongs in
-`dependencies` for the same reason.
+- Don't add an `engines` field.
+- Don't add `eslint-config-love`; it doesn't support ESLint 10.
+- `typescript`, `@types/node` and `conventional-changelog-conventionalcommits`
+  are held back in `.github/dependabot.yml`. Check the upstream peer ranges
+  before upgrading any of them.
 
-`typescript-eslint` declares its own `typescript` peer range, so this package
-does not restate one. That is the same reasoning as the absent `engines` field
-below: a second copy would add no enforcement and would rot.
+## Tests
 
-## Version Constraints
-
-`.github/dependabot.yml` ignores major updates for three dependencies, and the
-reasons are worth preserving:
-
-- **TypeScript stays on 6.0.x.** `typescript-eslint` declares a peer range of
-  `typescript: ">=4.8.4 <6.1.0"`, so the ceiling is 6.1, not 7. The
-  devDependency is therefore `~6.0.3` rather than `^6.0.3`, and Dependabot holds
-  back minors as well as majors. Widen both together, and only once the
-  `typescript-eslint` peer range actually moves.
-- **`@types/node` tracks `.node-version`.** It follows the Node version this
-  repository develops against, not the newest Node release. Bump it when
-  `.node-version` moves, not before.
-- **`conventional-changelog-conventionalcommits` stays on 9.x.** From 10 the
-  preset renders through a writer that
-  `@semantic-release/release-notes-generator` does not yet depend on, and
-  generating release notes throws. Lift it only once that plugin moves.
-
-**`package.json` declares no `engines` field, deliberately.** Do not add one.
-The only real Node constraint comes from ESLint, which is a peer dependency and
-declares its own range; npm enforces `engines` for every package in the tree,
-not just the root, so an unsupported Node already fails (or warns) on ESLint's
-declaration. A second copy here would add no enforcement and would rot — see
-`eslint-config-airbnb-base`, still claiming Node 10, and `eslint-config-standard`,
-still claiming Node 12.
-
-`.node-version` pins the development environment and is unrelated; keep it
-current, and leave `engines` absent.
-
-Note that `eslint-config-love` — used as the base in sibling projects — is
-**not** usable here: it declares an `eslint: "^9.35.0"` peer and this project
-targets ESLint 10 deliberately. Do not add it back as a shortcut.
-
-If you are asked to upgrade anything held back, verify the upstream peer ranges
-first rather than assuming they have moved.
-
-## CI
-
-`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests, with
-one job apiece for:
-
-- `actionlint` — workflow file validity
-- `commitlint` — commit subjects follow the convention (pull requests only)
-- `check-major` — breaking changes and the `eslint` peer major agree (pull
-  requests only)
-- `npm-install` — verifies `package-lock.json` is in sync with `package.json`
-- `eslint`, `prettier`, `tsc` — the three parts of `npm run lint`
-- `test` — `npm test`
-- `build` — verifies `npm run build` succeeds
-
-`.github/workflows/release.yml` is separate and runs only on pushes to `main`.
-It re-runs `npm run lint` and `npm test` before handing over to
-semantic-release. That duplicates the ruleset's required checks on purpose:
-publishing cannot be undone, and the required list is maintained by hand in
-repository settings, so it can quietly fall behind this workflow.
-
-### What the tests are for
-
-`src/test/config.test.ts` tests the **configuration**, never the rules. The
-contributor-facing detail — how to add a rule, how to choose its samples —
-lives in `src/test/README.md`; read that before adding a rule.
-
-Two parts of the harness carry unit tests of their own, because no fixture on
-disk exercises them: `src/test/fixtures/loader.test.ts` covers the fixture
-shapes the loader accepts and refuses, and `src/test/reports.test.ts` covers
-what an invalid sample must report. Both run under `npm test` beside the
-generated suite.
-
-The one policy worth restating here: fixtures carry no copy of a rule's
-severity or options. A `valid`/`invalid` sample pair pins the chosen option
-more tightly than a restatement would, and unlike a restatement it cannot be
-brought back into agreement by copying a value across. Resist any suggestion to
-add an expected-rules table; it would be a second copy of the config.
-
-Behaviour is checked one rule at a time — always, with no opt-out — and
-composition separately, by resolving the config and asserting no rule arrives
-below the severity it declares. Those answer different questions, and conflating
-them cost us: while every sample was linted against everything, adding a rule
-meant editing unrelated samples it happened to also report, and two rules that
-necessarily fire on the same code could not both be demonstrated at all.
-
-The suite resolves `configs` on its own. Layering a third-party config into it
-(`eslint-config-prettier` was the tempting one) tests that dependency rather
-than us: it would turn the suite red when _they_ changed their disable list,
-point the reader at our config, and nothing of ours would have moved. What a
-consumer stacks around us is outside our control and not ours to assert on.
-
-The suite also asserts that no rule ships below `error` severity. That is
-policy — a strict shared config that emits warnings is one whose rules get
-ignored — and it is load-bearing, because it is the only assertion that catches
-a severity we downgrade ourselves.
-
-Note the gap this leaves: the tests and the self-lint both exercise `src/`, the
-source. Nothing yet exercises `dist/`, the `exports` map, or a CommonJS
-`require()` of the published package.
-
-## Maintaining This Document
-
-Keep this document current as the codebase evolves. Update it when:
-
-- New patterns or conventions are established
-- The project structure changes
-- New npm scripts or CI jobs are added
-- Version constraints are lifted or added
-
-**Guidelines for updates:**
-
-- Keep the document user-agnostic (no local paths or developer-specific
-  references)
-- Reference version files (`.node-version`, `package.json`) rather than
-  hardcoding versions
-- Remove outdated information rather than letting it accumulate
+Don't add an expected-rules table. The fixtures already pin each rule's
+options, and a table would be a second copy of the config.

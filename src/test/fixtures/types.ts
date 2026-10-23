@@ -1,4 +1,3 @@
-// The rule sets are the modules in `src/configs/`, split the same way.
 type RuleSet = 'core' | 'promise' | 'typescript';
 
 type SampleKind = 'valid' | 'invalid';
