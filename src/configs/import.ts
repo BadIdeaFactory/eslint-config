@@ -17,6 +17,7 @@ const imports: Linter.Config = {
 		'import/no-absolute-path': 'error',
 		'import/no-amd': 'error',
 		'import/no-default-export': 'error',
+		'import/no-duplicates': 'error',
 		'import/no-named-export': 'off',
 		'import/order': [
 			'error',
