@@ -14,6 +14,26 @@ const imports: Linter.Config = {
 	rules: {
 		'import/no-default-export': 'error',
 		'import/no-named-export': 'off',
+		'import/order': [
+			'error',
+			{
+				groups: [
+					'builtin',
+					'external',
+					'internal',
+					'parent',
+					'sibling',
+					'index',
+					'object',
+					'type',
+				],
+				'newlines-between': 'never',
+				alphabetize: {
+					order: 'asc',
+					caseInsensitive: true,
+				},
+			},
+		],
 		'import/prefer-default-export': 'off',
 	},
 };

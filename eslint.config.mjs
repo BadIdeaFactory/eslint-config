@@ -28,28 +28,6 @@ export default defineConfig([
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
-		rules: {
-			'import-x/order': [
-				'error',
-				{
-					groups: [
-						'builtin',
-						'external',
-						'internal',
-						'parent',
-						'sibling',
-						'index',
-						'object',
-						'type',
-					],
-					'newlines-between': 'never',
-					alphabetize: {
-						order: 'asc',
-						caseInsensitive: true,
-					},
-				},
-			],
-		},
 	},
 	{
 		files: TEST_FILES,
