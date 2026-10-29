@@ -6,7 +6,11 @@ const imports: Linter.Config = {
 	plugins: {
 		import: importPlugin,
 	},
-	rules: {},
+	rules: {
+		'import/no-default-export': 'error',
+		'import/no-named-export': 'off',
+		'import/prefer-default-export': 'off',
+	},
 };
 
 export { imports };

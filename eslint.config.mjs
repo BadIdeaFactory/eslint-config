@@ -29,9 +29,6 @@ export default defineConfig([
 			},
 		},
 		rules: {
-			'import-x/prefer-default-export': 'off',
-			'import-x/no-default-export': 'error',
-
 			'import-x/order': [
 				'error',
 				{
@@ -71,7 +68,7 @@ export default defineConfig([
 	{
 		files: FILES_REQUIRING_DEFAULT_EXPORT,
 		rules: {
-			'import-x/no-default-export': 'off',
+			'import/no-default-export': 'off',
 		},
 	},
 	{
