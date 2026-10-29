@@ -9,7 +9,10 @@ edge case in what the rule does; instead a single valid / invalid per configurat
 element of a rule is appropriate.
 
 In addition to checking according to the defined fixtures, the suite fails if a rule
-has no fixture, a fixture has no rule, or any rule ships below `error`.
+has no fixture, a fixture has no rule, or any rule ships below `error`. The exceptions
+are rules we switch off because they contradict one we enable. Each group in
+`CONTRADICTING_RULES` lists rules that can't be on together; the suite checks that
+we enforce exactly one of each group and that the rest resolve to `off`.
 
 ## Fixtures
 

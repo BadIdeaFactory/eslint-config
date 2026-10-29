@@ -8,7 +8,7 @@ import biffudConfigs from './src/index.ts';
 
 const TEST_FILES = ['**/*.test.ts', 'src/test/**/*.ts'];
 const RULE_TABLE_FILES = ['src/configs/**/*.ts'];
-const FILES_REQUIRING_DEFAULT_EXPORT = ['eslint.config.mjs', 'src/index.ts'];
+const FILES_REQUIRING_DEFAULT_EXPORT = ['src/index.ts'];
 const FILES_OUTSIDE_TYPESCRIPT_PROJECT = ['eslint.config.mjs'];
 
 export default defineConfig([
@@ -28,31 +28,6 @@ export default defineConfig([
 				tsconfigRootDir: import.meta.dirname,
 			},
 		},
-		rules: {
-			'import-x/prefer-default-export': 'off',
-			'import-x/no-default-export': 'error',
-
-			'import-x/order': [
-				'error',
-				{
-					groups: [
-						'builtin',
-						'external',
-						'internal',
-						'parent',
-						'sibling',
-						'index',
-						'object',
-						'type',
-					],
-					'newlines-between': 'never',
-					alphabetize: {
-						order: 'asc',
-						caseInsensitive: true,
-					},
-				},
-			],
-		},
 	},
 	{
 		files: TEST_FILES,
@@ -71,7 +46,7 @@ export default defineConfig([
 	{
 		files: FILES_REQUIRING_DEFAULT_EXPORT,
 		rules: {
-			'import-x/no-default-export': 'off',
+			'import/no-default-export': 'off',
 		},
 	},
 	{

@@ -26,6 +26,7 @@ const samplePath = (extension: string) => `src/test/sample.${extension}`;
 
 const REACHED_PATHS: Record<RuleSet, string[]> = {
 	core: [samplePath('js'), samplePath('ts')],
+	import: [samplePath('js'), samplePath('ts')],
 	promise: [samplePath('js'), samplePath('ts')],
 	typescript: [samplePath('ts')],
 };
@@ -39,6 +40,17 @@ const HANDED_OFF_RULES = [
 ];
 
 const HANDED_OFF_PATHS = [samplePath('ts')];
+
+const CONTRADICTING_RULES = [
+	['import/no-default-export', 'import/no-named-export'],
+	['import/no-default-export', 'import/prefer-default-export'],
+];
+
+const CONVENTIONAL_DEFAULT_EXPORT_PATHS = [
+	'eslint.config.mjs',
+	'vite.config.ts',
+	'src/button.stories.tsx',
+];
 
 const reachedPathsFor = (ruleId: string, ruleSet: RuleSet) =>
 	REACHED_PATHS[ruleSet].filter(
@@ -152,8 +164,28 @@ const reportsInIsolation = async ({
 	);
 };
 
+const isEnforced = (ruleId: string) =>
+	severityCode(firstDeclarationOfEachRule().get(ruleId)) ===
+	SEVERITY_CODES.error;
+
+const groupsNotEnforcingExactlyOne = () =>
+	CONTRADICTING_RULES.filter((group) => group.filter(isEnforced).length !== 1);
+
+const switchedOffCounterparts = () => [
+	...new Set(
+		CONTRADICTING_RULES.flatMap((group) =>
+			group.filter((ruleId) => !isEnforced(ruleId)),
+		),
+	),
+];
+
+const enforcedRules = () =>
+	[...firstDeclarationOfEachRule().entries()].filter(
+		([ruleId]) => !switchedOffCounterparts().includes(ruleId),
+	);
+
 const rulesBelowError = () =>
-	[...firstDeclarationOfEachRule().entries()]
+	enforcedRules()
 		.filter(([, entry]) => severityCode(entry) !== SEVERITY_CODES.error)
 		.map(([ruleId]) => ruleId);
 
@@ -200,13 +232,33 @@ describe('the published config', () => {
 
 	it('ships a fixture for every rule it declares', () => {
 		assert.deepEqual(
-			[...firstDeclarationOfEachRule().keys()].sort(),
+			enforcedRules()
+				.map(([ruleId]) => ruleId)
+				.sort(),
 			Object.keys(fixtures).sort(),
 		);
 	});
 
 	it('demonstrates each half of every rule on every path its rule set reaches', () => {
 		assert.deepEqual(halvesMissingReachedPaths(), []);
+	});
+
+	it('enforces exactly one rule of each contradicting group', () => {
+		assert.deepEqual(groupsNotEnforcingExactlyOne(), []);
+	});
+
+	describe('switches off rules that contradict its own', () => {
+		for (const filePath of new Set(Object.values(REACHED_PATHS).flat())) {
+			for (const ruleId of switchedOffCounterparts()) {
+				it(`switches ${ruleId} off in ${filePath}`, async () => {
+					const resolved = await resolvedConfigFor(filePath);
+					assert.equal(
+						severityCode(resolved?.rules?.[ruleId]),
+						SEVERITY_CODES.off,
+					);
+				});
+			}
+		}
 	});
 
 	describe('hands core rules to their extensions', () => {
@@ -220,6 +272,18 @@ describe('the published config', () => {
 					);
 				});
 			}
+		}
+	});
+
+	describe('allows default exports where tooling expects them', () => {
+		for (const filePath of CONVENTIONAL_DEFAULT_EXPORT_PATHS) {
+			it(`switches import/no-default-export off in ${filePath}`, async () => {
+				const resolved = await resolvedConfigFor(filePath);
+				assert.equal(
+					severityCode(resolved?.rules?.['import/no-default-export']),
+					SEVERITY_CODES.off,
+				);
+			});
 		}
 	});
 
