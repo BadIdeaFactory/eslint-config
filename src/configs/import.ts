@@ -18,6 +18,7 @@ const imports: Linter.Config = {
 		'import/no-amd': 'error',
 		'import/no-default-export': 'error',
 		'import/no-duplicates': 'error',
+		'import/no-empty-named-blocks': 'error',
 		'import/no-named-export': 'off',
 		'import/order': [
 			'error',
