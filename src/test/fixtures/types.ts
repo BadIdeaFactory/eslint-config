@@ -1,4 +1,4 @@
-type RuleSet = 'core' | 'promise' | 'typescript';
+type RuleSet = 'core' | 'import' | 'promise' | 'typescript';
 
 type SampleKind = 'valid' | 'invalid';
 

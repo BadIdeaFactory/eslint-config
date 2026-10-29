@@ -26,6 +26,7 @@ const samplePath = (extension: string) => `src/test/sample.${extension}`;
 
 const REACHED_PATHS: Record<RuleSet, string[]> = {
 	core: [samplePath('js'), samplePath('ts')],
+	import: [samplePath('js'), samplePath('ts')],
 	promise: [samplePath('js'), samplePath('ts')],
 	typescript: [samplePath('ts')],
 };

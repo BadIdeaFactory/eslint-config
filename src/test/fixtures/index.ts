@@ -20,6 +20,7 @@ const SAMPLE_KINDS = ['valid', 'invalid'] as const;
 
 const RULE_ID_PREFIXES: Record<RuleSet, string> = {
 	core: '',
+	import: 'import/',
 	promise: 'promise/',
 	typescript: '@typescript-eslint/',
 };
