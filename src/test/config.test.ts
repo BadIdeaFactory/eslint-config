@@ -46,6 +46,12 @@ const CONTRADICTING_RULES = [
 	['import/no-default-export', 'import/prefer-default-export'],
 ];
 
+const CONVENTIONAL_DEFAULT_EXPORT_PATHS = [
+	'eslint.config.mjs',
+	'vite.config.ts',
+	'src/button.stories.tsx',
+];
+
 const reachedPathsFor = (ruleId: string, ruleSet: RuleSet) =>
 	REACHED_PATHS[ruleSet].filter(
 		(path) =>
@@ -266,6 +272,18 @@ describe('the published config', () => {
 					);
 				});
 			}
+		}
+	});
+
+	describe('allows default exports where tooling expects them', () => {
+		for (const filePath of CONVENTIONAL_DEFAULT_EXPORT_PATHS) {
+			it(`switches import/no-default-export off in ${filePath}`, async () => {
+				const resolved = await resolvedConfigFor(filePath);
+				assert.equal(
+					severityCode(resolved?.rules?.['import/no-default-export']),
+					SEVERITY_CODES.off,
+				);
+			});
 		}
 	});
 

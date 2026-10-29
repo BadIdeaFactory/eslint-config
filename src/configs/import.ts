@@ -1,6 +1,11 @@
 import importPlugin from '@biffud/eslint-plugin-import';
 import type { Linter } from 'eslint';
 
+const FILES_DEFAULT_EXPORTING_BY_CONVENTION = [
+	'**/*.config.{js,mjs,cjs,ts,mts,cts}',
+	'**/*.stories.{js,jsx,ts,tsx}',
+];
+
 const imports: Linter.Config = {
 	name: '@biffud/eslint-config/import',
 	plugins: {
@@ -13,4 +18,12 @@ const imports: Linter.Config = {
 	},
 };
 
-export { imports };
+const conventionalDefaultExports: Linter.Config = {
+	name: '@biffud/eslint-config/import-conventional-default-exports',
+	files: FILES_DEFAULT_EXPORTING_BY_CONVENTION,
+	rules: {
+		'import/no-default-export': 'off',
+	},
+};
+
+export { conventionalDefaultExports, imports };
