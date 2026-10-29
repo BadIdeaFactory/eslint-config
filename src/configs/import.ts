@@ -14,6 +14,7 @@ const imports: Linter.Config = {
 	rules: {
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
+		'import/no-absolute-path': 'error',
 		'import/no-default-export': 'error',
 		'import/no-named-export': 'off',
 		'import/order': [
