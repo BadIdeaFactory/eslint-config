@@ -23,6 +23,7 @@ const imports: Linter.Config = {
 		'import/no-mutable-exports': 'error',
 		'import/no-named-export': 'off',
 		'import/no-relative-packages': 'error',
+		'import/no-useless-path-segments': 'error',
 		'import/no-webpack-loader-syntax': 'error',
 		'import/order': [
 			'error',
