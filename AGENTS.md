@@ -38,6 +38,9 @@ Run `npm run format`, then `npm run lint`, then `npm test`.
 - Anything needed at config-resolution time (a plugin or parser) is a
   `dependency`, not a `devDependency`.
 - Import `typescript-eslint` by named export: `import { configs as tsConfigs }`.
+- When a rule we enable has a counterpart that contradicts it, switch the
+  counterpart `off` next to it and add the pair to `CONTRADICTING_RULES`. A
+  config composed before ours may have turned it on.
 
 ## Versioning
 
