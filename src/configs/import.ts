@@ -21,6 +21,7 @@ const imports: Linter.Config = {
 		'import/no-empty-named-blocks': 'error',
 		'import/no-mutable-exports': 'error',
 		'import/no-named-export': 'off',
+		'import/no-webpack-loader-syntax': 'error',
 		'import/order': [
 			'error',
 			{
