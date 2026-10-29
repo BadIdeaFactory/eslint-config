@@ -41,6 +41,10 @@ const HANDED_OFF_RULES = [
 
 const HANDED_OFF_PATHS = [samplePath('ts')];
 
+const TYPESCRIPT_SYNTAX_RULES = ['import/consistent-type-specifier-style'];
+
+const PATHS_WITHOUT_TYPESCRIPT_SYNTAX = [samplePath('js')];
+
 const CONTRADICTING_RULES = [
 	['import/no-default-export', 'import/no-named-export'],
 	['import/no-default-export', 'import/prefer-default-export'],
@@ -52,10 +56,16 @@ const CONVENTIONAL_DEFAULT_EXPORT_PATHS = [
 	'src/button.stories.tsx',
 ];
 
+const isHandedOffAt = (ruleId: string, path: string) =>
+	HANDED_OFF_RULES.includes(ruleId) && HANDED_OFF_PATHS.includes(path);
+
+const lacksSyntaxFor = (ruleId: string, path: string) =>
+	TYPESCRIPT_SYNTAX_RULES.includes(ruleId) &&
+	PATHS_WITHOUT_TYPESCRIPT_SYNTAX.includes(path);
+
 const reachedPathsFor = (ruleId: string, ruleSet: RuleSet) =>
 	REACHED_PATHS[ruleSet].filter(
-		(path) =>
-			!(HANDED_OFF_RULES.includes(ruleId) && HANDED_OFF_PATHS.includes(path)),
+		(path) => !isHandedOffAt(ruleId, path) && !lacksSyntaxFor(ruleId, path),
 	);
 
 const SCRIPT_SAMPLE_PATHS = [samplePath('cjs')];

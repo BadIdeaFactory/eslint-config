@@ -12,6 +12,7 @@ const imports: Linter.Config = {
 		import: importPlugin,
 	},
 	rules: {
+		'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
 		'import/no-absolute-path': 'error',
