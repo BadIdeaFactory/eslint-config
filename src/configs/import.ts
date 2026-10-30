@@ -12,6 +12,7 @@ const imports: Linter.Config = {
 		import: importPlugin,
 	},
 	rules: {
+		'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 		'import/first': 'error',
 		'import/newline-after-import': 'error',
 		'import/no-absolute-path': 'error',
@@ -19,8 +20,11 @@ const imports: Linter.Config = {
 		'import/no-default-export': 'error',
 		'import/no-duplicates': 'error',
 		'import/no-empty-named-blocks': 'error',
+		'import/no-extraneous-dependencies': 'error',
 		'import/no-mutable-exports': 'error',
 		'import/no-named-export': 'off',
+		'import/no-relative-packages': 'error',
+		'import/no-useless-path-segments': 'error',
 		'import/no-webpack-loader-syntax': 'error',
 		'import/order': [
 			'error',

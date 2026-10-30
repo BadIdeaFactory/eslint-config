@@ -52,7 +52,9 @@ are deliberately malformed.
 
 TypeScript rules only run against `sample.ts`. Core rules that a TypeScript rule
 replaces are switched off for `.ts` files and listed in `HANDED_OFF_RULES`, so their
-samples only run against `sample.js`.
+samples only run against `sample.js`. Rules from other rule sets that only
+inspect TypeScript syntax are listed in `TYPESCRIPT_SYNTAX_RULES` and only run
+against `sample.ts`.
 
 `sample.ts` is a real file because type-aware rules only get types for files a
 tsconfig covers. Its contents are never read; each sample is linted as text

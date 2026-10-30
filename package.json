@@ -74,6 +74,8 @@
 		"@commitlint/cli": "^21.2.2",
 		"@commitlint/config-conventional": "^21.2.2",
 		"@eslint/js": "^10.0.1",
+		"@semantic-release/commit-analyzer": "^13.0.1",
+		"@semantic-release/release-notes-generator": "^14.1.1",
 		"@tsconfig/node22": "^22.0.6",
 		"@types/eslint-plugin-promise": "^7.3.0",
 		"@types/node": "^22.20.4",
