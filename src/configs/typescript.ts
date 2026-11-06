@@ -1,4 +1,5 @@
 import { parser, plugin } from 'typescript-eslint';
+import { NAMING_CONVENTION_OPTIONS } from './naming-convention.ts';
 import type { Linter } from 'eslint';
 
 const TYPESCRIPT_FILES = ['**/*.{ts,mts,cts,tsx}'];
@@ -45,43 +46,7 @@ const typescript: Linter.Config = {
 		'@typescript-eslint/method-signature-style': 'error',
 		'@typescript-eslint/naming-convention': [
 			'error',
-			{
-				selector: 'default',
-				format: ['strictCamelCase'],
-				leadingUnderscore: 'forbid',
-				trailingUnderscore: 'forbid',
-			},
-			{ selector: 'typeLike', format: ['StrictPascalCase'] },
-			{ selector: 'enumMember', format: ['StrictPascalCase'] },
-			{ selector: 'import', format: ['strictCamelCase', 'StrictPascalCase'] },
-			{
-				selector: 'variable',
-				modifiers: ['const'],
-				format: ['strictCamelCase', 'UPPER_CASE', 'StrictPascalCase'],
-			},
-			{
-				selector: 'classProperty',
-				modifiers: ['static', 'readonly'],
-				format: ['strictCamelCase', 'UPPER_CASE'],
-			},
-			{ selector: 'default', modifiers: ['requiresQuotes'], format: null },
-			{
-				selector: ['objectLiteralProperty', 'typeProperty'],
-				format: null,
-			},
-			{ selector: 'variable', modifiers: ['destructured'], format: null },
-			{ selector: 'parameter', modifiers: ['destructured'], format: null },
-			{
-				selector: 'parameter',
-				modifiers: ['unused'],
-				format: null,
-				leadingUnderscore: 'allow',
-			},
-			{
-				selector: ['classMethod', 'objectLiteralMethod', 'typeMethod'],
-				filter: { regex: '^toJSON$', match: true },
-				format: null,
-			},
+			...NAMING_CONVENTION_OPTIONS,
 		],
 		'@typescript-eslint/no-array-constructor': 'error',
 		'@typescript-eslint/no-array-delete': 'error',
