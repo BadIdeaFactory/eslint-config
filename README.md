@@ -38,6 +38,39 @@ Every rule lives in [`src/configs/`](src/configs). A rule set to `'error'` alone
 uses ESLint's defaults, so any options you see there are where we deliberately
 disagree. The commit that added each rule explains why.
 
+### Overriding Naming Rules
+
+Most rules are easy enough to override, like you would any other lint rule, by
+adding followup configurations to your eslint config file. Unfortunately there
+is one that's a pain: `@typescript-eslint/naming-convention`.
+
+It doesn't allow for granular configuration modifications. This means if you
+want to override the naming convention for a given selector convention you end
+up overriding ALL selectors. How annoying!
+
+To make this un-annoying use our fancy `namingConventionOptionsWithout` utility
+function. This returns our config entries minus whatever it is you decided you
+don't like. Then if you want you can add your own rule for that selector.
+
+```js
+// eslint.config.mjs
+import biffud, { namingConventionOptionsWithout } from '@biffud/eslint-config';
+
+export default [
+	...biffud,
+	{
+		files: ['**/*.{ts,mts,cts,tsx}'],
+		rules: {
+			'@typescript-eslint/naming-convention': [
+				'error',
+				...namingConventionOptionsWithout(['enumMember']),
+				{ selector: 'enumMember', format: ['UPPER_CASE'] },
+			],
+		},
+	},
+];
+```
+
 ## Versioning
 
 This package deliberately does **not** follow semantic versioning since just about

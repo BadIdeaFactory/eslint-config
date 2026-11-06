@@ -7,6 +7,9 @@ to get wrong.
 ## Layout
 
 - `src/configs/` — the published rules, one module per rule set.
+  `naming-convention.ts` is the exception: it holds that rule's options and
+  `namingConventionOptionsWithout`, while the rule entry stays in
+  `typescript.ts`.
 - `src/index.ts` — composes the modules into the exported `configs`.
 - `src/test/` — the config tests and their fixtures; see its README.
 - `scripts/` — `check-major.ts`, the release guard, and its tests.

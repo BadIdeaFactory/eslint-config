@@ -14,3 +14,4 @@ const configs: Linter.Config[] = [
 ];
 
 export default configs;
+export { namingConventionOptionsWithout } from './configs/naming-convention.ts';
