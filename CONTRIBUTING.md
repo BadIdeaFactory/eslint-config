@@ -10,14 +10,15 @@ npm ci
 
 ## Commands
 
-| Command               | What it does                                      |
-| --------------------- | ------------------------------------------------- |
-| `npm run lint`        | ESLint, Prettier and `tsc`                        |
-| `npm run format`      | Fixes what Prettier and ESLint can fix            |
-| `npm test`            | Runs the config tests                             |
-| `npm run build`       | Builds to `dist/`                                 |
-| `npm run lint:commit` | Checks this branch's commit messages              |
-| `npm run lint:major`  | Checks breaking changes against the `eslint` peer |
+| Command               | What it does                                        |
+| --------------------- | --------------------------------------------------- |
+| `npm run lint`        | ESLint, Prettier and `tsc`                          |
+| `npm run format`      | Fixes what Prettier and ESLint can fix              |
+| `npm test`            | Runs the config tests                               |
+| `npm run test:rules`  | Checks every upstream rule is configured or triaged |
+| `npm run build`       | Builds to `dist/`                                   |
+| `npm run lint:commit` | Checks this branch's commit messages                |
+| `npm run lint:major`  | Checks breaking changes against the `eslint` peer   |
 
 The last two read git history and need `origin/main` fetched.
 
@@ -29,7 +30,23 @@ The last two read git history and need `origin/main` fetched.
 2. Add a `valid/` and an `invalid/` sample for it under
    [`src/test/fixtures/`](src/test/fixtures). See
    [`src/test/README.md`](src/test/README.md).
-3. Commit it as a `feat`, with a body that says why.
+3. Remove it from [`triage/rules.json`](triage/rules.json).
+4. Commit it as a `feat`, with a body that says why.
+
+## Triaging rules
+
+Every rule that ESLint and our plugins provide, apart from deprecated ones, is
+either in the config or listed in [`triage/rules.json`](triage/rules.json)
+under one status:
+
+- `not-planned` — we decided not to enable it.
+- `later` — we mean to enable it.
+- `needs-triage` — nobody has decided yet.
+
+`npm run test:rules` fails when an upstream rule is in neither place, or when a
+listed rule is configured, deprecated or no longer exists. Keep each list
+sorted. When you move a rule to `not-planned`, give the reason in the commit
+body.
 
 ## Commit messages
 

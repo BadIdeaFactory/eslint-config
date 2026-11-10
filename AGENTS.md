@@ -13,6 +13,8 @@ to get wrong.
 - `src/index.ts` — composes the modules into the exported `configs`.
 - `src/test/` — the config tests and their fixtures; see its README.
 - `scripts/` — `check-major.ts`, the release guard, and its tests.
+- `triage/` — the status of every upstream rule we don't configure, and the
+  check that runs through `npm run test:rules`, separately from `npm test`.
 - `eslint.config.mjs` — how this repository lints itself. It spreads in
   `src/index.ts`; only repo-specific settings belong inline. Don't duplicate a
   rule in both places.

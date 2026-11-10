@@ -115,6 +115,18 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  rule-triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Ensure every upstream rule is configured or triaged
+        run: npm run test:rules
+
   build:
     runs-on: ubuntu-latest
     steps:
