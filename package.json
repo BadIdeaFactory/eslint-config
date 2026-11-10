@@ -32,7 +32,8 @@
 		"lint:eslint": "eslint . --max-warnings=0",
 		"lint:prettier": "prettier . --check",
 		"lint:tsc": "tsc --noEmit -p tsconfig.json",
-		"test": "node --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\""
+		"test": "node --test \"src/**/*.test.ts\" \"scripts/**/*.test.ts\"",
+		"test:rules": "node --test \"triage/**/*.test.ts\""
 	},
 	"repository": {
 		"type": "git",
