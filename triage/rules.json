@@ -59,6 +59,7 @@
 	],
 	"needs-triage": [
 		"@typescript-eslint/no-generated-empty-object-type",
+		"@typescript-eslint/no-unsafe-enum-assignment",
 		"class-methods-use-this",
 		"dot-notation",
 		"import/default",
