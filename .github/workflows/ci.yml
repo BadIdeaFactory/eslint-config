@@ -24,9 +24,7 @@ jobs:
         uses: raven-actions/actionlint@v2.2.0
 
   commitlint:
-    # Dependabot writes its own subjects; only the prefix is ours, and that is
-    # configured in dependabot.yml rather than enforced here.
-    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

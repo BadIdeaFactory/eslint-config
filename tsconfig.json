@@ -14,6 +14,12 @@
 		"checkJs": true,
 		"types": ["node"]
 	},
-	"include": ["src", "scripts", "triage", "eslint.config.mjs"],
+	"include": [
+		"src",
+		"scripts",
+		"triage",
+		"eslint.config.mjs",
+		"commitlint.config.ts"
+	],
 	"exclude": ["src/test/fixtures/*/*"]
 }
